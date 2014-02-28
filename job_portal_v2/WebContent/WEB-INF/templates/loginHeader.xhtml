@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" >
+
+<h:head></h:head>
+<!-- <link rel="stylesheet" href="/job_portal/resources/css/main-grid.css"/> 
+<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.2/pure.css"></link> -->
+
+
+
+<h:body>
+	<div class="header">	
+	    <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed">
+	        <a class="pure-menu-heading" href="">Job Portal</a>
+	
+	        <ul>
+	        	<li>
+	        		<h:outputFormat styleClass="pure-form">
+		            	
+		            	<p:inputText id="username" label="username" style="width:125px; margin-right: 4px;" styleClass="pure-form input" required="true" />
+		            	<p:watermark for="username" value="Username**" />
+				       	<p:inputText id="password" style="width:125px;" styleClass="pure-form input" required="true"/>
+		            	<p:watermark for="password" value="Password**" />
+		            
+		            	<!-- 
+				       	<h:inputText style="width:125px;" styleClass="pure-form input" value="Username" />
+				        <h:inputSecret style="width:125px;" styleClass="pure-form input" value="Password" />
+				 -->
+						<h:selectBooleanCheckbox style="" name="remember" />
+				        <label for="remember" style="color: #D3D3D3; font-size: 10px;" class="pure-form input">
+				        	 Remember me
+					    </label>						
+					</h:outputFormat>
+	        	</li>
+	        	<li>
+	        	    <h:commandButton style="width:80px" styleClass="button-xsmall pure-button" value="Sign in"> </h:commandButton>
+	        		
+	        	</li>
+	        	<li>
+	        		<h:commandButton style="width:80px" styleClass="button-xsmall pure-button" value="Sign up"> </h:commandButton>
+	        		
+	        	</li>
+	        	<li>
+	        		<span style="font-size:20px; color:#FFFFFF;" class="glyphicon glyphicon-question-sign"></span>
+	        	</li>
+	            <!-- <li class="pure-menu-selected">
+	            	<h:inputText class="pure-input-rounded" /> 
+	            	<h:commandButton styleClass="button-xsmall pure-button" value="search" />
+	            </li> -->
+	        </ul>
+	    </div>
+	</div>
+</h:body>
+</html>
