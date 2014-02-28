@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
 
 <h:head></h:head>
 <!-- <link rel="stylesheet" href="/job_portal/resources/css/main-grid.css"/> 
@@ -18,7 +19,20 @@
 	
 	        <ul>
 	            <li class="pure-menu-selected"><a href="#">Home</a></li>
-	            <li><a href="#">Sign in</a></li>
+	            <li>
+	            	<h:outputFormat styleClass="pure-form">
+	            		<p:inputText id="userName" required="true" label="name" />
+	            		<p:watermark for="userName" value="Username" />
+				       <!--  <h:inputText styleClass="pure-form input" placeholder="Email" p:pla maxlength="15"/> -->
+				        <h:inputSecret styleClass="pure-form input" placehodler="Password"  maxlength="15" />
+				
+				        <label for="remember">
+							<h:selectBooleanCheckbox styleClass="pure-form input" /> Remember Me
+ 				        </label>
+				
+				        <h:commandButton type="submit" class="pure-button pure-button-primary" value="Sign in"> </h:commandButton>
+					</h:outputFormat>
+	            </li>
 	            <li><a href="#">Sign Up</a></li>
 	        </ul>
 	    </div>
