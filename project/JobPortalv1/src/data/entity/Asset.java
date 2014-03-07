@@ -60,7 +60,7 @@ public class Asset {
 		this.size = size;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER) 
 	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "ASSET_TYPE_I")
 	public AssetType getType() {
@@ -71,7 +71,7 @@ public class Asset {
 		this.type = type;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER) 
 	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "USER_I")
 	public User getUser() {

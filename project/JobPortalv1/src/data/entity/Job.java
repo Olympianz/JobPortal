@@ -77,7 +77,7 @@ public class Job {
 		this.responsibility = responsibility;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER) 
 	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "USER_I")
 	public User getAuthor() {
@@ -88,7 +88,7 @@ public class Job {
 		this.author = author;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER) 
 	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "EXPERIENCE_I")
 	public Experience getExperience() {
@@ -99,7 +99,7 @@ public class Job {
 		this.experience = experience;
 	}
 
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER) 
 	@Cascade(CascadeType.ALL)
     @JoinTable(name="J_POSTING_SKILL", 
                 joinColumns={@JoinColumn(name="POSTING_I")}, 
@@ -112,7 +112,7 @@ public class Job {
 		this.skills = skills;
 	}
 
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER) 
 	@Cascade(CascadeType.ALL)
     @JoinTable(name="J_SAVED_JOBS", 
                 joinColumns={@JoinColumn(name="POSTING_I")}, 

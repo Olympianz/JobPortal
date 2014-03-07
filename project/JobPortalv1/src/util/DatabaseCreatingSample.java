@@ -1,4 +1,5 @@
 package util;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -23,7 +24,6 @@ public class DatabaseCreatingSample {
 		cal.setTime(new Date());
 		cal.setTimeZone(TimeZone.getDefault());
 
-		
 		// 1.Skill
 		Skill sk1 = new Skill();
 		sk1.setName("Python");
@@ -39,11 +39,26 @@ public class DatabaseCreatingSample {
 		sk2.setUpdate_user("cchan");
 		sk2.setCreation_time(new GregorianCalendar(TimeZone.getTimeZone("GMT")));
 		sk2.setUpdate_time(new GregorianCalendar(TimeZone.getTimeZone("GMT")));
- 
 
 		// 2. User
 		User user = new User();
+		user.setName("Adam");
+		user.setEmail("adam@yy.com");
+		user.setPassword("adam123");
+		user.setActive("Y");
+		user.setCreation_user("cchan");
+		user.setUpdate_user("cchan");
+		user.setCreation_time(cal);
+		user.setUpdate_time(cal);
 		User user2 = new User();
+		user2.setName("Bob");
+		user2.setEmail("bob@yy.com");
+		user2.setPassword("bob123");
+		user2.setActive("Y");
+		user2.setCreation_user("cchan");
+		user2.setUpdate_user("cchan");
+		user2.setCreation_time(cal);
+		user2.setUpdate_time(cal);
 
 		// 3. Asset type
 		AssetType at = new AssetType();
@@ -75,7 +90,7 @@ public class DatabaseCreatingSample {
 		exp.setUpdate_user("cchan");
 		exp.setCreation_time(cal);
 		exp.setUpdate_time(cal);
-		
+
 		// 6. Notification type
 		NotificationType ntype = new NotificationType();
 		ntype.setName("offer");
@@ -84,7 +99,7 @@ public class DatabaseCreatingSample {
 		ntype.setUpdate_user("cchan");
 		ntype.setCreation_time(cal);
 		ntype.setUpdate_time(cal);
-		
+
 		// 7. Notification
 		Notification notif = new Notification();
 		notif.setFrom(user);
@@ -98,16 +113,16 @@ public class DatabaseCreatingSample {
 		notif.setUpdate_user("cchan");
 		notif.setCreation_time(cal);
 		notif.setUpdate_time(cal);
-		
+
 		// 8. Job
 		Set<User> applicants = new HashSet<User>();
 		applicants.add(user);
 		applicants.add(user2);
-		
+
 		Set<Skill> skills = new HashSet<Skill>();
 		skills.add(sk1);
 		skills.add(sk2);
-		
+
 		Job job = new Job();
 		job.setApplicants(applicants);
 		job.setAuthor(user);
@@ -122,7 +137,7 @@ public class DatabaseCreatingSample {
 		job.setUpdate_user("cchan");
 		job.setCreation_time(cal);
 		job.setUpdate_time(cal);
-		
+
 		// 9. Application status
 		ApplicationStatus status = new ApplicationStatus();
 		status.setName("Rejected");
@@ -131,7 +146,7 @@ public class DatabaseCreatingSample {
 		status.setUpdate_user("cchan");
 		status.setCreation_time(cal);
 		status.setUpdate_time(cal);
-		
+
 		// 10. Application
 		Application app = new Application();
 		app.setApplicant(user2);
@@ -143,32 +158,29 @@ public class DatabaseCreatingSample {
 		app.setUpdate_user("cchan");
 		app.setCreation_time(cal);
 		app.setUpdate_time(cal);
-		
-		
+
 		// -----------------------------------------------
 		ServiceRegistry sr = new StandardServiceRegistryBuilder()
-			.applySettings(
-				new Configuration().configure()
-					.getProperties()).build();
-		SessionFactory sessionFactory = new Configuration()
-				.configure()
-				.configure()
-				.buildSessionFactory(sr);
+				.applySettings(new Configuration().configure().getProperties())
+				.build();
+		SessionFactory sessionFactory = new Configuration().configure()
+				.configure().buildSessionFactory(sr);
+		try {
+			Session session = sessionFactory.openSession();
+			session.beginTransaction();
+			// -----------------------------------------------
 
-		Session session = sessionFactory.openSession();
-		session.beginTransaction();
-		// -----------------------------------------------
+			session.saveOrUpdate(sk1);
+			session.saveOrUpdate(sk2);
+			session.saveOrUpdate(notif);
+			session.saveOrUpdate(app);
 
-		session.saveOrUpdate(sk1);
-		session.saveOrUpdate(sk2);
-		session.saveOrUpdate(notif);
-		session.saveOrUpdate(app);
-
-		// -----------------------------------------------
-		session.getTransaction().commit();
-		session.close();
-		sessionFactory.close();
-		((StandardServiceRegistryImpl) sr).destroy();
-		
+			// -----------------------------------------------
+			session.getTransaction().commit();
+			session.close();
+			sessionFactory.close();
+		} finally {
+			((StandardServiceRegistryImpl) sr).destroy();
+		}
 	}
 }

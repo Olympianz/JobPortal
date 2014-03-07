@@ -12,6 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 public class DAO {
 
@@ -21,6 +22,15 @@ public class DAO {
 	public static Session getSession() {
 		Session session = (Session) DAO.session.get();
 		if (session == null) {
+			if (sessionFactory == null) {
+				if (serviceRegistry == null)
+					serviceRegistry = new StandardServiceRegistryBuilder()
+							.applySettings(
+									new Configuration().configure("/hibernate.cfg.xml")
+											.getProperties()).build();
+				sessionFactory = new Configuration().configure().configure()
+						.buildSessionFactory(serviceRegistry);
+			}
 			session = sessionFactory.openSession();
 			DAO.session.set(session);
 		}
@@ -57,11 +67,20 @@ public class DAO {
 
 	private static final Logger log = Logger.getAnonymousLogger();
 	private static final ThreadLocal<Session> session = new ThreadLocal<Session>();
-	private static final SessionFactory sessionFactory = new Configuration()
-			.configure()
-			.configure()
-			.buildSessionFactory(
-					new StandardServiceRegistryBuilder().applySettings(
-							new Configuration().getProperties()).build());
 
+	private static ServiceRegistry serviceRegistry = null;
+	private static SessionFactory sessionFactory = null;
+	// private static final ServiceRegistry serviceRegistry = new
+	// StandardServiceRegistryBuilder()
+	// .applySettings(
+	// new Configuration().configure()
+	// .getProperties()).build();
+	// private static final SessionFactory sessionFactory = new Configuration()
+	// .configure()
+	// .configure()
+	// .buildSessionFactory(serviceRegistry);
+
+	// protected void finalize() {
+	// ((StandardServiceRegistryImpl) serviceRegistry).destroy();
+	// }
 }

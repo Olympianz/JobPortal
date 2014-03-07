@@ -63,8 +63,7 @@ public class Notification {
 		this.read = read;
 	}
 
-	@Transient
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER) 
 	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "FROM_USER_I")
 	public User getFrom() {
@@ -75,11 +74,10 @@ public class Notification {
 		this.from = user;
 	}
 
-	@Transient
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER) 
 	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "TO_USER_I")
-	public User getT0() {
+	public User getTo() {
 		return to;
 	}
 
@@ -87,7 +85,7 @@ public class Notification {
 		this.to = user;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER) 
 	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "NOTIFICATION_TYPE_I")
 	public NotificationType getType() {

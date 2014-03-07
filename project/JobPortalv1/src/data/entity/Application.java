@@ -32,7 +32,7 @@ public class Application {
 		this.id = id;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER) 
 	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "APPLICATION_STATUS_I")
 	public ApplicationStatus getStatus() {
@@ -43,7 +43,7 @@ public class Application {
 		this.status = status;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER) 
 	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "ASSET_I")
 	public Asset getAsset() {
@@ -54,7 +54,7 @@ public class Application {
 		this.asset = asset;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER) 
 	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "USER_I")
 	public User getApplicant() {
@@ -65,7 +65,7 @@ public class Application {
 		this.applicant = applicant;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER) 
 	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "POSTING_I")
 	public Job getPosition() {
