@@ -5,11 +5,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import data.dao.*;
+import service.UserService;
 import data.entity.User;
 
 public class SessionCtl {
-
+	
+	static final UserService userService = new UserService();
 	/**
 	 * Log in a user 
 	 *   1. Clear old session
@@ -25,7 +26,7 @@ public class SessionCtl {
 		// Clear old session
 		request.getSession().invalidate();
 		HttpSession session = request.getSession();
-
+		
 		// Check DB		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
@@ -34,14 +35,15 @@ public class SessionCtl {
 		if (password == null)
 			password = "";
 
+System.out.println(username + " " + password);
 		// Using UserDAO to check login status
 		// - If logged in successfully,
 		// 1.store the user bean in current session
 		// 2.store new session id into database
-		UserDAO userDAO = new UserDAO();
-		User user = userDAO.login(username, password, session.getId());
+		User user = userService.login(username, password, session.getId());
 
 		if (user != null) {
+System.out.println("Found");
 			// Add user information to session and cookie
 			session.setAttribute("loggedin_user", user);
 			addCookie(response, "JSESSIONID", session.getId());
@@ -64,11 +66,9 @@ public class SessionCtl {
 	 */
 	public static void logout(HttpServletRequest request,
 			HttpServletResponse response) {
-System.out.println("Logout in sessionCtl");
 		// Update session id in database
-		UserDAO userDAO = new UserDAO();
 		User user = (User) request.getSession().getAttribute("loggedin_user");
-		userDAO.logout(user);
+		userService.logout(user);
 		
 		// Clear old session
 		request.getSession().invalidate();
@@ -98,8 +98,7 @@ System.out.println("Logout in sessionCtl");
 		String email = getCookieValue(request, "ACCOUNT");
 
 		// Logged-in status checking
-		UserDAO userDAO = new UserDAO();
-		user = userDAO.checkAutoLogin(email, sessionId, session.getId());
+		user = userService.checkAutoLogin(email, sessionId, session.getId());
 			
 		if (user != null) {
 			// Add user information to session and cookie

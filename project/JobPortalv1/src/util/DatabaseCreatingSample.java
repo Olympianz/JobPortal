@@ -42,23 +42,23 @@ public class DatabaseCreatingSample {
 
 		// 2. User
 		User user = new User();
-		user.setName("Adam");
+		user.setUser_name("Adam");
 		user.setEmail("adam@yy.com");
 		user.setPassword("adam123");
-		user.setActive("Y");
-		user.setCreation_user("cchan");
-		user.setUpdate_user("cchan");
-		user.setCreation_time(cal);
-		user.setUpdate_time(cal);
+		user.setActive_status("Y");
+		user.setCreation_user_name("cchan");
+		user.setUpdate_user_name("cchan");
+		user.setCreation_timestamp(cal);
+		user.setUpdate_timestamp(cal);
 		User user2 = new User();
-		user2.setName("Bob");
+		user2.setUser_name("Bob");
 		user2.setEmail("bob@yy.com");
 		user2.setPassword("bob123");
-		user2.setActive("Y");
-		user2.setCreation_user("cchan");
-		user2.setUpdate_user("cchan");
-		user2.setCreation_time(cal);
-		user2.setUpdate_time(cal);
+		user2.setActive_status("Y");
+		user2.setCreation_user_name("cchan");
+		user2.setUpdate_user_name("cchan");
+		user2.setCreation_timestamp(cal);
+		user2.setUpdate_timestamp(cal);
 
 		// 3. Asset type
 		AssetType at = new AssetType();

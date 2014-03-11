@@ -30,7 +30,7 @@ public class UserBean implements Serializable {
 		HttpSession session = (HttpSession)ec.getSession(false);
 		User user = null;
 		if (session != null && (user = (User)session.getAttribute("loggedin_user")) != null){
-			name = user.getName();
+			name = user.getUser_name();
 		}
 		return name;
 	}
