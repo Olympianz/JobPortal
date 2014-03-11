@@ -1,15 +1,5 @@
 package util;
 
-/**
- * SessionCtl - session control
- * 
- *  Access session and cookie to achieve the following purposes:
- *   1. Automatic login
- *   2. Log in
- *   3. Log out
- *   4. Storing current user information ( UserBean )
- *   
- */
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +26,7 @@ public class SessionCtl {
 		request.getSession().invalidate();
 		HttpSession session = request.getSession();
 
-		// Check DB
+		// Check DB		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		if (username == null)
@@ -55,14 +45,13 @@ public class SessionCtl {
 			// Add user information to session and cookie
 			session.setAttribute("loggedin_user", user);
 			addCookie(response, "JSESSIONID", session.getId());
-			addCookie(response, "ACCOUNT", user.getEmail());
-			
+			addCookie(response, "ACCOUNT", user.getEmail());			
 			return true;
 		} else {
 			// Failed to log in.
 			request.setAttribute("err_msg",
-					"Username and password are incorrect.");
-			return false;
+					"Username and password are incorrect.");	
+			return false;	
 		}
 	}
 
@@ -75,6 +64,7 @@ public class SessionCtl {
 	 */
 	public static void logout(HttpServletRequest request,
 			HttpServletResponse response) {
+System.out.println("Logout in sessionCtl");
 		// Update session id in database
 		UserDAO userDAO = new UserDAO();
 		User user = (User) request.getSession().getAttribute("loggedin_user");

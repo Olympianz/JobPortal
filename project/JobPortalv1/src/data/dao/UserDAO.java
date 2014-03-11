@@ -17,13 +17,14 @@ public class UserDAO extends DAO {
 	 */
 	public User login(String email, String password, String sessionId) {
 		User user = null;
-		
+
 		try {
 			begin();
 			
-			Query q = getSession().createQuery("from J_USERS where EMAIL_N=:email and PASSWORD_N=:password");
+			Query q = getSession().createQuery("from User where email = :email and password = :password");
 			q.setString("email", email);
 			q.setString("password", password);
+
 			user = (User)q.uniqueResult();
 			
 			if (user != null) {
@@ -32,6 +33,7 @@ public class UserDAO extends DAO {
 			}
 			commit();
 		} catch (Exception e) {
+			//e.printStackTrace();	
 			rollback();
 		}
 
@@ -43,6 +45,7 @@ public class UserDAO extends DAO {
 	 * @param user : fetched from HTTP session
 	 */
 	public void logout(User user) {
+System.out.println("Logout in UserDAO");
 		try {
 			begin();
 			

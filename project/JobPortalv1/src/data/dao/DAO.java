@@ -13,6 +13,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import org.hibernate.boot.registry.internal.StandardServiceRegistryImpl;
 
 public class DAO {
 
@@ -31,6 +32,7 @@ public class DAO {
 				sessionFactory = new Configuration().configure().configure()
 						.buildSessionFactory(serviceRegistry);
 			}
+			
 			session = sessionFactory.openSession();
 			DAO.session.set(session);
 		}
@@ -63,6 +65,7 @@ public class DAO {
 	public static void close() {
 		getSession().close();
 		DAO.session.set(null);
+		((StandardServiceRegistryImpl)serviceRegistry).destroy();
 	}
 
 	private static final Logger log = Logger.getAnonymousLogger();

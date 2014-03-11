@@ -1,4 +1,4 @@
-package controller;
+package util;
 
 import java.io.IOException;
 
@@ -8,8 +8,6 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import util.SessionCtl;
 
 public class LoggedInCheck implements PhaseListener {
 	private static final long serialVersionUID = 6543087035084905864L;

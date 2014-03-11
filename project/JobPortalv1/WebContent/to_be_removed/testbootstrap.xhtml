@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet"
+		href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+	<link rel="stylesheet"
+		href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css" />
+<!-- Load Javascript files -->
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<h:outputScript library="scripts" name="bootstrap.min.js" />
+</h:head>
+
+<h:body>
+	<div class="header">
+		<h:form prependId="false">
+		
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<h:link styleClass="navbar-brand" value="Job Portal" outcome="index.xhtml"/>
+				</div>
+
+
+				<div class="collapse navbar-collapse navbar-right" >
+					<ul class="nav navbar-nav">
+						<li>
+							<a><span class="glyphicon glyphicon-user"></span></a>
+						</li>
+						<li style="margin-left: 5px; margin-right: 5px; font-size: 15px; color: #FFFFFF">
+							<span style="font-size: 15px;">
+								<b><i>Welcome, #{userBean.name}</i></b>
+							</span>
+						</li>
+						<li style="margin-left: 2px; margin-right: 2px;">
+							<a><span class="glyphicon glyphicon-envelope"></span></a>
+						</li>
+						<li style="margin-left: 2px; margin-right: 2px;">
+							<a><span class="glyphicon glyphicon-question-sign"></span></a>
+						</li>
+						<li style="margin-left: 10px;" class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog" ></span></a>
+							<ul class="dropdown-menu">
+						  		<li class="divider"></li>
+								<li>
+									<h:commandLink value="Log out" actionListener="#{userBean.logout}" action="index.xhtml" />
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		
+		</nav>
+		
+		
+		
+		</h:form>
+	</div>
+
+</h:body>
+</html>
