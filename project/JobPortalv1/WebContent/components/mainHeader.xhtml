@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+</h:head>
+
+<h:body>
+	<div class="header">
+		<h:form prependId="false">
+		<div class="home-menu pure-menu-open pure-menu-horizontal pure-menu-fixed">
+			<h:link styleClass="pure-menu-heading" value="Job Portal" outcome="index.xhtml"/>
+			<h:commandLink value="Log out" actionListener="#{userBean.logout}" action="index.xhtml" />
+							
+			<h:panelGroup rendered="#{!userBean.loggedIn}">
+				<ul>
+					<li><h:outputFormat styleClass="pure-form">
+
+							<p:inputText id="username"
+								style="width:125px; margin-right: 4px;"
+								styleClass="pure-form input" required="true"
+								value="#{userBean.username}" />
+							<p:watermark for="username" value="Email" />
+							
+							<p:inputText id="password" style="width:125px;" type="password"
+								styleClass="pure-form input" required="true"
+								value="#{userBean.password}" />
+							<p:watermark for="password" value="Password" />
+							
+							<h:selectBooleanCheckbox style="" name="remember" />
+							<label for="remember" style="color: #D3D3D3; font-size: 10px;"
+								class="pure-form input"> Remember me </label>
+						</h:outputFormat></li>
+					<li>
+						<h:commandButton styleClass="button-xsmall pure-button" execute="username password"
+							actionListener="#{userBean.login}" value="Sign in" action="index.xhtml">
+						</h:commandButton>
+					</li>
+					<li><h:commandButton styleClass="button-xsmall pure-button"
+							value="Sign up">
+						</h:commandButton></li>
+					<li><span style="font-size: 20px; color: #FFFFFF;"
+						class="glyphicon glyphicon-question-sign"></span></li>
+				</ul>
+			</h:panelGroup>
+			
+			<h:panelGroup rendered="#{userBean.loggedIn}">
+				<ul id="top-menu" style="padding: 5px;">
+					<li>
+						<a><span class="glyphicon glyphicon-user"></span></a>
+					</li>
+					<li style="margin-left: 5px; margin-right: 5px; font-size: 15px; color: #FFFFFF">
+						<span style="font-size: 15px;">
+							<b><i>Welcome, #{userBean.name}</i></b>
+						</span>
+					</li>
+					<li style="margin-left: 2px; margin-right: 2px;">
+						<a><span class="glyphicon glyphicon-envelope"></span></a>
+					</li>
+					<li style="margin-left: 2px; margin-right: 2px;">
+						<a><span class="glyphicon glyphicon-question-sign"></span></a>
+					</li>
+					<li style="margin-left: 10px;" class="dropdown">
+						<a><span class="glyphicon glyphicon-cog" ></span></a>
+					  	<ul>
+							<li>
+								<h:commandLink value="Log out" actionListener="#{userBean.logout}" action="index.xhtml" />
+							</li>
+						</ul>
+					</li>
+
+				</ul>
+			</h:panelGroup>
+		</div>
+		</h:form>
+	</div>
+	
+	<script>
+
+	
+	</script>
+</h:body>
+</html>
