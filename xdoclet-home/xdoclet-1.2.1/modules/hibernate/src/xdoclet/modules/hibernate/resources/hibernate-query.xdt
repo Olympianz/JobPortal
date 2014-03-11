@@ -1,4 +1,0 @@
-
-        <query name="<XDtClass:classTagValue tagName="hibernate.query" paramName="name" superclasses="false" />"><![CDATA[
-            <XDtClass:classTagValue tagName="hibernate.query" paramName="query" superclasses="false" />
-        ]]></query>

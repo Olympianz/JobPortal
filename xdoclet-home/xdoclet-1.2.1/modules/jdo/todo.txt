@@ -1,2 +1,0 @@
-- promote the isGenerationPerClass,isGenerationPerPackage
-- add processing of vendor specific tags and in particular db mappings.

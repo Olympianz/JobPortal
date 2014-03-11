@@ -1,4 +1,0 @@
-/*
- * Copyright (c) 2001-2004 The XDoclet Team
- * All rights reserved.
- */
