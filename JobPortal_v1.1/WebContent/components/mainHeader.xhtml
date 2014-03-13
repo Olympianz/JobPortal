@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+</h:head>
+
+<h:body>
+	<div class="header">
+
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+
+			<div class="container-fluid">
+
+				<!-- Project name -->
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#"> Job Portal</a>
+				</div>
+
+				<div class="navbar-collapse">
+
+					<!-- Login dropdown -->
+					<div class="nav navbar-nav navbar-right">
+						<li id="menuLogin" class="dropdown"><a id="navLogin"
+							data-toggle="dropdown" href="#" class="dropdown-toggle">Login</a>
+
+							<div style="padding: 17px;" class="dropdown-menu">
+								<h:form styleClass="form" id="formLogin">
+									<label>Login</label>
+									<p:inputText type="text" id="username" required="true" value="" style="margin-bottom:5px;"/>
+									<p:watermark for="username" value="Username" />
+									<p:inputText type="text" id="password" required="true" value="" style="margin-bottom:5px;"/>
+									<p:watermark for="password" value="Password" />
+
+									<h:selectBooleanCheckbox style="" name="remember" />
+									<label for="remember" style="color: #D3D3D3; font-size: 10px;">
+										Remember me </label>
+									<h:commandButton styleClass="btn" id="btnLogin" type="submit" value="Login"
+										style="float:right; margin-bottom:20px; display:block;"> </h:commandButton>
+								</h:form><br/>
+
+								<form style="margin-bottom:20px;">
+									<a data-target="#formRegister" data-toggle="collapse"
+										id="btnNewUser" title="Fast and free sign up!" href="#">New
+										User? Sign-up..</a>
+								</form> <br/>
+								<form class="form collapse" id="formRegister">
+									<input type="hidden"
+										value="lfvIDMZwJBJvtFxlFKgB6vSkzLYq25UZ/uMU8=" id="token"
+										name="_csrf" /> <input type="email" required=""
+										placeholder="Email" id="inputEmail" name="email" /> <input
+										type="text" required="" title="Choose a username"
+										data-valid-min="6" placeholder="Username" id="inputUsername"
+										name="username" /> <br /> <input type="password" required=""
+										placeholder="Password" id="inputpassword" name="password" />
+									<input type="password" required=""
+										placeholder="Password (again)" id="inputVerify" name="verify" /><br />
+									<button class="btn" id="btnRegister" type="button">Sign
+										Up</button>
+								</form>
+								<a href="#forgotPasswordModal" role="button" data-toggle="modal">Forgot
+									username or password?</a> <a href="#contactModal" role="button"
+									data-toggle="modal"><small>Need help? Contact us</small> </a>
+							</div></li>
+
+						<li id="menuUser" class="dropdown"><a
+							title="See your Bootply collection and profile"
+							data-toggle="dropdown" class="dropdown-toggle" href="#"> <i
+								class="icon-user icon-xxlarge"> </i> <span id="lblUsername"></span>
+								<b class="caret"></b> <span class="glyphicon glyphicon-cog"></span>
+						</a>
+							<ul class="dropdown-menu">
+								<li><a href="/user">Dashboard</a></li>
+								<li><a href="/new">Create New Bootply</a></li>
+
+								<li><a href="/logout">Logout</a></li>
+								<li class="divider"></li>
+								<li><a href="/bootstrap-community">Community</a></li>
+								<li><a href="/about">About</a></li>
+							</ul></li>
+					</div>
+
+					<!-- Input Form -->
+					<form class="navbar-form navbar-right"></form>
+
+					<!-- Facebook icon -->
+					<div class="nav navbar-nav navbar-right"
+						style="margin-top: 20px; margin-right: 0px;">
+						<ul class="nav nav-pills hidden-phone hidden-tablet">
+							<!--<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>-->
+							<!--<li class="tw-btn hidden-phone hidden-tablet" style="display:none"><a href="https://twitter.com/Bootply" class="twitter-follow-button" data-show-count="false" data-lang="en">Follow @Bootply</a> &nbsp; &nbsp; </li>-->
+							<li data-font="arial" data-show-faces="false" data-width="80"
+								data-layout="button_count" data-send="false"
+								data-href="http://bootply.com"
+								class="fb-like hidden-phone hidden-tablet fb_iframe_widget"
+								fb-xfbml-state="rendered"
+								fb-iframe-plugin-query="app_id=482723745132387&amp;font=arial&amp;href=http%3A%2F%2Fbootply.com%2F&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey&amp;send=false&amp;show_faces=false&amp;width=80"><span
+								style="vertical-align: bottom; width: 82px; height: 20px;"><iframe
+										width="80px" scrolling="no" height="1000px" frameborder="0"
+										name="f25474a1ddf9124" allowtransparency="true"
+										title="fb:like Facebook Social Plugin"
+										style="border: medium none; visibility: visible; width: 82px; height: 20px;"
+										src="http://www.facebook.com/plugins/like.php?app_id=482723745132387&amp;channel=http%3A%2F%2Fstatic.ak.facebook.com%2Fconnect%2Fxd_arbiter%2FLEdxGgtB9cN.js%3Fversion%3D40%23cb%3Df3b78e2f78bcc82%26domain%3Dwww.bootply.com%26origin%3Dhttp%253A%252F%252Fwww.bootply.com%252Ff3072a9af64161c%26relation%3Dparent.parent&amp;font=arial&amp;href=http%3A%2F%2Fbootply.com%2F&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey&amp;send=false&amp;show_faces=false&amp;width=80"
+										class=""></iframe></span></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</h:body>
+</html>

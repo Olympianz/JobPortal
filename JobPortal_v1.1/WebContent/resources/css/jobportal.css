@@ -1,0 +1,15 @@
+#top-menu > li > a {
+	padding: 5px !important;
+}
+
+#top-menu > li > span > a {
+	font-size: 20px;
+	color: #FFFFFF;
+}
+
+#top-menu > li > ul {
+	display: none !important;
+}
+
+#top-menu > li:hover > ul{
+	dislplay: block !important;
