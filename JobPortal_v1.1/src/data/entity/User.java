@@ -12,27 +12,46 @@ public class User {
 		setUser_name(user.getUser_name());
 		setPassword(user.getPassword());
 		setEmail(user.getEmail());
-		setRole_id(user.getRole_id());
 		setActive_status(user.getActive_status());
 		setCreation_user_name(user.getCreation_user_name());
 		setUpdate_user_name(user.getUpdate_user_name());
 		setCreation_timestamp(user.getCreation_timestamp());
 		setUpdate_timestamp(user.getUpdate_timestamp());
-		setContact_id(user.getContact_id());
 	}
 	
 	private Integer user_id;
 	private String user_name;
 	private String password;
 	private String email;
-	private Integer role_id;
 	private String active_status = "N";
 	private String creation_user_name = "sysdba";
 	private String update_user_name = "sysdba";
+	private String session_id;
 	private Calendar creation_timestamp;
 	private Calendar update_timestamp;
-	private Integer contact_id;
-	private String session_id;
+
+	private Role role;
+	private Contact contact;
+	
+	@ManyToOne(cascade={CascadeType.ALL})
+	@JoinColumn(name="role_id", nullable=false)
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	@ManyToOne(cascade={CascadeType.ALL})
+	@JoinColumn(name="contact_id")
+	public Contact getContact() {
+		return contact;
+	}
+
+	public void setContact(Contact contact) {
+		this.contact = contact;
+	}
 
 	@Id @GeneratedValue
 	@Column(name="USER_I")
@@ -69,24 +88,6 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	@Column(name="ROLE_I", nullable = true)
-	public Integer getRole_id() {
-		return role_id;
-	}
-
-	public void setRole_id(Integer role_id) {
-		this.role_id = role_id;
-	}
-
-	@Column(name="CONTACT_I", nullable = true)
-	public Integer getContact_id() {
-		return contact_id;
-	}
-
-	public void setContact_id(Integer contact_id) {
-		this.contact_id = contact_id;
 	}
 
 	@Column(name = "SESSION_TOKEN", nullable = true, length = 50)

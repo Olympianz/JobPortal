@@ -1,6 +1,7 @@
 package data.entity;
 
 import java.util.Calendar;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -9,12 +10,9 @@ import javax.persistence.*;
 public class Contact {
 	
 	public void update(Contact contact) {
-		setContact_ty(contact.getContact_ty());
-		setState_id(contact.getState_id());
 		setStreet_address_name(contact.getStreet_address_name());
 		setStreet_city_name(contact.getStreet_city_name());
 		setCompany_email_name(contact.getCompany_email_name());
-		setLocation_id(contact.getLocation_id());
 		
 		setActive_status(contact.getActive_status());
 		setCreation_user_name(contact.getCreation_user_name());
@@ -24,11 +22,8 @@ public class Contact {
 	}
 	
 	private int contact_id;
-	private int contact_ty;
 	private String street_address_name;
 	private String street_city_name;
-	private int state_id;
-	private int location_id;
 	private String company_email_name;
 	
 	private String active_status = "N";
@@ -37,6 +32,40 @@ public class Contact {
 	private Calendar creation_timestamp;
 	private Calendar update_timestamp;
 	
+	private Contact_type contact_type;
+	private State state;
+	private Location location;
+
+	@ManyToOne(cascade={CascadeType.ALL})
+	@JoinColumn(name="location_id")
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+
+	@ManyToOne(cascade={CascadeType.ALL})
+	@JoinColumn(name="state_id")
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
+	}
+
+	@ManyToOne(cascade={CascadeType.ALL})
+	@JoinColumn(name="contact_type_id", nullable=false)
+	public Contact_type getContact_type() {
+		return contact_type;
+	}
+
+	public void setContact_type(Contact_type contact_type) {
+		this.contact_type = contact_type;
+	}
+
 	@Id @GeneratedValue
 	@Column(name="CONTACT_I")
 	public int getContact_id() {
@@ -47,15 +76,6 @@ public class Contact {
 		this.contact_id = contact_id;
 	}
 	
-	@Column(name="CONTACT_TYPE_I")
-	public int getContact_ty() {
-		return contact_ty;
-	}
-
-	public void setContact_ty(int contact_ty) {
-		this.contact_ty = contact_ty;
-	}
-
 	@Column(name="STREET_ADDRESS_N")
 	public String getStreet_address_name() {
 		return street_address_name;
@@ -72,24 +92,6 @@ public class Contact {
 
 	public void setStreet_city_name(String street_city_name) {
 		this.street_city_name = street_city_name;
-	}
-
-	@Column(name="STATE_I")
-	public int getState_id() {
-		return state_id;
-	}
-
-	public void setState_id(int state_id) {
-		this.state_id = state_id;
-	}
-
-	@Column(name="LOCATION_I")
-	public int getLocation_id() {
-		return location_id;
-	}
-
-	public void setLocation_id(int location_id) {
-		this.location_id = location_id;
 	}
 
 	@Column(name="COMPANY_EAMIL_N")

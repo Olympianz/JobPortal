@@ -10,7 +10,6 @@ public class Company {
 	
 	public void update(Company company) {
 		setCompany_n(company.getCompany_n());
-		setContact_id(company.getContact_id());
 		
 		setActive_status(company.getActive_status());
 		setCreation_user_name(company.getCreation_user_name());
@@ -20,7 +19,6 @@ public class Company {
 	}
 	
 	private int company_id;
-	private int contact_id;
 	private String company_n;
 	
 	private String active_status = "N";
@@ -29,6 +27,18 @@ public class Company {
 	private Calendar creation_timestamp;
 	private Calendar update_timestamp;
 	
+	private Contact contact;
+	
+	@ManyToOne(cascade={CascadeType.ALL})
+	@JoinColumn(name="contact_id")
+	public Contact getContact() {
+		return contact;
+	}
+
+	public void setContact(Contact contact) {
+		this.contact = contact;
+	}
+
 	@Id @GeneratedValue
 	@Column(name="COMPANY_I")
 	public int getCompany_id() {
@@ -37,15 +47,6 @@ public class Company {
 
 	public void setCompany_id(int company_id) {
 		this.company_id = company_id;
-	}
-
-	@Column(name="CONTACT_I")
-	public int getContact_id() {
-		return contact_id;
-	}
-
-	public void setContact_id(int contact_id) {
-		this.contact_id = contact_id;
 	}
 
 	@Column(name="COMPANY_N")
