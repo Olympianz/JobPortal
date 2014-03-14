@@ -1,12 +1,11 @@
 package data.entity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
-
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import java.util.HashSet;
 
@@ -20,8 +19,8 @@ public class Job {
 	private String responsibility;
 	private Experience experience;
 	private User author;
-	private Set<Skill> skills = new HashSet<Skill>();
-	private Set<User> applicants = new HashSet<User>();
+	private List<Skill> skills = new ArrayList<Skill>();
+	private List<Application> applications = new ArrayList<Application>();
 
 	// System columns
 	private String active;
@@ -77,9 +76,7 @@ public class Job {
 		this.responsibility = responsibility;
 	}
 
-	@ManyToOne(fetch=FetchType.EAGER) 
-	@Cascade(CascadeType.ALL)
-	@JoinColumn(name = "USER_I")
+	@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.ALL})
 	public User getAuthor() {
 		return author;
 	}
@@ -88,8 +85,7 @@ public class Job {
 		this.author = author;
 	}
 
-	@ManyToOne(fetch=FetchType.EAGER) 
-	@Cascade(CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.ALL})
 	@JoinColumn(name = "EXPERIENCE_I")
 	public Experience getExperience() {
 		return experience;
@@ -99,30 +95,25 @@ public class Job {
 		this.experience = experience;
 	}
 
-	@ManyToMany(fetch=FetchType.EAGER) 
-	@Cascade(CascadeType.ALL)
+	@ManyToMany(fetch=FetchType.EAGER, cascade={CascadeType.ALL})
     @JoinTable(name="J_POSTING_SKILL", 
                 joinColumns={@JoinColumn(name="POSTING_I")}, 
                 inverseJoinColumns={@JoinColumn(name="SKILL_I")})
-	public Set<Skill> getSkills() {
+	public List<Skill> getSkills() {
 		return skills;
 	}
 
-	public void setSkills(Set<Skill> skills) {
+	public void setSkills(List<Skill> skills) {
 		this.skills = skills;
 	}
 
-	@ManyToMany(fetch=FetchType.EAGER) 
-	@Cascade(CascadeType.ALL)
-    @JoinTable(name="J_SAVED_JOBS", 
-                joinColumns={@JoinColumn(name="POSTING_I")}, 
-                inverseJoinColumns={@JoinColumn(name="USER_I")})
-	public Set<User> getApplicants() {
-		return applicants;
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="position")
+	public List<Application> getApplications() {
+		return applications;
 	}
 
-	public void setApplicants(Set<User> applicants) {
-		this.applicants = applicants;
+	public void setApplications(List<Application> applications) {
+		this.applications = applications;
 	}
 	
 	@Column(name = "ACTIVE_S", nullable = false, length = 1)

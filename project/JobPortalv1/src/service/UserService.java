@@ -3,6 +3,7 @@ package service;
 import java.util.Calendar;
 import java.util.List;
 
+import modelMB.UserBean;
 import data.dao.UserDAO;
 import data.entity.User;
 
@@ -76,7 +77,6 @@ public class UserService implements MetaService {
 		if (user != null) {
 			user.setSession_id(sessionId);
 			userDao.updateEntity(user);
-System.out.println("Logged in  === login");
 		}
 
 		return user;
@@ -99,10 +99,13 @@ System.out.println("Logged in  === login");
 		if (user != null) {
 			user.setSession_id(newSessionId);
 			userDao.updateEntity(user);
-System.out.println("Logged in === checkAuto");
 		}
 
 		return user;
+	}
+	
+	public void loadFromEntity(UserBean userBean, User user, boolean deepLoad) {
+		
 	}
 
 }

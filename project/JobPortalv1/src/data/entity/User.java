@@ -1,6 +1,8 @@
 package data.entity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -12,27 +14,136 @@ public class User {
 		setUser_name(user.getUser_name());
 		setPassword(user.getPassword());
 		setEmail(user.getEmail());
-		setRole_id(user.getRole_id());
 		setActive_status(user.getActive_status());
 		setCreation_user_name(user.getCreation_user_name());
 		setUpdate_user_name(user.getUpdate_user_name());
 		setCreation_timestamp(user.getCreation_timestamp());
 		setUpdate_timestamp(user.getUpdate_timestamp());
-		setContact_id(user.getContact_id());
 	}
 	
 	private Integer user_id;
 	private String user_name;
 	private String password;
 	private String email;
-	private Integer role_id;
 	private String active_status = "N";
 	private String creation_user_name = "sysdba";
 	private String update_user_name = "sysdba";
+	private String session_id;
 	private Calendar creation_timestamp;
 	private Calendar update_timestamp;
-	private Integer contact_id;
-	private String session_id;
+
+	private Experience experience;
+	private Role role;
+	private Contact contact;
+	
+	private List<Notification> sent_notif = new ArrayList<Notification>();
+	private List<Notification> recv_notif = new ArrayList<Notification>();
+	
+	private List<Job> saved_jobs = new ArrayList<Job>();
+	private List<Job> post_jobs = new ArrayList<Job>();
+	
+	private List<Skill> skills = new ArrayList<Skill>();
+	private List<Asset> assets = new ArrayList<Asset>();
+	private List<Application> applications = new ArrayList<Application>();
+	
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="from")
+	public List<Notification> getSent_notif() {
+		return sent_notif;
+	}
+
+	public void setSent_notif(List<Notification> sent_notif) {
+		this.sent_notif = sent_notif;
+	}
+
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="to")
+	public List<Notification> getRecv_notif() {
+		return recv_notif;
+	}
+
+	public void setRecv_notif(List<Notification> recv_notif) {
+		this.recv_notif = recv_notif;
+	}
+
+	@ManyToMany(fetch=FetchType.EAGER, cascade={CascadeType.ALL})
+    @JoinTable(name="J_SAVED_JOBS", 
+                joinColumns={@JoinColumn(name="USER_I")}, 
+                inverseJoinColumns={@JoinColumn(name="POSTING_I")})
+	public List<Job> getSaved_jobs() {
+		return saved_jobs;
+	}
+
+	public void setSaved_jobs(List<Job> saved_jobs) {
+		this.saved_jobs = saved_jobs;
+	}
+
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="author")
+	public List<Job> getPost_jobs() {
+		return post_jobs;
+	}
+
+	public void setPost_jobs(List<Job> post_jobs) {
+		this.post_jobs = post_jobs;
+	}
+
+	@ManyToMany(fetch=FetchType.EAGER, cascade={CascadeType.ALL})
+    @JoinTable(name="J_USER_SKILL", 
+                joinColumns={@JoinColumn(name="USER_I")}, 
+                inverseJoinColumns={@JoinColumn(name="SKILL_I")})
+	public List<Skill> getSkills() {
+		return skills;
+	}
+
+	public void setSkills(List<Skill> skills) {
+		this.skills = skills;
+	}
+
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="user")
+	public List<Asset> getAssets() {
+		return assets;
+	}
+
+	public void setAssets(List<Asset> assets) {
+		this.assets = assets;
+	}
+
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="applicant")
+	public List<Application> getApplications() {
+		return applications;
+	}
+
+	public void setApplications(List<Application> applications) {
+		this.applications = applications;
+	}
+	
+	@ManyToOne(cascade={CascadeType.ALL})
+	@JoinColumn(name="role_id", nullable=false)
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	@ManyToOne(cascade={CascadeType.ALL})
+	@JoinColumn(name="experience_id", nullable=false)
+	public Experience getExperience() {
+		return experience;
+	}
+
+	public void setExperience(Experience experience) {
+		this.experience = experience;
+	}
+
+	@ManyToOne(cascade={CascadeType.ALL})
+	@JoinColumn(name="contact_id")
+	public Contact getContact() {
+		return contact;
+	}
+
+	public void setContact(Contact contact) {
+		this.contact = contact;
+	}
 
 	@Id @GeneratedValue
 	@Column(name="USER_I")
@@ -69,24 +180,6 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	@Column(name="ROLE_I", nullable = true)
-	public Integer getRole_id() {
-		return role_id;
-	}
-
-	public void setRole_id(Integer role_id) {
-		this.role_id = role_id;
-	}
-
-	@Column(name="CONTACT_I", nullable = true)
-	public Integer getContact_id() {
-		return contact_id;
-	}
-
-	public void setContact_id(Integer contact_id) {
-		this.contact_id = contact_id;
 	}
 
 	@Column(name = "SESSION_TOKEN", nullable = true, length = 50)

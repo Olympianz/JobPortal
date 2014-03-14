@@ -1,6 +1,7 @@
 package modelMB;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import data.entity.User;
 import util.SessionCtl;
 
-@ManagedBean//@Named
+@ManagedBean
 @SessionScoped
 public class UserBean implements Serializable {
 
@@ -21,10 +22,21 @@ public class UserBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -84599783517567922L;
-	private String username;
 	private String password;
 	private String name;
+	private String role = "jobseeker";
 
+	private Integer user_id;
+	private String username;
+	private String email;
+
+	private Calendar creation_timestamp;
+	private Calendar update_timestamp;
+	
+	private Integer role_id;
+	private Integer contact_id;
+	
+	
 	public String getName() {
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 		HttpSession session = (HttpSession)ec.getSession(false);
@@ -53,6 +65,14 @@ public class UserBean implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public String getRole() {
+		return role;
+	}
+	
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public boolean isLoggedIn() {

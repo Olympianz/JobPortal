@@ -20,10 +20,10 @@ public class Location {
 		setUpdate_timestamp(location.getUpdate_timestamp());
 	}
 	
-	private int location_id;
-	private int zip_c;
-	private int longitude_n;
-	private int latitude_n;
+	private Integer location_id;
+	private Integer zip_c;
+	private Double longitude_n;
+	private Double latitude_n;
 	
 	private String active_status = "N";
 	private String creation_user_name = "sysdba";
@@ -33,38 +33,38 @@ public class Location {
 	
 	@Id @GeneratedValue
 	@Column(name="LOCATION_I")
-	public int getLocation_id() {
+	public Integer getLocation_id() {
 		return location_id;
 	}
 
-	public void setLocation_id(int location_id) {
+	public void setLocation_id(Integer location_id) {
 		this.location_id = location_id;
 	}
 	
 	@Column(name="ZIP_C")
-	public int getZip_c() {
+	public Integer getZip_c() {
 		return zip_c;
 	}
 
-	public void setZip_c(int zip_c) {
+	public void setZip_c(Integer zip_c) {
 		this.zip_c = zip_c;
 	}
 
 	@Column(name="LONGITUDE")
-	public int getLongitude_n() {
+	public Double getLongitude_n() {
 		return longitude_n;
 	}
 
-	public void setLongitude_n(int longitude_n) {
+	public void setLongitude_n(Double longitude_n) {
 		this.longitude_n = longitude_n;
 	}
 
 	@Column(name="LATITUDE_N")
-	public int getLatitude_n() {
+	public Double getLatitude_n() {
 		return latitude_n;
 	}
 
-	public void setLatitude_n(int latitude_n) {
+	public void setLatitude_n(Double latitude_n) {
 		this.latitude_n = latitude_n;
 	}
 

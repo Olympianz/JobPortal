@@ -12,76 +12,91 @@
 <h:body>
 	<div class="header">
 		<h:form prependId="false">
-		<div class="home-menu pure-menu-open pure-menu-horizontal pure-menu-fixed">
-			<h:link styleClass="pure-menu-heading" value="Job Portal" outcome="index.xhtml"/>
-			<h:commandLink value="Log out" actionListener="#{userBean.logout}" action="index.xhtml" />
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<h:link styleClass="navbar-brand" value="Job Portal" outcome="index.xhtml"/>
+				</div>
 							
-			<h:panelGroup rendered="#{!userBean.loggedIn}">
-				<ul>
-					<li><h:outputFormat styleClass="pure-form">
-
-							<p:inputText id="username"
-								style="width:125px; margin-right: 4px;"
-								styleClass="pure-form input" required="true"
-								value="#{userBean.username}" />
-							<p:watermark for="username" value="Email" />
-							
-							<p:inputText id="password" style="width:125px;" type="password"
-								styleClass="pure-form input" required="true"
-								value="#{userBean.password}" />
-							<p:watermark for="password" value="Password" />
-							
-							<h:selectBooleanCheckbox style="" name="remember" />
-							<label for="remember" style="color: #D3D3D3; font-size: 10px;"
-								class="pure-form input"> Remember me </label>
-						</h:outputFormat></li>
-					<li>
-						<h:commandButton styleClass="button-xsmall pure-button" execute="username password"
-							actionListener="#{userBean.login}" value="Sign in" action="index.xhtml">
-						</h:commandButton>
-					</li>
-					<li><h:commandButton styleClass="button-xsmall pure-button"
-							value="Sign up">
-						</h:commandButton></li>
-					<li><span style="font-size: 20px; color: #FFFFFF;"
-						class="glyphicon glyphicon-question-sign"></span></li>
-				</ul>
-			</h:panelGroup>
+				<div class="collapse navbar-collapse navbar-right">
+					<h:panelGroup rendered="#{!userBean.isLoggedIn()}">
+						<div class="navbar-form">
+							<ul id="header_bar" class="nav navbar-nav">
+								<li>
+									<h:outputFormat styleClass="form-group">
+										<p:inputText id="username"
+											style="width:125px; margin-right: 4px;"
+											styleClass="form-group" required="true"
+											value="#{userBean.username}" />
+										<p:watermark for="username" value="Email" />
+										
+										<p:inputText id="password" style="width:125px;" type="password"
+											styleClass="form-group" required="true"
+											value="#{userBean.password}" />
+										<p:watermark for="password" value="Password" />
+										
+										<h:selectBooleanCheckbox styleClass="form-group" name="remember" />
+										<label for="remember" style="color: #D3D3D3; font-size: 10px;"
+											class="form-group"> Remember me </label>
+									</h:outputFormat>
+								</li>
+								<li>
+									<h:commandButton styleClass="btn btn-success form-group" execute="username password"
+										actionListener="#{userBean.login}" render="username password"
+										value="Sign in" action="index.xhtml">
+									</h:commandButton>
+								</li>
+								<li>
+									<h:commandButton styleClass="btn btn-success form-group"
+										value="Sign up">
+									</h:commandButton>
+								</li>
+								<li>
+									<a>
+										<span class="form-group glyphicon glyphicon-question-sign"></span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</h:panelGroup>
+					
+					<h:panelGroup rendered="#{userBean.isLoggedIn()}">
+						<div class="navbar-form">
+							<ul id="header_bar" class="nav navbar-nav">
+								<li>
+									<a><span class="form-group glyphicon glyphicon-user"></span></a>
+								</li>
+								<li>
+									<a>
+										<span class="form-group" style="font-size: 15px; color:#ffffff; !important">
+											<b><i>Welcome, #{userBean.name}</i></b>
+										</span>
+									</a>
+								</li>
+								<li>
+									<a><span class="glyphicon glyphicon-envelope"></span></a>
+								</li>
+								<li>
+									<a><span class="glyphicon glyphicon-question-sign"></span></a>
+								</li>
+								<li class="dropdown">
+									<a class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog" ></span></a>
+								  	<ul class="dropdown-menu">
+								  		<li class="divider"></li>
+										<li>
+											<h:commandLink value="Log out" actionListener="#{userBean.logout}" action="index.xhtml" />
+										</li>
+									</ul>
+								</li>
 			
-			<h:panelGroup rendered="#{userBean.loggedIn}">
-				<ul id="top-menu" style="padding: 5px;">
-					<li>
-						<a><span class="glyphicon glyphicon-user"></span></a>
-					</li>
-					<li style="margin-left: 5px; margin-right: 5px; font-size: 15px; color: #FFFFFF">
-						<span style="font-size: 15px;">
-							<b><i>Welcome, #{userBean.name}</i></b>
-						</span>
-					</li>
-					<li style="margin-left: 2px; margin-right: 2px;">
-						<a><span class="glyphicon glyphicon-envelope"></span></a>
-					</li>
-					<li style="margin-left: 2px; margin-right: 2px;">
-						<a><span class="glyphicon glyphicon-question-sign"></span></a>
-					</li>
-					<li style="margin-left: 10px;" class="dropdown">
-						<a><span class="glyphicon glyphicon-cog" ></span></a>
-					  	<ul>
-							<li>
-								<h:commandLink value="Log out" actionListener="#{userBean.logout}" action="index.xhtml" />
-							</li>
-						</ul>
-					</li>
-
-				</ul>
-			</h:panelGroup>
-		</div>
+							</ul>
+						</div>
+					</h:panelGroup>
+				</div>
+			</div>
+		</nav>
 		</h:form>
 	</div>
-	
-	<script>
-
-	
-	</script>
+	<h:messages />
 </h:body>
 </html>

@@ -2,6 +2,8 @@ package data.dao;
 
 import java.util.List;
 
+import modelMB.UserBean;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 
@@ -123,8 +125,7 @@ public class UserDAO extends DAO implements TableManipulation{
 			q.setString("password", password);
 
 			user = (User)q.uniqueResult();
-if(user!=null) System.out.println("Yes");	
-else System.out.println("No");
+
 			commit();
 		} catch (Exception e) {
 			e.printStackTrace();	
@@ -156,6 +157,10 @@ else System.out.println("No");
 	@Override
 	public void updateEntity(Integer Id, Object obj_new) {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	public void loadFromUser(User user, UserBean userBean, boolean deepLoad) {
 		
 	}
 }
