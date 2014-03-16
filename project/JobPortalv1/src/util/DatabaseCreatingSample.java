@@ -128,11 +128,21 @@ public class DatabaseCreatingSample {
 		return exp;
 	}
 
-	// 8.
+	// 8
+	private static Company newCompany(String company_n, Contact contact,
+			String active, Calendar creation_time, String creation_user,
+			Calendar update_time, String update_user) {
+		Company company = new Company();
+		company.setCompany_n(company_n);
+		company.setContact(contact);
+		return company;
+	}
+
+	// 9.
 	private static User newUser(String name, String active, String email,
-			String password, String session_id, Experience exp, Calendar creation_time,
-			String creation_user, Calendar update_time, String update_user,
-			Role role) {
+			String password, String session_id, Experience exp, Company company,
+			Calendar creation_time, String creation_user, Calendar update_time,
+			String update_user, Role role) {
 		User user = new User();
 		user.setUser_name(name);
 		user.setActive_status(active);
@@ -140,6 +150,7 @@ public class DatabaseCreatingSample {
 		user.setCreation_user_name(creation_user);
 		user.setEmail(email);
 		user.setExperience(exp);
+		user.setCompany(company);
 		user.setPassword(password);
 		user.setRole(role);
 		user.setSession_id(session_id);
@@ -148,7 +159,7 @@ public class DatabaseCreatingSample {
 		return user;
 	}
 
-	// 9.
+	// 10.
 	private static AssetType newAssetType(String name, String active,
 			Calendar creation_time, String creation_user, Calendar update_time,
 			String update_user) {
@@ -162,7 +173,7 @@ public class DatabaseCreatingSample {
 		return at;
 	}
 
-	// 10.
+	// 11.
 	private static Asset newAssets(String name, User user, AssetType at,
 			String loc, Integer size, String active, Calendar creation_time,
 			String creation_user, Calendar update_time, String update_user) {
@@ -181,7 +192,7 @@ public class DatabaseCreatingSample {
 		return asset;
 	}
 
-	// 11.
+	// 12.
 	private static NotificationType newNotificationType(String name,
 			String active, Calendar creation_time, String creation_user,
 			Calendar update_time, String update_user) {
@@ -195,7 +206,7 @@ public class DatabaseCreatingSample {
 		return ntype;
 	}
 
-	// 12.
+	// 13.
 	private static Notification newNotification(User from, User to,
 			NotificationType ntype, String read, String title, String content,
 			String active, Calendar creation_time, String creation_user,
@@ -215,11 +226,11 @@ public class DatabaseCreatingSample {
 		return notif;
 	}
 
-	// 13.
-	private static Job newJob(List<Skill> skills,
-			Experience exp, User author, String desc, String req, String res,
-			String title, String active, Calendar creation_time,
-			String creation_user, Calendar update_time, String update_user) {
+	// 14.
+	private static Job newJob(List<Skill> skills, Experience exp, User author,
+			String desc, String req, String res, String title, String active,
+			Calendar creation_time, String creation_user, Calendar update_time,
+			String update_user) {
 		Job job = new Job();
 		job.setAuthor(author);
 		job.setExperience(exp);
@@ -236,7 +247,7 @@ public class DatabaseCreatingSample {
 		return job;
 	}
 
-	// 14.
+	// 15.
 	private static ApplicationStatus newApplicationStatus(String name,
 			String active, Calendar creation_time, String creation_user,
 			Calendar update_time, String update_user) {
@@ -250,7 +261,7 @@ public class DatabaseCreatingSample {
 		return status;
 	}
 
-	// 15.
+	// 16.
 	private static Application newApplication(User user, Asset asset,
 			ApplicationStatus status, Job job, String active,
 			Calendar creation_time, String creation_user, Calendar update_time,
@@ -269,7 +280,38 @@ public class DatabaseCreatingSample {
 	}
 
 	public static void main(String[] args) {
+		accessDB();
+	}
 
+	public static void accessDB() {
+		// -----------------------------------------------
+		ServiceRegistry sr = new StandardServiceRegistryBuilder()
+				.applySettings(new Configuration().configure().getProperties())
+				.build();
+		SessionFactory sessionFactory = new Configuration().configure()
+				.configure().buildSessionFactory(sr);
+		try {
+			Session session = sessionFactory.openSession();
+			session.beginTransaction();
+			// -----------------------------------------------
+
+			List<Job> jobs = session.createQuery("from Job").list();
+
+			List<Skill> skills = jobs.get(0).getSkills();
+			for (Skill skill : skills) {
+				System.out.println(skill.getName());
+			}
+
+			// -----------------------------------------------
+			session.getTransaction().commit();
+			session.close();
+			sessionFactory.close();
+		} finally {
+			((StandardServiceRegistryImpl) sr).destroy();
+		}
+	}
+
+	public static void createObjects() {
 		Calendar cal = Calendar.getInstance();
 
 		// 1.Skill
@@ -371,16 +413,19 @@ public class DatabaseCreatingSample {
 				"sysdba");
 		Experience exp8 = newExperience("Executive", "Y", cal, "sysdba", cal,
 				"sysdba");
-		
+
+		// 8. Company
+		Company company1 = newCompany("Cogent Infotech", contact1, "Y", cal, "sysdba", cal,
+				"sysdba");
 		// 8. User
-		User user1 = newUser("Adam", "Y", "adam@yy.com", "123", "", exp2, cal,
+		User user1 = newUser("Adam", "Y", "adam@yy.com", "123", "", exp2, company1, cal,
 				"sysdba", cal, "sysdba", employer);
-		User user2 = newUser("Bob", "Y", "bob@yy.com", "123", "", exp3, cal,
+		User user2 = newUser("Bob", "Y", "bob@yy.com", "123", "", exp3, company1, cal,
 				"sysdba", cal, "sysdba", admin);
-		User user3 = newUser("Cathy", "Y", "cathy@yy.com", "123", "", exp1, cal,
-				"sysdba", cal, "sysdba", jobseeker);
-		User user4 = newUser("David", "Y", "david@yy.com", "123", "",exp2, cal,
-				"sysdba", cal, "sysdba", jobseeker);
+		User user3 = newUser("Cathy", "Y", "cathy@yy.com", "123", "", exp1, company1,
+				cal, "sysdba", cal, "sysdba", jobseeker);
+		User user4 = newUser("David", "Y", "david@yy.com", "123", "", exp2,
+				company1, cal, "sysdba", cal, "sysdba", jobseeker);
 
 		// 9. Asset type
 		AssetType at1 = newAssetType("pdf", "Y", cal, "sysdba", cal, "sysdba");
@@ -413,13 +458,11 @@ public class DatabaseCreatingSample {
 		skills.add(sk1);
 		skills.add(sk2);
 
-		Job job1 = newJob(skills, exp1, user1,
-				"We describ our job here.",
+		Job job1 = newJob(skills, exp1, user1, "We describ our job here.",
 				"We need a super hero for this position.",
 				"You need to save us.", "Super hero job", "Y", cal, "sysdba",
 				cal, "sysdba");
-		Job job2 = newJob(skills, exp1, user1,
-				"It's an assistance job.",
+		Job job2 = newJob(skills, exp1, user1, "It's an assistance job.",
 				"We need a sidekick for this position.",
 				"You need to help super hero to save us.", "Side kick job",
 				"Y", cal, "sysdba", cal, "sysdba");
@@ -433,17 +476,17 @@ public class DatabaseCreatingSample {
 				"sysdba", cal, "sysdba");
 		ApplicationStatus status4 = newApplicationStatus("Processing", "Y",
 				cal, "sysdba", cal, "sysdba");
-		
+
 		// 15. Application
 		Application app1 = newApplication(user3, asset1, status3, job1, "Y",
 				cal, "sysdba", cal, "sysdba");
 
 		List<Application> applications = new ArrayList<Application>();
 		applications.add(app1);
-		
+
 		job1.setApplications(applications);
 		job2.setApplications(applications);
-		
+
 		// -----------------------------------------------
 		ServiceRegistry sr = new StandardServiceRegistryBuilder()
 				.applySettings(new Configuration().configure().getProperties())
@@ -495,7 +538,6 @@ public class DatabaseCreatingSample {
 			session.saveOrUpdate(status3);
 			session.saveOrUpdate(status4);
 			session.saveOrUpdate(app1);
-			
 
 			// -----------------------------------------------
 			session.getTransaction().commit();

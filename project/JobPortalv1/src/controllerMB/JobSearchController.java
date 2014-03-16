@@ -12,7 +12,7 @@ import data.entity.Job;
 
 @ManagedBean
 @SessionScoped
-public class JobSearchBean implements Serializable {
+public class JobSearchController implements Serializable {
 	/**
 	 * 
 	 */

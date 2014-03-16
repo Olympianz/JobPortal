@@ -6,36 +6,60 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import service.JobService;
 import data.entity.Job;
-
 
 @ManagedBean
 public class JobBean {
 	JobService jobService = new JobService();
 
-	private int id;
+	private boolean full_record;
+	private Integer id;
 	private String title;
 	private String description;
 	private String requirement;
 	private String responsibility;
 	private String experience;
-	private String company;
+	private CompanyBean company;
 	private List<String> skills;
-	private List<UserBean> applicants;
-	private boolean active;
-	
+	private List<ApplicationBean> applications;
+	private Boolean active;
+
 	public void init() {
-		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-		HttpServletRequest request = (HttpServletRequest)ec.getRequest();
-		
+		ExternalContext ec = FacesContext.getCurrentInstance()
+				.getExternalContext();
+		HttpServletRequest request = (HttpServletRequest) ec.getRequest();
+
 		String jobId = request.getParameter("jobId");
-		
+
 		if (jobId != null) {
 			jobService.getJobById(this, Integer.parseInt(jobId), true);
 		}
+	}
+
+	public void loadFromDB(Integer id) {
+
+	}
+
+	public void loadFromEntity(Job entity) {
+
+	}
+
+	public boolean isFull_record() {
+		return full_record;
+	}
+
+	public void setFull_record(boolean full_record) {
+		this.full_record = full_record;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public int getId() {
@@ -86,11 +110,11 @@ public class JobBean {
 		this.experience = experience;
 	}
 
-	public String getCompany() {
+	public CompanyBean getCompany() {
 		return company;
 	}
 
-	public void setCompany(String company) {
+	public void setCompany(CompanyBean company) {
 		this.company = company;
 	}
 
@@ -102,19 +126,19 @@ public class JobBean {
 		this.skills = skills;
 	}
 
-	public List<UserBean> getApplicants() {
-		return applicants;
+	public List<ApplicationBean> getApplications() {
+		return applications;
 	}
 
-	public void setApplicants(List<UserBean> applicants) {
-		this.applicants = applicants;
+	public void setApplications(List<ApplicationBean> applications) {
+		this.applications = applications;
 	}
 
-	public boolean isActive() {
+	public Boolean isActive() {
 		return active;
 	}
 
-	public void setActive(boolean active) {
+	public void setActive(Boolean active) {
 		this.active = active;
 	}
 }

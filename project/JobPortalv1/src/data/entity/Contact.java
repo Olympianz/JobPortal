@@ -20,7 +20,7 @@ public class Contact {
 		setUpdate_timestamp(contact.getUpdate_timestamp());
 	}
 	
-	private int contact_id;
+	private Integer contact_id;
 	private String street_address_name;
 	private String street_city_name;
 	private String company_email_name;
@@ -67,11 +67,11 @@ public class Contact {
 
 	@Id @GeneratedValue
 	@Column(name="CONTACT_I")
-	public int getContact_id() {
+	public Integer getContact_id() {
 		return contact_id;
 	}
 
-	public void setContact_id(int contact_id) {
+	public void setContact_id(Integer contact_id) {
 		this.contact_id = contact_id;
 	}
 	

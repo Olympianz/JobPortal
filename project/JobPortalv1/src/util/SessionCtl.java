@@ -35,7 +35,6 @@ public class SessionCtl {
 		if (password == null)
 			password = "";
 
-System.out.println(username + " " + password);
 		// Using UserDAO to check login status
 		// - If logged in successfully,
 		// 1.store the user bean in current session
@@ -43,7 +42,6 @@ System.out.println(username + " " + password);
 		User user = userService.login(username, password, session.getId());
 
 		if (user != null) {
-System.out.println("Found");
 			// Add user information to session and cookie
 			session.setAttribute("loggedin_user", user);
 			addCookie(response, "JSESSIONID", session.getId());

@@ -4,14 +4,13 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 
-import data.entity.Job;
+import data.entity.Application;
 
-public class JobDAO extends DAO{
-
-	public List<Job> listEntities() {
-		List<Job> jobs = null;
+public class ApplicationDAO extends DAO {
+	public List<Application> listEntities() {
+		List<Application> apps = null;
 		try {
-			jobs = getSession().createQuery("from Job").list();
+			apps = getSession().createQuery("from Application").list();
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
@@ -21,14 +20,14 @@ public class JobDAO extends DAO{
 			close();
 		} 
 	
-		return jobs;
+		return apps;
 	}
 	
-	public Job getEntityById(Integer id) {
-		Job job = null;
+	public Application getEntityById(Integer id) {
+		Application app = null;
 		
 		try{
-			job = (Job) getSession().createQuery("from Job where id=" + id);
+			app = (Application) getSession().createQuery("from Application where id=" + id);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
@@ -38,6 +37,6 @@ public class JobDAO extends DAO{
 			close();
 		}
 		
-		return job;
+		return app;
 	}
 }

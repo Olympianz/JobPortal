@@ -35,7 +35,8 @@ public class User {
 	private Experience experience;
 	private Role role;
 	private Contact contact;
-	
+	private Company company;
+
 	private List<Notification> sent_notif = new ArrayList<Notification>();
 	private List<Notification> recv_notif = new ArrayList<Notification>();
 	
@@ -145,6 +146,16 @@ public class User {
 		this.contact = contact;
 	}
 
+	@ManyToOne(cascade={CascadeType.ALL})
+	@JoinColumn(name="company_id")
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+	
 	@Id @GeneratedValue
 	@Column(name="USER_I")
 	public Integer getUser_id() {

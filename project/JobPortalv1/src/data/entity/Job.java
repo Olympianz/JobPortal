@@ -12,7 +12,8 @@ import java.util.HashSet;
 @Entity
 @Table(name = "J_POSTINGS")
 public class Job {
-	private int id;
+	
+	private Integer id;
 	private String title;
 	private String description;
 	private String requirement;
@@ -32,11 +33,11 @@ public class Job {
 	@Id
 	@GeneratedValue
 	@Column(name = "POSTING_I")
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

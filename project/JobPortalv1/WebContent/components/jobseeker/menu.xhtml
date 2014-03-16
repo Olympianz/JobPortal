@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 
@@ -10,15 +13,25 @@
 
 	<ui:composition>
 		<div class="list-group">
-			<h4 class="list-group-heading">Active</h4>
-			<h:commandLink value="Search job" action="js_searchjob.xhtml" />
-			<h:commandLink value="Saved jobs" action="js_savedjob.xhtml" />
-			<h:commandLink value="Applied jobs" action="js_appliedjob.xhtml" />
-			<h:commandLink value="Message" action="js_message.xhtml" />
+<!-- 			<h4 class="list-group-heading">Active</h4> -->
+<!-- 			<h:commandLink value="Search job" action="js_searchjob.xhtml" /> -->
+<!-- 			<h:commandLink value="Saved jobs" action="js_savedjob.xhtml" /> -->
+<!-- 			<h:commandLink value="Applied jobs" action="js_appliedjob.xhtml" /> -->
+<!-- 			<h:commandLink value="Message" action="js_message.xhtml" /> -->
+	        
+<!-- 	        <h4 class="list-group-heading">Profile</h4> -->
+<!-- 			<h:commandLink value="View/Edit profile" action="js_edit.xhtml" /> -->
+<!-- 			<h:commandLink value="Delete Profile" action="js_delete.xhtml" /> -->
+
+		<h4 class="list-group-heading">Active</h4>
+			<h:link styleClass="list-group-item" value="Search job" outcome="index.xhtml" />
+			<h:link styleClass="list-group-item" value="Saved jobs" outcome="index.xhtml" />
+			<h:link styleClass="list-group-item" value="Applied jobs" outcome="index.xhtml" />
+			<h:link styleClass="list-group-item" value="Message" outcome="index.xhtml" />
 	        
 	        <h4 class="list-group-heading">Profile</h4>
-			<h:commandLink value="View/Edit profile" action="js_edit.xhtml" />
-			<h:commandLink value="Delete Profile" action="js_delete.xhtml" />
+			<h:link styleClass="list-group-item" value="View/Edit profile" outcome="index.xhtml" />
+			<h:link styleClass="list-group-item" value="Delete Profile" outcome="index.xhtml" />
 		</div>
 	</ui:composition>
 

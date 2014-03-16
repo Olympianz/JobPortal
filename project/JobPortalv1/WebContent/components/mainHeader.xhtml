@@ -19,7 +19,7 @@
 				</div>
 							
 				<div class="collapse navbar-collapse navbar-right">
-					<h:panelGroup rendered="#{!userBean.isLoggedIn()}">
+					<h:panelGroup rendered="#{!userController.isLoggedIn()}">
 						<div class="navbar-form">
 							<ul id="header_bar" class="nav navbar-nav">
 								<li>
@@ -27,12 +27,12 @@
 										<p:inputText id="username"
 											style="width:125px; margin-right: 4px;"
 											styleClass="form-group" required="true"
-											value="#{userBean.username}" />
+											value="#{userController.email}" />
 										<p:watermark for="username" value="Email" />
 										
 										<p:inputText id="password" style="width:125px;" type="password"
 											styleClass="form-group" required="true"
-											value="#{userBean.password}" />
+											value="#{userController.password}" />
 										<p:watermark for="password" value="Password" />
 										
 										<h:selectBooleanCheckbox styleClass="form-group" name="remember" />
@@ -42,7 +42,7 @@
 								</li>
 								<li>
 									<h:commandButton styleClass="btn btn-success form-group" execute="username password"
-										actionListener="#{userBean.login}" render="username password"
+										actionListener="#{userController.login}" render="username password"
 										value="Sign in" action="index.xhtml">
 									</h:commandButton>
 								</li>
@@ -60,7 +60,7 @@
 						</div>
 					</h:panelGroup>
 					
-					<h:panelGroup rendered="#{userBean.isLoggedIn()}">
+					<h:panelGroup rendered="#{userController.isLoggedIn()}">
 						<div class="navbar-form">
 							<ul id="header_bar" class="nav navbar-nav">
 								<li>
@@ -69,7 +69,7 @@
 								<li>
 									<a>
 										<span class="form-group" style="font-size: 15px; color:#ffffff; !important">
-											<b><i>Welcome, #{userBean.name}</i></b>
+											<b><i>Welcome, #{userController.name}</i></b>
 										</span>
 									</a>
 								</li>
@@ -84,7 +84,7 @@
 								  	<ul class="dropdown-menu">
 								  		<li class="divider"></li>
 										<li>
-											<h:commandLink value="Log out" actionListener="#{userBean.logout}" action="index.xhtml" />
+											<h:commandLink value="Log out" actionListener="#{userController.logout}" action="index.xhtml" />
 										</li>
 									</ul>
 								</li>

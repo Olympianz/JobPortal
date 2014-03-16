@@ -8,10 +8,10 @@ import org.hibernate.annotations.CascadeType;
 @Entity
 @Table(name = "J_ASSETS")
 public class Asset {
-	private int id;
+	private Integer id;
 	private String name;
 	private String location;
-	private int size;
+	private Integer size;
 	private AssetType type;
 	private User user;
 
@@ -25,11 +25,11 @@ public class Asset {
 	@Id
 	@GeneratedValue
 	@Column(name = "ASSET_I")
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -52,11 +52,11 @@ public class Asset {
 	}
 
 	@Column(name = "ASSET_SIZE", nullable = false)
-	public int getSize() {
+	public Integer getSize() {
 		return size;
 	}
 
-	public void setSize(int size) {
+	public void setSize(Integer size) {
 		this.size = size;
 	}
 
