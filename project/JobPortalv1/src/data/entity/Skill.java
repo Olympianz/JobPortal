@@ -1,13 +1,14 @@
 package data.entity;
 
 import java.util.Calendar;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "J_SKILLS")
 public class Skill {
 	
-	private int id;
+	private Integer id;
 	private String name;
 
 	// System columns
@@ -16,14 +17,25 @@ public class Skill {
 	private String update_user;
 	private Calendar creation_time;
 	private Calendar update_time;
+
+	public Skill() {
+		this("sysdba");
+	}
 	
+	public Skill(String creation_user) {
+		this.active = "Y";
+		this.creation_user = creation_user;
+		this.update_user = creation_user;
+		this.creation_time = Calendar.getInstance();
+		this.update_time = Calendar.getInstance();		
+	}
 	@Id
 	@GeneratedValue
 	@Column(name = "SKILL_I")
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	

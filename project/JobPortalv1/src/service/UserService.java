@@ -22,7 +22,7 @@ import data.entity.User;
 
 public class UserService implements MetaService {
 
-	UserDAO userDao = new UserDAO();
+	static final UserDAO userDao = new UserDAO();
 
 	public Integer addEntity(Object obj) {
 
@@ -206,7 +206,10 @@ public class UserService implements MetaService {
 			}
 			userBean.setSkills(skills);
 		}
-
 	}
 
+	public static void loadFromDB(UserBean userBean, Integer id) {
+		User user = userDao.getEntityById(id);
+		loadFromEntity(userBean, user, true);
+	}
 }

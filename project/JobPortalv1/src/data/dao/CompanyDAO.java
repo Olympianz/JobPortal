@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 
+import data.entity.Application;
 import data.entity.Company;
 
 public class CompanyDAO extends DAO {
@@ -38,6 +39,29 @@ public class CompanyDAO extends DAO {
 		}
 		
 		return company;
+	}
+	
+	public int saveOrUpdate(Company company) {
+		int id = -1;
+		
+		try{
+			if(company.getCompany_id() != null && company.getCompany_id() >= 0) {
+				id = company.getCompany_id();
+				getSession().update(company);
+			}
+			else {
+				id = (Integer)getSession().save(company); 
+			}
+		} catch (HibernateException e) {
+			if (getSession().getTransaction()!=null) {
+				rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return id;
 	}
 
 }

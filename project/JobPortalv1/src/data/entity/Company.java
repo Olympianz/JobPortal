@@ -18,7 +18,7 @@ public class Company {
 		setUpdate_timestamp(company.getUpdate_timestamp());
 	}
 	
-	private int company_id;
+	private Integer company_id;
 	private String company_n;
 	
 	private String active_status = "N";
@@ -28,6 +28,18 @@ public class Company {
 	private Calendar update_timestamp;
 	
 	private Contact contact;
+	
+	public Company() {
+		this("sysdba");
+	}
+	
+	public Company(String creation_user) {
+		this.active_status = "Y";
+		this.creation_user_name = creation_user;
+		this.update_user_name = creation_user;
+		this.creation_timestamp = Calendar.getInstance();
+		this.update_timestamp = Calendar.getInstance();		
+	}
 	
 	@ManyToOne(cascade={CascadeType.ALL})
 	@JoinColumn(name="contact_id")
@@ -41,11 +53,11 @@ public class Company {
 
 	@Id @GeneratedValue
 	@Column(name="COMPANY_I")
-	public int getCompany_id() {
+	public Integer getCompany_id() {
 		return company_id;
 	}
 
-	public void setCompany_id(int company_id) {
+	public void setCompany_id(Integer company_id) {
 		this.company_id = company_id;
 	}
 

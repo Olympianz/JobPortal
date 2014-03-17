@@ -23,11 +23,11 @@ public class ApplicationBean implements Serializable {
 	private JobBean job;
 
 	public void loadFromDB(Integer id) {
-
+		
 	}
 
 	public void loadFromEntity(Application entity) {
-
+		
 	}
 
 	public Integer getId() {

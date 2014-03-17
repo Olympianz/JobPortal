@@ -30,6 +30,19 @@ public class Job {
 	private Calendar creation_time;
 	private Calendar update_time;
 
+
+	public Job() {
+		this("sysdba");
+	}
+	
+	public Job(String creation_user) {
+		this.active = "Y";
+		this.creation_user = creation_user;
+		this.update_user = creation_user;
+		this.creation_time = Calendar.getInstance();
+		this.update_time = Calendar.getInstance();		
+	}
+	
 	@Id
 	@GeneratedValue
 	@Column(name = "POSTING_I")

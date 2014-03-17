@@ -18,7 +18,7 @@ public class Contact_type {
 		setUpdate_timestamp(ct.getUpdate_timestamp());
 	}
 	
-	private int contact_type_i;
+	private Integer contact_type_i;
 	private String contact_type_n;
 	
 	private String active_status = "N";
@@ -29,11 +29,11 @@ public class Contact_type {
 	
 	@Id @GeneratedValue
 	@Column(name="CONTACT_TYPE_I")
-	public int getContact_type_i() {
+	public Integer getContact_type_i() {
 		return contact_type_i;
 	}
 
-	public void setContact_type_i(int contact_type_i) {
+	public void setContact_type_i(Integer contact_type_i) {
 		this.contact_type_i = contact_type_i;
 	}
 

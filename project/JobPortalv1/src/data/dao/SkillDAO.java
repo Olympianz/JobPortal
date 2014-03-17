@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 
+import data.entity.Application;
+import data.entity.Notification;
 import data.entity.Skill;
 
 public class SkillDAO extends DAO {
@@ -38,6 +40,29 @@ public class SkillDAO extends DAO {
 		}
 		
 		return skill;
+	}
+	
+	public int saveOrUpdate(Skill skill) {
+		int id = -1;
+		
+		try{
+			if(skill.getId() != null && skill.getId() >= 0) {
+				id = skill.getId();
+				getSession().update(skill);
+			}
+			else {
+				id = (Integer)getSession().save(skill); 
+			}
+		} catch (HibernateException e) {
+			if (getSession().getTransaction()!=null) {
+				rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return id;
 	}
 
 }

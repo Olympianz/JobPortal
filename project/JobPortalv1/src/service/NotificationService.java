@@ -6,7 +6,7 @@ import data.dao.NotificationDAO;
 import data.entity.Notification;
 
 public class NotificationService {
-	NotificationDAO notifDao = new NotificationDAO();
+	static final NotificationDAO notifDao = new NotificationDAO();
 
 	public static void loadFromEntity(NotificationBean notifBean,
 			Notification notif) {
@@ -24,5 +24,10 @@ public class NotificationService {
 		notifBean.setRead(notif.getRead().equals("Y"));
 		notifBean.setTitle(notif.getTitle());
 		notifBean.setType(notif.getType().getName());
+	}
+	
+	public static void loadFromDB(NotificationBean notifBean, Integer id) {
+		Notification notif = notifDao.getEntityById(id);
+		loadFromEntity(notifBean, notif);
 	}
 }

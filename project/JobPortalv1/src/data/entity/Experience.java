@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "J_EXPERIENCE")
 public class Experience {
-	private int id;
+	private Integer id;
 	private String name;
 	// System columns
 	private String active;
@@ -20,10 +20,10 @@ public class Experience {
 	@Id
 	@GeneratedValue
 	@Column(name = "EXPERIENCE_I")
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	

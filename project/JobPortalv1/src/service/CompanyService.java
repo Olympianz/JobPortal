@@ -7,7 +7,7 @@ import data.entity.Company;
 
 public class CompanyService {
 
-	CompanyDAO companyDao = new CompanyDAO();
+	static final CompanyDAO companyDao = new CompanyDAO();
 	
 	public static void loadFromEntity(CompanyBean companyBean, Company company) {
 		ContactBean contactBean = new ContactBean();
@@ -16,5 +16,10 @@ public class CompanyService {
 		
 		companyBean.setId(company.getCompany_id());
 		companyBean.setName(company.getCompany_n());
+	}
+	
+	public static void loadFromDB(CompanyBean companyBean, Integer id) {
+		Company company = companyDao.getEntityById(id);
+		loadFromEntity(companyBean, company);
 	}
 }

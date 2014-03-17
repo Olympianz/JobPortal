@@ -47,6 +47,19 @@ public class User {
 	private List<Asset> assets = new ArrayList<Asset>();
 	private List<Application> applications = new ArrayList<Application>();
 	
+
+	public User() {
+		this("sysdba");
+	}
+	
+	public User(String creation_user) {
+		this.active_status = "Y";
+		this.creation_user_name = creation_user;
+		this.update_user_name = creation_user;
+		this.creation_timestamp = Calendar.getInstance();
+		this.update_timestamp = Calendar.getInstance();		
+	}
+	
 	@OneToMany(fetch=FetchType.EAGER, mappedBy="from")
 	public List<Notification> getSent_notif() {
 		return sent_notif;

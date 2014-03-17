@@ -1,5 +1,7 @@
 package util;
 
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -109,6 +111,17 @@ public class SessionCtl {
 			// Failed to log in.
 			return false;
 		}
+	}
+	
+	public static User getLoggedInUser() {
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		HttpSession session = (HttpSession) ec.getSession(false);
+		User user = null;
+		
+		if( session != null )
+			user = (User) session.getAttribute("loggedin_user");
+		
+		return user;
 	}
 
 	// /

@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "J_APPLICATION_STATUS")
 public class ApplicationStatus {
-	private int id;
+	private Integer id;
 	private String name;
 	// System columns
 	private String active;
@@ -16,14 +16,13 @@ public class ApplicationStatus {
 	private Calendar creation_time;
 	private Calendar update_time;
 	
-
 	@Id
 	@GeneratedValue
 	@Column(name = "APPLICATION_STATUS_I")
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	

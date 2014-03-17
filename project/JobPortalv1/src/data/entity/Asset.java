@@ -1,7 +1,9 @@
 package data.entity;
 
 import java.util.Calendar;
+
 import javax.persistence.*;
+
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -22,6 +24,18 @@ public class Asset {
 	private Calendar creation_time;
 	private Calendar update_time;
 
+	public Asset() {
+		this("sysdba");
+	}
+	
+	public Asset(String creation_user) {
+		this.active = "Y";
+		this.creation_user = creation_user;
+		this.update_user = creation_user;
+		this.creation_time = Calendar.getInstance();
+		this.update_time = Calendar.getInstance();		
+	}
+	
 	@Id
 	@GeneratedValue
 	@Column(name = "ASSET_I")

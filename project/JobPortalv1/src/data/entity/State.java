@@ -18,7 +18,7 @@ public class State {
 		setUpdate_timestamp(state.getUpdate_timestamp());
 	}
 	
-	private int state_i;
+	private Integer state_i;
 	private String state_n;
 	
 	private String active_status = "N";
@@ -29,11 +29,11 @@ public class State {
 	
 	@Id @GeneratedValue
 	@Column(name="STATE_I")
-	public int getState_i() {
+	public Integer getState_i() {
 		return state_i;
 	}
 
-	public void setState_i(int state_i) {
+	public void setState_i(Integer state_i) {
 		this.state_i = state_i;
 	}
 

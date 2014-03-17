@@ -10,7 +10,7 @@ import org.hibernate.annotations.CascadeType;
 @Entity
 @Table(name = "J_NOTIFICATIONS")
 public class Notification {
-	private int id;
+	private Integer id;
 	private String title;
 	private String content;
 	private String read;
@@ -25,14 +25,27 @@ public class Notification {
 	private Calendar creation_time;
 	private Calendar update_time;
 
+
+	public Notification() {
+		this("sysdba");
+	}
+	
+	public Notification(String creation_user) {
+		this.active = "Y";
+		this.creation_user = creation_user;
+		this.update_user = creation_user;
+		this.creation_time = Calendar.getInstance();
+		this.update_time = Calendar.getInstance();		
+	}
+	
 	@Id
 	@GeneratedValue
 	@Column(name = "NOTIFICATION_I")
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

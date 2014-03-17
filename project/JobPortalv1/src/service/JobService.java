@@ -14,7 +14,7 @@ import data.entity.Skill;
 
 public class JobService {
 
-	JobDAO jobDao = new JobDAO();
+	static final JobDAO jobDao = new JobDAO();
 	
 	public List<Job> all() {
 		return jobDao.listEntities();
@@ -95,5 +95,10 @@ public class JobService {
 			}
 			jobBean.setSkills(skills);
 		}
+	}
+	
+	public static void loadFormDB(JobBean jobBean, Integer id) {
+		Job job = jobDao.getEntityById(id);
+		loadFromEntity(jobBean, job, true);
 	}
 }

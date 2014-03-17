@@ -31,6 +31,18 @@ public class Location {
 	private Calendar creation_timestamp;
 	private Calendar update_timestamp;
 	
+	public Location() {
+		this("sysdba");
+	}
+	
+	public Location(String creation_user) {
+		this.active_status = "Y";
+		this.creation_user_name = creation_user;
+		this.update_user_name = creation_user;
+		this.creation_timestamp = Calendar.getInstance();
+		this.update_timestamp = Calendar.getInstance();		
+	}
+	
 	@Id @GeneratedValue
 	@Column(name="LOCATION_I")
 	public Integer getLocation_id() {

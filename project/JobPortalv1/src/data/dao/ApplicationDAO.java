@@ -39,4 +39,27 @@ public class ApplicationDAO extends DAO {
 		
 		return app;
 	}
+	
+	public int saveOrUpdate(Application app) {
+		int id = -1;
+		
+		try{
+			if(app.getId() != null && app.getId() >= 0) {
+				id = app.getId();
+				getSession().update(app);
+			}
+			else {
+				id = (Integer)getSession().save(app); 
+			}
+		} catch (HibernateException e) {
+			if (getSession().getTransaction()!=null) {
+				rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return id;
+	}
 }

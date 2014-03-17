@@ -7,6 +7,7 @@ import modelMB.UserBean;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 
+import data.entity.Application;
 import data.entity.User;
 import util.TableManipulation;
 
@@ -180,4 +181,28 @@ public class UserDAO extends DAO implements TableManipulation {
 	public void loadFromUser(User user, UserBean userBean, boolean deepLoad) {
 
 	}
+	
+	public int saveOrUpdate(User user) {
+		int id = -1;
+		
+		try{
+			if(user.getUser_id() != null && user.getUser_id() >= 0) {
+				id = user.getUser_id();
+				getSession().update(user);
+			}
+			else {
+				id = (Integer)getSession().save(user); 
+			}
+		} catch (HibernateException e) {
+			if (getSession().getTransaction()!=null) {
+				rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return id;
+	}
+	
 }

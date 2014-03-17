@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 
+import data.entity.Application;
+import data.entity.Job;
 import data.entity.Notification;
 
 public class NotificationDAO extends DAO {
@@ -38,6 +40,29 @@ public class NotificationDAO extends DAO {
 		}
 		
 		return notif;
+	}
+	
+	public int saveOrUpdate(Notification notif) {
+		int id = -1;
+		
+		try{
+			if(notif.getId() != null && notif.getId() >= 0) {
+				id = notif.getId();
+				getSession().update(notif);
+			}
+			else {
+				id = (Integer)getSession().save(notif); 
+			}
+		} catch (HibernateException e) {
+			if (getSession().getTransaction()!=null) {
+				rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return id;
 	}
 
 

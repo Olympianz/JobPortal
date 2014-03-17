@@ -18,7 +18,7 @@ public class Role {
 		setUpdate_timestamp(role.getUpdate_timestamp());
 	}
 	
-	private int role_id;
+	private Integer role_id;
 	private String role_n;
 	
 	private String active_status = "N";
@@ -29,11 +29,11 @@ public class Role {
 	
 	@Id @GeneratedValue
 	@Column(name="ROLE_I")
-	public int getRole_id() {
+	public Integer getRole_id() {
 		return role_id;
 	}
 
-	public void setRole_id(int role_id) {
+	public void setRole_id(Integer role_id) {
 		this.role_id = role_id;
 	}
 	

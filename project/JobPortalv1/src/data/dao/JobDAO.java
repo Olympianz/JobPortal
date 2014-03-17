@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 
+import data.entity.Application;
+import data.entity.Contact;
 import data.entity.Job;
 
 public class JobDAO extends DAO{
@@ -39,5 +41,28 @@ public class JobDAO extends DAO{
 		}
 		
 		return job;
+	}
+	
+	public int saveOrUpdate(Job job) {
+		int id = -1;
+		
+		try{
+			if(job.getId() != null && job.getId() >= 0) {
+				id = job.getId();
+				getSession().update(job);
+			}
+			else {
+				id = (Integer)getSession().save(job); 
+			}
+		} catch (HibernateException e) {
+			if (getSession().getTransaction()!=null) {
+				rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return id;
 	}
 }
