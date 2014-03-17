@@ -37,6 +37,7 @@ public class UserBean implements Serializable {
 	private Integer user_id;
 	private String user_name;
 	private String email;
+	private String password;
 	private Calendar creation_timestamp;
 	private Calendar update_timestamp;
 
@@ -84,6 +85,14 @@ public class UserBean implements Serializable {
 
 	public void setUser_name(String user_name) {
 		this.user_name = user_name;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getEmail() {

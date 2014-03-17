@@ -20,6 +20,7 @@ public class ContactBean implements Serializable {
 	private String city;
 	private String type;
 	private String state;
+	private String company_email;
 	private Integer zip;
 	private Double lng;
 	private Double lat;
@@ -70,6 +71,14 @@ public class ContactBean implements Serializable {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public String getCompany_email() {
+		return company_email;
+	}
+
+	public void setCompany_email(String company_email) {
+		this.company_email = company_email;
 	}
 
 	public Integer getZip() {

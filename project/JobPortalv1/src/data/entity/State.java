@@ -18,7 +18,7 @@ public class State {
 		setUpdate_timestamp(state.getUpdate_timestamp());
 	}
 	
-	private Integer state_i;
+	private Integer state_i = null;
 	private String state_n;
 	
 	private String active_status = "N";

@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "J_NOTIFICATION_TYPE")
 public class NotificationType {
-	private Integer id;
+	private Integer id = null;
 	private String name;
 	// System columns
 	private String active;

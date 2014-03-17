@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import service.JobService;
 import data.entity.Job;
+import data.entity.User;
 
 @ManagedBean
 public class JobBean {
@@ -25,6 +26,7 @@ public class JobBean {
 	private List<String> skills;
 	private List<ApplicationBean> applications;
 	private Boolean active;
+	private UserBean author;
 
 	public void init() {
 		ExternalContext ec = FacesContext.getCurrentInstance()
@@ -140,5 +142,13 @@ public class JobBean {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	public UserBean getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(UserBean author) {
+		this.author = author;
 	}
 }

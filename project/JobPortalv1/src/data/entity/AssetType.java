@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "J_ASSET_TYPE")
 public class AssetType {
-	private Integer id;
+	private Integer id = null;
 	private String name;
 	// System columns
 	private String active;

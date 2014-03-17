@@ -18,7 +18,7 @@ public class Company {
 		setUpdate_timestamp(company.getUpdate_timestamp());
 	}
 	
-	private Integer company_id;
+	private Integer company_id = null;
 	private String company_n;
 	
 	private String active_status = "N";

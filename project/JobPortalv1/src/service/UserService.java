@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import util.SessionCtl;
 import modelMB.ApplicationBean;
 import modelMB.AssetBean;
 import modelMB.CompanyBean;
@@ -12,11 +13,25 @@ import modelMB.JobBean;
 import modelMB.NotificationBean;
 import modelMB.SkillBean;
 import modelMB.UserBean;
+import data.dao.AssetDAO;
+import data.dao.AssetTypeDAO;
+import data.dao.CompanyDAO;
+import data.dao.ContactDAO;
+import data.dao.ContactTypeDAO;
+import data.dao.ExperienceDAO;
+import data.dao.JobDAO;
+import data.dao.RoleDAO;
+import data.dao.SkillDAO;
+import data.dao.StateDAO;
 import data.dao.UserDAO;
 import data.entity.Application;
 import data.entity.Asset;
+import data.entity.Company;
+import data.entity.Contact;
+import data.entity.Experience;
 import data.entity.Job;
 import data.entity.Notification;
+import data.entity.Role;
 import data.entity.Skill;
 import data.entity.User;
 
@@ -211,5 +226,109 @@ public class UserService implements MetaService {
 	public static void loadFromDB(UserBean userBean, Integer id) {
 		User user = userDao.getEntityById(id);
 		loadFromEntity(userBean, user, true);
+	}
+
+	public static int saveOrUpdate(UserBean userBean) {
+		User user = null;
+		Integer id = userBean.getUser_id();
+
+		if (id != null && id >= 0) {
+			// Get existing record
+			user = userDao.getEntityById(id);
+		} else {
+			// Create new record
+			user = new User(SessionCtl.getLoggedInUser().getUser_name());
+		}
+
+		// Fetch all necessary object from database
+		// Copy new data from bean to entity
+		
+		AssetDAO assetDao = new AssetDAO();
+		AssetTypeDAO assetTypeDao = new AssetTypeDAO();
+		Asset asset = null;
+		List<Asset> assets = new ArrayList<Asset>();
+		List<AssetBean> assetBeans = userBean.getAssets();
+		for(AssetBean assetBean : assetBeans) {
+			asset = assetDao.getEntityById(assetBean.getId());
+			if (asset == null){
+				asset = new Asset(SessionCtl.getLoggedInUser().getUser_name());
+				asset.setLocation(assetBean.getLocation());
+				asset.setName(assetBean.getName());
+				asset.setSize(asset.getSize());
+				asset.setType(assetTypeDao.getByName(assetBean.getType()));
+				asset.setUser(user);
+			}
+			assets.add(asset);
+		}
+		
+		JobDAO jobDao = new JobDAO();
+		Job job = null;
+		List<Job> jobs = new ArrayList<Job>();
+		List<JobBean> jobBeans = userBean.getSaved_jobs();
+		for(JobBean jobBean : jobBeans) {
+			// Ignore those don't exist
+			job = jobDao.getEntityById(jobBean.getId());
+			if(job != null) {
+				jobs.add(job);
+			}
+		}
+		
+		SkillDAO skillDao = new SkillDAO();
+		Skill skill = null;
+		List<Skill> skills = new ArrayList<Skill>();
+		List<SkillBean> skillBeans = userBean.getSkills();
+		for (SkillBean skillBean : skillBeans) {
+			skill = skillDao.getEntityByName(skillBean.getName());
+			if (skill == null){
+				skill = new Skill(SessionCtl.getLoggedInUser().getUser_name());
+				skill.setName(skillBean.getName());
+			}
+			skills.add(skill);
+		}
+		
+		CompanyDAO companyDao = new CompanyDAO();
+		ContactDAO contactDao = new ContactDAO();
+		Company company = companyDao.getEntityById(userBean.getCompany().getId());
+		if(company == null){
+			company = new Company(SessionCtl.getLoggedInUser().getUser_name());
+			company.setCompany_n(userBean.getCompany().getName());
+			company.setContact(contactDao.getEntityById(userBean.getContact().getId()));
+		}
+		
+		ContactTypeDAO contactTypeDao = new ContactTypeDAO();
+		StateDAO stateDao = new StateDAO();
+		Contact contact = contactDao.getEntityById(userBean.getContact().getId());
+		if(contact == null){
+			int contact_id = ContactService.saveOrUpdate(userBean.getContact());
+			contact = contactDao.getEntityById(contact_id);
+		}
+
+		RoleDAO roleDao = new RoleDAO();
+		Role role = roleDao.getByName(userBean.getRole());
+
+		ExperienceDAO expDao = new ExperienceDAO();
+		Experience exp = expDao.getByName(userBean.getExperience());
+		
+		int result = -1;
+		if (role != null && company != null && contact != null) {
+
+			user.setAssets(assets);
+			user.setCompany(company);
+			user.setContact(contact);
+			user.setEmail(userBean.getEmail());
+			user.setExperience(exp);
+			user.setPassword(userBean.getPassword());
+			user.setRole(role);
+			user.setSaved_jobs(jobs);
+			user.setSkills(skills);
+			user.setUser_name(userBean.getUser_name());
+			
+			user.setUpdate_user_name(SessionCtl.getLoggedInUser()
+					.getUser_name());
+			user.setUpdate_timestamp(Calendar.getInstance());
+			result = userDao.saveOrUpdate(user);
+		}
+
+		return result;
 	}
 }

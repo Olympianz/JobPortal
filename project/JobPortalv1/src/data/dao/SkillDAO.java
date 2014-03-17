@@ -3,6 +3,7 @@ package data.dao;
 import java.util.List;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 
 import data.entity.Application;
 import data.entity.Notification;
@@ -63,6 +64,27 @@ public class SkillDAO extends DAO {
 		}
 		
 		return id;
+	}
+	
+	public Skill getEntityByName(String name) {
+		Skill skill = null;
+		
+		try{
+			Query q = getSession().createQuery("from Skill where name = :name");
+			q.setString("name", name);
+			
+			skill = (Skill) q.uniqueResult();
+		} catch (HibernateException e) {
+			if (getSession().getTransaction()!=null) {
+				rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return skill;
+		
 	}
 
 }

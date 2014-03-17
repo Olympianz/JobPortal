@@ -13,7 +13,7 @@ import java.util.HashSet;
 @Table(name = "J_POSTINGS")
 public class Job {
 	
-	private Integer id;
+	private Integer id = null;
 	private String title;
 	private String description;
 	private String requirement;

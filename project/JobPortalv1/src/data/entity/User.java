@@ -21,7 +21,7 @@ public class User {
 		setUpdate_timestamp(user.getUpdate_timestamp());
 	}
 	
-	private Integer user_id;
+	private Integer user_id = null;
 	private String user_name;
 	private String password;
 	private String email;

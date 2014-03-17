@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "J_APPLICATION_STATUS")
 public class ApplicationStatus {
-	private Integer id;
+	private Integer id = null;
 	private String name;
 	// System columns
 	private String active;

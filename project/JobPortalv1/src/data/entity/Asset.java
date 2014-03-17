@@ -10,7 +10,7 @@ import org.hibernate.annotations.CascadeType;
 @Entity
 @Table(name = "J_ASSETS")
 public class Asset {
-	private Integer id;
+	private Integer id = null;
 	private String name;
 	private String location;
 	private Integer size;

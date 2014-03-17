@@ -20,7 +20,7 @@ public class Contact {
 		setUpdate_timestamp(contact.getUpdate_timestamp());
 	}
 	
-	private Integer contact_id;
+	private Integer contact_id = null;
 	private String street_address_name;
 	private String street_city_name;
 	private String company_email_name;

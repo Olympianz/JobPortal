@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Table(name = "J_SKILLS")
 public class Skill {
 	
-	private Integer id;
+	private Integer id = null;
 	private String name;
 
 	// System columns

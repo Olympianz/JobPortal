@@ -18,7 +18,7 @@ public class Role {
 		setUpdate_timestamp(role.getUpdate_timestamp());
 	}
 	
-	private Integer role_id;
+	private Integer role_id = null;
 	private String role_n;
 	
 	private String active_status = "N";

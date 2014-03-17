@@ -8,7 +8,7 @@ import org.hibernate.annotations.CascadeType;
 @Entity
 @Table(name = "J_APPLICATIONS")
 public class Application {
-	private Integer id;
+	private Integer id = null;
 	private ApplicationStatus status;
 	private Asset asset;
 	private User applicant;

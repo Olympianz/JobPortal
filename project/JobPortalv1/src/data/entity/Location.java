@@ -20,7 +20,7 @@ public class Location {
 		setUpdate_timestamp(location.getUpdate_timestamp());
 	}
 	
-	private Integer location_id;
+	private Integer location_id = null;
 	private Integer zip_c;
 	private Double longitude_n;
 	private Double latitude_n;

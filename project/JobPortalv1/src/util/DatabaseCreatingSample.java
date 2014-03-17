@@ -280,7 +280,7 @@ public class DatabaseCreatingSample {
 	}
 
 	public static void main(String[] args) {
-		accessDB();
+		createObjects();
 	}
 
 	public static void accessDB() {

@@ -78,7 +78,7 @@ public class ApplicationService {
 			app.setStatus(status);
 			app.setUpdate_user(SessionCtl.getLoggedInUser().getUser_name());
 			app.setUpdate_time(Calendar.getInstance());
-			applicationDao.saveOrUpdate(app);
+			result = applicationDao.saveOrUpdate(app);
 		}
 		
 		return result;

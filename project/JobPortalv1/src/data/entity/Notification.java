@@ -10,7 +10,7 @@ import org.hibernate.annotations.CascadeType;
 @Entity
 @Table(name = "J_NOTIFICATIONS")
 public class Notification {
-	private Integer id;
+	private Integer id = null;
 	private String title;
 	private String content;
 	private String read;

@@ -1,16 +1,28 @@
 package service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
+import util.SessionCtl;
 import modelMB.ApplicationBean;
 import modelMB.CompanyBean;
 import modelMB.JobBean;
+import modelMB.NotificationBean;
+import modelMB.SkillBean;
 import modelMB.UserBean;
+import data.dao.ExperienceDAO;
 import data.dao.JobDAO;
+import data.dao.NotificationTypeDAO;
+import data.dao.SkillDAO;
+import data.dao.UserDAO;
 import data.entity.Application;
+import data.entity.Experience;
 import data.entity.Job;
+import data.entity.Notification;
+import data.entity.NotificationType;
 import data.entity.Skill;
+import data.entity.User;
 
 public class JobService {
 
@@ -55,6 +67,11 @@ public class JobService {
 			companyBean.loadFromEntity(job.getAuthor().getCompany());
 			jobBean.setCompany(companyBean);
 			jobBean.setActive(job.getActive().equals('Y')? true : false);
+
+			
+			UserBean userBean = new UserBean();
+			UserService.loadFromEntity(userBean, job.getAuthor(), false);
+			jobBean.setAuthor(userBean);
 			
 			jobBean.setSkills(skills);
 			jobBean.setApplications(applications);
@@ -69,6 +86,10 @@ public class JobService {
 		CompanyBean companyBean = new CompanyBean();
 		CompanyService.loadFromEntity(companyBean, job.getAuthor().getCompany());
 		jobBean.setCompany(companyBean);
+		
+		UserBean userBean = new UserBean();
+		UserService.loadFromEntity(userBean, job.getAuthor(), false);
+		jobBean.setAuthor(userBean);
 		
 		jobBean.setDescription(job.getDescription());
 		jobBean.setExperience(job.getExperience().getName());
@@ -100,5 +121,59 @@ public class JobService {
 	public static void loadFormDB(JobBean jobBean, Integer id) {
 		Job job = jobDao.getEntityById(id);
 		loadFromEntity(jobBean, job, true);
+	}
+
+	public static int saveOrUpdate(JobBean jobBean) {
+		Job job = null;
+		Integer id = jobBean.getId();
+
+		if (id != null && id >= 0) {
+			// Get existing record
+			job = jobDao.getEntityById(id);
+		} else {
+			// Create new record
+			job = new Job(SessionCtl.getLoggedInUser().getUser_name());
+		}
+
+		// Fetch all necessary object from database
+		// Copy new data from bean to entity
+		ExperienceDAO expDao = new ExperienceDAO();
+		Experience exp = expDao.getByName(jobBean.getExperience());
+		
+		UserDAO userDao = new UserDAO();
+		User author = userDao.getEntityById(jobBean.getAuthor().getUser_id());
+		
+		
+		SkillDAO skillDao = new SkillDAO();
+		Skill skill = null;
+		List<Skill> skills = new ArrayList<Skill>();
+		List<String> skillStrings = jobBean.getSkills();
+		for (String skillString : skillStrings) {
+			skill = skillDao.getEntityByName(skillString);
+			if (skill == null){
+				skill = new Skill(SessionCtl.getLoggedInUser().getUser_name());
+				skill.setName(skillString);
+			}
+			skills.add(skill);
+		}
+		
+		int result = -1;
+		if (exp != null && author != null) {
+			job.setDescription(jobBean.getDescription());
+			job.setRequirement(jobBean.getRequirement());
+			job.setResponsibility(jobBean.getResponsibility());
+			job.setTitle(jobBean.getTitle());
+			
+			job.setExperience(exp);
+			job.setAuthor(author);
+			job.setSkills(skills);
+			
+			job.setUpdate_user(SessionCtl.getLoggedInUser()
+					.getUser_name());
+			job.setUpdate_time(Calendar.getInstance());
+			result = jobDao.saveOrUpdate(job);
+		}
+
+		return result;
 	}
 }

@@ -18,7 +18,7 @@ public class Contact_type {
 		setUpdate_timestamp(ct.getUpdate_timestamp());
 	}
 	
-	private Integer contact_type_i;
+	private Integer contact_type_i = null;
 	private String contact_type_n;
 	
 	private String active_status = "N";
