@@ -82,4 +82,17 @@ public class AssetBean implements Serializable {
 	public void setAuthor(UserBean author) {
 		this.author = author;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder output = new StringBuilder();
+		output.append("AssetBean:\n");
+		output.append("=" + this.getId() + "\n");
+		output.append("=" + this.getName() + "\n");
+		output.append("=" + this.getType() + "\n");
+		output.append("=" + this.getLocation() + "\n");
+		output.append("=" + this.getSize() + "\n");
+		output.append("=" + this.getAuthor() + "\n");
+		return output.toString();
+	}
 }

@@ -53,4 +53,14 @@ public class CompanyBean implements Serializable {
 		this.contact = contact;
 	}
 	
+	@Override
+	public String toString() {
+		StringBuilder output = new StringBuilder();
+		output.append("CompanyBean:\n");
+		output.append("=" + this.getId() + "\n");
+		output.append("=" + this.getName() + "\n");
+		output.append("=" + this.getContact() + "\n");
+		return output.toString();
+	}
+	
 }

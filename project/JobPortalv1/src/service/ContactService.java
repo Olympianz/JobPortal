@@ -18,6 +18,9 @@ public class ContactService {
 	static final ContactDAO contactDao = new ContactDAO();
 
 	public static void loadFromEntity(ContactBean contactBean, Contact contact) {
+		if (contactBean == null || contact == null)
+			return;
+		
 		contactBean.setAddress(contact.getStreet_address_name());
 		contactBean.setCity(contact.getStreet_city_name());
 		contactBean.setId(contact.getContact_id());

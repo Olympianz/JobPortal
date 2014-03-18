@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+</h:head>
+
+<h:body>
+	<h:form prependId="false">
+		<h:inputText id="id" value="#{test.id}" />
+		<br />
+		<h:inputText id="status" value="#{test.status}" />
+		<br /><br />
+		
+		<h:commandButton value="Get" actionListener="#{test.load}">
+			<f:ajax render="id status" execute="id status" />
+		</h:commandButton>
+		
+		<h:commandButton value="Save" actionListener="#{test.saveOrUpdate}">
+			<f:ajax render="@all" execute="@all" />
+		</h:commandButton>
+		
+	</h:form>
+</h:body>
+</html>

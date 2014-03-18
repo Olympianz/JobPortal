@@ -80,6 +80,9 @@ public class JobService {
 	
 
 	public static void loadFromEntity(JobBean jobBean, Job job, boolean deepLoad) {
+		if ( jobBean == null || job == null )
+			return;
+		
 		jobBean.setFull_record(false);
 		jobBean.setActive(job.getActive().equals('Y'));
 		

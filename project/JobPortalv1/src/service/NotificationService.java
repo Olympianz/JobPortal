@@ -24,6 +24,9 @@ public class NotificationService {
 
 	public static void loadFromEntity(NotificationBean notifBean,
 			Notification notif) {
+		if ( notifBean == null || notif == null)
+			return;
+		
 		notifBean.setContent(notif.getContent());
 		
 		UserBean fromUser = new UserBean();

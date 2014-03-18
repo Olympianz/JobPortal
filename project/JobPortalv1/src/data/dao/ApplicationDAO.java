@@ -3,6 +3,7 @@ package data.dao;
 import java.util.List;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 
 import data.entity.Application;
 
@@ -27,7 +28,9 @@ public class ApplicationDAO extends DAO {
 		Application app = null;
 		
 		try{
-			app = (Application) getSession().createQuery("from Application where id=" + id);
+			Query q = getSession().createQuery("from Application where id = :id");
+			q.setInteger("id", id);
+			app = (Application) q.uniqueResult();
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();

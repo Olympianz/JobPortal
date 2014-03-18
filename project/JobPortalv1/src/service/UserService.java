@@ -132,6 +132,9 @@ public class UserService implements MetaService {
 
 	public static void loadFromEntity(UserBean userBean, User user,
 			boolean deepLoad) {
+		if ( userBean == null || user == null)
+			return;
+		
 		userBean.setFull_record(false);
 		
 		CompanyBean companyBean = new CompanyBean();

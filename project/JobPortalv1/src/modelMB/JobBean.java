@@ -1,5 +1,6 @@
 package modelMB;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -7,10 +8,8 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
-import service.CompanyService;
 import service.JobService;
 import data.entity.Job;
-import data.entity.User;
 
 @ManagedBean
 public class JobBean {
@@ -24,8 +23,8 @@ public class JobBean {
 	private String responsibility;
 	private String experience;
 	private CompanyBean company;
-	private List<String> skills;
-	private List<ApplicationBean> applications;
+	private List<String> skills = new ArrayList<String>();
+	private List<ApplicationBean> applications = new ArrayList<ApplicationBean>();
 	private Boolean active;
 	private UserBean author;
 
@@ -155,5 +154,26 @@ public class JobBean {
 
 	public void setAuthor(UserBean author) {
 		this.author = author;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder output = new StringBuilder();
+		output.append("JobBean:\n");
+		output.append("= Full Record: " + this.isFull_record());
+		output.append("=" + this.getId() + "\n");
+		output.append("=" + this.getTitle() + "\n");
+		output.append("=" + this.getDescription() + "\n");
+		output.append("=" + this.getExperience() + "\n");
+		output.append("=" + this.getRequirement() + "\n");
+		output.append("=" + this.getResponsibility() + "\n");
+		output.append("=" + this.getApplications() + "\n");
+		output.append("=" + this.getCompany() + "\n");
+		output.append("=" + this.getAuthor() + "\n");
+		output.append("= Skills: \n");
+		for ( String skillBean : this.getSkills()){
+			output.append("==" + skillBean + "\n");
+		}
+		return output.toString();
 	}
 }

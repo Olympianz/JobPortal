@@ -7,24 +7,9 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import data.entity.Application;
-import data.entity.Asset;
-import data.entity.Contact;
-import data.entity.Experience;
-import data.entity.Job;
-import data.entity.Notification;
-import data.entity.Role;
-import data.entity.Skill;
 import data.entity.User;
-import service.CompanyService;
 import service.UserService;
-import util.SessionCtl;
 
 @ManagedBean
 @SessionScoped
@@ -218,5 +203,51 @@ public class UserBean implements Serializable {
 	public void setApplications(List<ApplicationBean> applications) {
 		this.applications = applications;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder output = new StringBuilder();
+		output.append("UserBean:\n");
+		output.append("= Full Record: " + this.isFull_record());
+		output.append("=" + this.getUser_id() + "\n");
+		output.append("=" + this.getUser_name() + "\n");
+		output.append("=" + this.getRole() + "\n");
+		output.append("=" + this.getEmail() + "\n");
+		output.append("=" + this.getExperience() + "\n");
+		output.append("=" + this.getPassword() + "\n");
+		output.append("=" + this.getCompany() + "\n");
+		output.append("=" + this.getContact() + "\n");
+		output.append("=" + this.getUpdate_timestamp() + "\n");
+		output.append("=" + this.getCreation_timestamp() + "\n");
 
+		output.append("= Skills: \n");
+		for ( SkillBean skillBean : this.getSkills()){
+			output.append("==" + skillBean + "\n");
+		}
+		output.append("= Assets: \n");
+		for ( AssetBean assetBean : this.getAssets()) {
+			output.append("==" + assetBean + "\n");
+		}
+		output.append("= Saved Jobs: \n");
+		for ( JobBean jobBean : this.getSaved_jobs()){
+			output.append("==" + jobBean + "\n");
+		}
+		output.append("= Applications :\n");
+		for ( ApplicationBean appBean : this.getApplications()){
+			output.append("==" + appBean + "\n");
+		}
+		output.append("= Post jobs\n");
+		for ( JobBean jobBean : this.getPost_jobs()){
+			output.append("==" + jobBean + "\n");
+		}
+		output.append("= Recv notif:\n");
+		for ( NotificationBean notifBean : this.getRecv_notif()) {
+			output.append("==" + notifBean + "\n");
+		}
+		output.append("= Sent notif:\n");
+		for ( NotificationBean notifBean : this.getSent_notif()) {
+			output.append("==" + notifBean + "\n");
+		}
+		return output.toString();
+	}
 }

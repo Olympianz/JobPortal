@@ -21,6 +21,9 @@ public class CompanyService {
 	static final CompanyDAO companyDao = new CompanyDAO();
 	
 	public static void loadFromEntity(CompanyBean companyBean, Company company) {
+		if ( companyBean == null || company == null)
+			return;
+		
 		ContactBean contactBean = new ContactBean();
 		ContactService.loadFromEntity(contactBean, company.getContact());
 		companyBean.setContact(contactBean);

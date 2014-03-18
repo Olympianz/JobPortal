@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import service.CompanyService;
 import service.NotificationService;
 import data.entity.Notification;
 
@@ -92,5 +91,19 @@ public class NotificationBean implements Serializable {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder output = new StringBuilder();
+		output.append("NotificationBean:\n");
+		output.append("=" + this.getId() + "\n");
+		output.append("=" + this.getTitle() + "\n");
+		output.append("=" + this.getContent() + "\n");
+		output.append("=" + this.getType() + "\n");
+		output.append("=" + this.getFromUser() + "\n");
+		output.append("=" + this.getToUser() + "\n");
+		output.append("=" + this.getRead()+ "\n");
+		return output.toString();
 	}
 }

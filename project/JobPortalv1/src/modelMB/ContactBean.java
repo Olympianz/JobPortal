@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import service.CompanyService;
 import service.ContactService;
 import data.entity.Contact;
 
@@ -109,5 +108,21 @@ public class ContactBean implements Serializable {
 
 	public void setLat(Double lat) {
 		this.lat = lat;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder output = new StringBuilder();
+		output.append("ContactBean:\n");
+		output.append("=" + this.getId() + "\n");
+		output.append("=" + this.getAddress() + "\n");
+		output.append("=" + this.getCity() + "\n");
+		output.append("=" + this.getState() + "\n");
+		output.append("=" + this.getZip() + "\n");
+		output.append("=" + this.getType() + "\n");
+		output.append("=" + this.getLat() + "\n");
+		output.append("=" + this.getLng() + "\n");
+		output.append("=" + this.getCompany_email() + "\n");
+		return output.toString();
 	}
 }

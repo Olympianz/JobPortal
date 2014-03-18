@@ -140,7 +140,7 @@ public class DatabaseCreatingSample {
 
 	// 9.
 	private static User newUser(String name, String active, String email,
-			String password, String session_id, Experience exp, Company company,
+			String password, String session_id, Experience exp, Company company, Contact contact,
 			Calendar creation_time, String creation_user, Calendar update_time,
 			String update_user, Role role) {
 		User user = new User();
@@ -156,6 +156,7 @@ public class DatabaseCreatingSample {
 		user.setSession_id(session_id);
 		user.setUpdate_timestamp(update_time);
 		user.setUpdate_user_name(update_user);
+		user.setContact(contact);
 		return user;
 	}
 
@@ -418,14 +419,14 @@ public class DatabaseCreatingSample {
 		Company company1 = newCompany("Cogent Infotech", contact1, "Y", cal, "sysdba", cal,
 				"sysdba");
 		// 8. User
-		User user1 = newUser("Adam", "Y", "adam@yy.com", "123", "", exp2, company1, cal,
+		User user1 = newUser("Adam", "Y", "adam@yy.com", "123", "", exp2, company1, contact1, cal,
 				"sysdba", cal, "sysdba", employer);
-		User user2 = newUser("Bob", "Y", "bob@yy.com", "123", "", exp3, company1, cal,
+		User user2 = newUser("Bob", "Y", "bob@yy.com", "123", "", exp3, company1, contact1, cal,
 				"sysdba", cal, "sysdba", admin);
-		User user3 = newUser("Cathy", "Y", "cathy@yy.com", "123", "", exp1, company1,
+		User user3 = newUser("Cathy", "Y", "cathy@yy.com", "123", "", exp1, company1, contact1,
 				cal, "sysdba", cal, "sysdba", jobseeker);
 		User user4 = newUser("David", "Y", "david@yy.com", "123", "", exp2,
-				company1, cal, "sysdba", cal, "sysdba", jobseeker);
+				company1, contact1, cal, "sysdba", cal, "sysdba", jobseeker);
 
 		// 9. Asset type
 		AssetType at1 = newAssetType("pdf", "Y", cal, "sysdba", cal, "sysdba");

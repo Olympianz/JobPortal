@@ -16,6 +16,9 @@ public class AssetService {
 	static final AssetDAO assetDao = new AssetDAO();
 	
 	public static void loadFromEntity(AssetBean assetBean, Asset asset) {
+		if ( assetBean == null || asset == null)
+			return;
+		
 		UserBean author = new UserBean();
 		UserService.loadFromEntity(author, asset.getUser(), false);
 		assetBean.setAuthor(author);

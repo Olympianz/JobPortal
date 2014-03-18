@@ -23,10 +23,26 @@ public class ApplicationBean implements Serializable {
 	private UserBean applicant;
 	private JobBean job;
 
-	public void loadFromDB(Integer id) {
-		ApplicationService.loadFromDB(this, id);
+	private String s_id;
+	public String getS_id() {
+		return s_id;
 	}
 
+	public void setS_id(String s_id) {
+		this.s_id = s_id;
+	}
+
+	public void load(){
+		System.out.println("Reached");
+		loadFromDB(Integer.parseInt(this.getS_id()));
+	}
+	
+	public void loadFromDB(Integer id) {
+		ApplicationService.loadFromDB(this, id);
+		System.out.println(this);
+	}
+
+	// ===========================================================
 	public void loadFromEntity(Application entity) {
 		ApplicationService.loadFromEntity(this, entity);
 	}
@@ -73,5 +89,17 @@ public class ApplicationBean implements Serializable {
 
 	public void setJob(JobBean job) {
 		this.job = job;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder output = new StringBuilder();
+		output.append("ApplicationBean:\n");
+		output.append("=" + this.getId() + "\n");
+		output.append("=" + this.getApplicant() + "\n");
+		output.append("=" + this.getJob() + "\n");
+		output.append("=" + this.getAsset() + "\n");
+		output.append("=" + this.getStatus() + "\n");
+		return output.toString();
 	}
 }

@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import service.CompanyService;
 import service.SkillService;
 import data.entity.Skill;
 
@@ -46,5 +45,14 @@ public class SkillBean implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder output = new StringBuilder();
+		output.append("SkillBean:\n");
+		output.append("=" + this.getId() + "\n");
+		output.append("=" + this.getName() + "\n");
+		return output.toString();
 	}
 }

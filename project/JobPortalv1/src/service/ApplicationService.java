@@ -22,6 +22,9 @@ public class ApplicationService {
 	static final ApplicationDAO applicationDao = new ApplicationDAO();
 
 	public static void loadFromEntity(ApplicationBean appBean, Application app) {
+		if ( appBean == null || app == null)
+			return;
+		
 		AssetBean assetBean = new AssetBean();
 		AssetService.loadFromEntity(assetBean, app.getAsset());
 		appBean.setAsset(assetBean);

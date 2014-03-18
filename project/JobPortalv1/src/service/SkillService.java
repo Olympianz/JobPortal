@@ -17,6 +17,9 @@ public class SkillService {
 	static final SkillDAO skillDao = new SkillDAO();
 	
 	public static void loadFromEntity(SkillBean skillBean, Skill skill) {
+		if ( skillBean == null || skill == null)
+			return;
+		
 		skillBean.setId(skill.getId());
 		skillBean.setName(skill.getName());
 	}
