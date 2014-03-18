@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import service.AssetService;
 import data.entity.Asset;
 
 @ManagedBean
@@ -23,11 +24,15 @@ public class AssetBean implements Serializable {
 	private UserBean author;
 
 	public void loadFromDB(int id) {
-
+		AssetService.loadFromDB(this, id);
 	}
 
 	public void loadFromEntity(Asset entity) {
-
+		AssetService.loadFromEntity(this, entity);
+	}
+	
+	public void saveOrUpdate() {
+		AssetService.saveOrUpdate(this);
 	}
 
 	public Integer getId() {

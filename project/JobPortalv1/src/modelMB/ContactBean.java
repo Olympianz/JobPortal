@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import service.CompanyService;
+import service.ContactService;
 import data.entity.Contact;
 
 @ManagedBean
@@ -26,11 +28,15 @@ public class ContactBean implements Serializable {
 	private Double lat;
 
 	public void loadFromDB(Integer id) {
-
+		ContactService.loadFromDB(this, id);
 	}
 
 	public void loadFromEntity(Contact entity) {
-
+		ContactService.loadFromEntity(this, entity);
+	}
+	
+	public void saveOrUpdate() {
+		ContactService.saveOrUpdate(this);
 	}
 
 	public Integer getId() {

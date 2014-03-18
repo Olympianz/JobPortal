@@ -22,6 +22,8 @@ import data.entity.Notification;
 import data.entity.Role;
 import data.entity.Skill;
 import data.entity.User;
+import service.CompanyService;
+import service.UserService;
 import util.SessionCtl;
 
 @ManagedBean
@@ -56,11 +58,15 @@ public class UserBean implements Serializable {
 	private List<ApplicationBean> applications = new ArrayList<ApplicationBean>();
 
 	public void loadFromDB(int id) {
-
+		UserService.loadFromDB(this, id);
 	}
 
 	public void loadFromEntity(User entity) {
-
+		UserService.loadFromEntity(this, entity, true);
+	}
+	
+	public void saveOrUpdate() {
+		UserService.saveOrUpdate(this);
 	}
 
 	public boolean isFull_record() {

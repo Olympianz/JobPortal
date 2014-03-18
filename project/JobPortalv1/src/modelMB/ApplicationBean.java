@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import service.ApplicationService;
 import data.entity.Application;
 
 @ManagedBean
@@ -23,11 +24,15 @@ public class ApplicationBean implements Serializable {
 	private JobBean job;
 
 	public void loadFromDB(Integer id) {
-		
+		ApplicationService.loadFromDB(this, id);
 	}
 
 	public void loadFromEntity(Application entity) {
-		
+		ApplicationService.loadFromEntity(this, entity);
+	}
+	
+	public void saveOrUpdate() {
+		ApplicationService.saveOrUpdate(this);
 	}
 
 	public Integer getId() {

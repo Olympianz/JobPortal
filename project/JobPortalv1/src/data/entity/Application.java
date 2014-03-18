@@ -2,8 +2,6 @@ package data.entity;
 
 import java.util.Calendar;
 import javax.persistence.*;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "J_APPLICATIONS")
@@ -44,8 +42,7 @@ public class Application {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch=FetchType.EAGER) 
-	@Cascade(CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "APPLICATION_STATUS_I")
 	public ApplicationStatus getStatus() {
 		return status;
@@ -56,7 +53,6 @@ public class Application {
 	}
 
 	@ManyToOne(fetch=FetchType.EAGER) 
-	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "ASSET_I")
 	public Asset getAsset() {
 		return asset;
@@ -67,7 +63,6 @@ public class Application {
 	}
 
 	@ManyToOne(fetch=FetchType.EAGER) 
-	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "USER_I")
 	public User getApplicant() {
 		return applicant;
@@ -78,7 +73,6 @@ public class Application {
 	}
 
 	@ManyToOne(fetch=FetchType.EAGER) 
-	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "POSTING_I")
 	public Job getPosition() {
 		return position;

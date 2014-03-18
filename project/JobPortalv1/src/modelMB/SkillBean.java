@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import service.CompanyService;
+import service.SkillService;
 import data.entity.Skill;
 
 @ManagedBean
@@ -19,11 +21,15 @@ public class SkillBean implements Serializable {
 	private String name;
 
 	public void loadFromDB(int id) {
-
+		SkillService.loadFromDB(this, id);
 	}
 
 	public void loadFromEntity(Skill entity) {
-
+		SkillService.loadFromEntity(this, entity);
+	}
+	
+	public void saveOrUpdate() {
+		SkillService.saveOrUpdate(this);
 	}
 
 	public Integer getId() {

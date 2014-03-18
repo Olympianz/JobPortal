@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import service.CompanyService;
 import data.entity.Company;
 
 
@@ -22,11 +23,15 @@ public class CompanyBean implements Serializable {
 	private ContactBean contact;
 	
 	public void loadFromDB(Integer id) {
-		
+		CompanyService.loadFromDB(this, id);
 	}
 	
 	public void loadFromEntity(Company entity) {
-		
+		CompanyService.loadFromEntity(this, entity);
+	}
+	
+	public void saveOrUpdate() {
+		CompanyService.saveOrUpdate(this);
 	}
 	
 	public Integer getId() {

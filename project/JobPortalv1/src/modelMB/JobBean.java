@@ -7,6 +7,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import service.CompanyService;
 import service.JobService;
 import data.entity.Job;
 import data.entity.User;
@@ -41,11 +42,15 @@ public class JobBean {
 	}
 
 	public void loadFromDB(Integer id) {
-
+		JobService.loadFormDB(this, id);
 	}
 
 	public void loadFromEntity(Job entity) {
-
+		JobService.loadFromEntity(this, entity, true);
+	}
+	
+	public void saveOrUpdate() {
+		JobService.saveOrUpdate(this);
 	}
 
 	public boolean isFull_record() {

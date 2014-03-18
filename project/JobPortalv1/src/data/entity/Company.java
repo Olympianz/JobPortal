@@ -41,7 +41,7 @@ public class Company {
 		this.update_timestamp = Calendar.getInstance();		
 	}
 	
-	@ManyToOne(cascade={CascadeType.ALL})
+	@ManyToOne(cascade={CascadeType.PERSIST	})
 	@JoinColumn(name="contact_id")
 	public Contact getContact() {
 		return contact;

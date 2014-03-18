@@ -4,9 +4,6 @@ import java.util.Calendar;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 @Entity
 @Table(name = "J_ASSETS")
 public class Asset {
@@ -74,8 +71,7 @@ public class Asset {
 		this.size = size;
 	}
 
-	@ManyToOne(fetch=FetchType.EAGER) 
-	@Cascade(CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "ASSET_TYPE_I")
 	public AssetType getType() {
 		return type;
@@ -86,7 +82,6 @@ public class Asset {
 	}
 
 	@ManyToOne(fetch=FetchType.EAGER) 
-	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "USER_I")
 	public User getUser() {
 		return user;

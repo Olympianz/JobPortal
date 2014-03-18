@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import service.CompanyService;
+import service.NotificationService;
 import data.entity.Notification;
 
 @ManagedBean
@@ -25,11 +27,15 @@ public class NotificationBean implements Serializable {
 	private String type;
 
 	public void loadFromDB(int id) {
-
+		NotificationService.loadFromDB(this, id);
 	}
 
-	public void loadFromEntity(Notification notif) {
-
+	public void loadFromEntity(Notification entity) {
+		NotificationService.loadFromEntity(this, entity);
+	}
+	
+	public void saveOrUpdate() {
+		NotificationService.saveOrUpdate(this);
 	}
 
 	public Integer getId() {
