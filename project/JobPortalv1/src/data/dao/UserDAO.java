@@ -117,8 +117,9 @@ public class UserDAO extends DAO implements TableManipulation {
 		User user = null;
 
 		try {
-			user = (User) getSession().createQuery(
-					"from User where user_id=" + id);
+			Query q = getSession().createQuery("from User where user_id = :id");
+			q.setInteger("id", id);
+			user = (User) q.uniqueResult();
 		} catch (HibernateException e) {
 			if (getSession().getTransaction() != null) {
 				rollback();
@@ -186,6 +187,7 @@ public class UserDAO extends DAO implements TableManipulation {
 		int id = -1;
 		
 		try{
+			begin();
 			if(user.getUser_id() != null && user.getUser_id() >= 0) {
 				id = user.getUser_id();
 				getSession().update(user);
@@ -193,6 +195,7 @@ public class UserDAO extends DAO implements TableManipulation {
 			else {
 				id = (Integer)getSession().save(user); 
 			}
+			commit();
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();

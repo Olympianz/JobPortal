@@ -30,7 +30,9 @@ public class SkillDAO extends DAO {
 		Skill skill = null;
 		
 		try{
-			skill = (Skill) getSession().createQuery("from Skill where id=" + id);
+			Query q = getSession().createQuery("from Skill where id = :id");
+			q.setInteger("id", id);
+			skill = (Skill) q.uniqueResult();
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
@@ -47,6 +49,7 @@ public class SkillDAO extends DAO {
 		int id = -1;
 		
 		try{
+			begin();
 			if(skill.getId() != null && skill.getId() >= 0) {
 				id = skill.getId();
 				getSession().update(skill);
@@ -54,6 +57,7 @@ public class SkillDAO extends DAO {
 			else {
 				id = (Integer)getSession().save(skill); 
 			}
+			commit();
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();

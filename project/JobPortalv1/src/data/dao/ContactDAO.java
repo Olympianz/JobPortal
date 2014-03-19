@@ -31,8 +31,9 @@ public class ContactDAO extends DAO {
 		Contact contact = null;
 
 		try {
-			contact = (Contact) getSession().createQuery(
-					"from Contact where contact_id=" + id);
+			Query q = getSession().createQuery("from Contact where contact_id = :id");
+			q.setInteger("id", id);
+			contact = (Contact) q.uniqueResult();
 		} catch (HibernateException e) {
 			if (getSession().getTransaction() != null) {
 				rollback();
@@ -93,8 +94,11 @@ public class ContactDAO extends DAO {
 
 	public int saveOrUpdateLocation(Location location) {
 		int id = -1;
+		
 		try {
+			begin();
 			id = (Integer) getSession().save(location);
+			commit();
 		} catch (HibernateException e) {
 			if (getSession().getTransaction() != null) {
 				rollback();

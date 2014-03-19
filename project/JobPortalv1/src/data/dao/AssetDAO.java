@@ -3,6 +3,7 @@ package data.dao;
 import java.util.List;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 
 import data.entity.Application;
 import data.entity.Asset;
@@ -28,7 +29,9 @@ public class AssetDAO extends DAO {
 		Asset asset = null;
 		
 		try{
-			asset = (Asset) getSession().createQuery("from Asset where id=" + id);
+			Query q = getSession().createQuery("from Asset where id = :id");
+			q.setInteger("id", id);
+			asset = (Asset) q.uniqueResult();
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
@@ -45,6 +48,7 @@ public class AssetDAO extends DAO {
 		int id = -1;
 		
 		try{
+			begin();
 			if(asset.getId() != null && asset.getId() >= 0) {
 				id = asset.getId();
 				getSession().update(asset);
@@ -52,6 +56,7 @@ public class AssetDAO extends DAO {
 			else {
 				id = (Integer)getSession().save(asset); 
 			}
+			commit();
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();

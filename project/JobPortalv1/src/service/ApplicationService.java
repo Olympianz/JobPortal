@@ -47,6 +47,14 @@ public class ApplicationService {
 	}
 
 	public static int saveOrUpdate(ApplicationBean appBean) {
+		int result = -1;
+		String loggedInUserName = null;
+		User loggedInUser = SessionCtl.getLoggedInUser();
+		if(loggedInUser == null)
+			loggedInUserName = "sysdba";
+			//return -1;
+		else
+			loggedInUserName = loggedInUser.getUser_name();
 		Application app = null;
 		Integer id = appBean.getId();
 
@@ -55,7 +63,13 @@ public class ApplicationService {
 			app = applicationDao.getEntityById(id);
 		} else {
 			// Create new record
-			app = new Application(SessionCtl.getLoggedInUser().getUser_name());
+			User user = SessionCtl.getLoggedInUser();
+			if (user == null){
+				app = new Application();
+			}
+			else {
+				app = new Application(user.getUser_name());
+			}
 		}
 
 		// Fetch all necessary object from database
@@ -73,14 +87,14 @@ public class ApplicationService {
 		ApplicationStatusDAO appStatusDao = new ApplicationStatusDAO();
 		ApplicationStatus status = appStatusDao.getByName(appBean.getStatus());
 		
-		int result = -1;
 		if ( user != null && asset != null && job != null && status != null) {
 			app.setApplicant(user);
 			app.setAsset(asset);
 			app.setPosition(job);
 			app.setStatus(status);
-			app.setUpdate_user(SessionCtl.getLoggedInUser().getUser_name());
+			app.setUpdate_user(loggedInUserName);
 			app.setUpdate_time(Calendar.getInstance());
+System.out.println("Saving app entity: status name = " + status.getName());
 			result = applicationDao.saveOrUpdate(app);
 		}
 		

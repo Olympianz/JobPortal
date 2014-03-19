@@ -45,8 +45,9 @@ public class ApplicationDAO extends DAO {
 	
 	public int saveOrUpdate(Application app) {
 		int id = -1;
-		
+
 		try{
+			begin();
 			if(app.getId() != null && app.getId() >= 0) {
 				id = app.getId();
 				getSession().update(app);
@@ -54,6 +55,7 @@ public class ApplicationDAO extends DAO {
 			else {
 				id = (Integer)getSession().save(app); 
 			}
+			commit();
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
