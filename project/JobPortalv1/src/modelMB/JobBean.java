@@ -33,10 +33,12 @@ public class JobBean {
 				.getExternalContext();
 		HttpServletRequest request = (HttpServletRequest) ec.getRequest();
 
-		String jobId = request.getParameter("jobId");
+		String jobId = request.getParameter("id");
 
+		System.out.println("Initializing...(" + jobId + ")");
 		if (jobId != null) {
 			jobService.getJobById(this, Integer.parseInt(jobId), true);
+			System.out.println(this);
 		}
 	}
 
@@ -68,12 +70,8 @@ public class JobBean {
 		this.id = id;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getTitle() {

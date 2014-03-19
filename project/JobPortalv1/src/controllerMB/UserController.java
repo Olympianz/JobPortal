@@ -17,6 +17,11 @@ import util.SessionCtl;
 @SessionScoped
 public class UserController implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2851631233811916171L;
+	
 	private String name;
 	private String email;
 	private String password;

@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<head>
+</head>
+
+<body>
+	<ui:composition template="/templates/mainLayout.xhtml">
+		<ui:define name="content">
+			<f:phaseListener type="util.LoggedInCheck" />
+			<f:event type="preRenderView" listener="#{jobBean.init}" />
+			
+			<div class="container">
+			<div class="content col-sm-9" style="margin-top: 50px; height: 300px;">
+				<!-- Choose certain search list based on role? -->
+				
+				<!-- title -->
+		    	<p class="page-header">#{jobBean.title}</p>
+		    	
+		    	<!-- Search bar -->
+		    	
+				
+				<!-- Table -->
+				
+			</div>
+			</div>
+		</ui:define>
+	</ui:composition>
+
+</body>
+</html>
