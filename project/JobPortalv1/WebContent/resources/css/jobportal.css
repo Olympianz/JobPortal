@@ -45,3 +45,7 @@
 .navbar-nav>li>a {
 	padding: 6px 2px;
 }
+
+.content {
+	height: auto;
+}

@@ -11,6 +11,13 @@
 <body>
 	<ui:composition template="/templates/mainLayout.xhtml">
 		<ui:define name="content">
+			
+			<h:outputStylesheet library="css" name="jquery.tagit.css" />
+			<h:outputStylesheet library="css" name="tagit.ui-zendesk.css" />
+			
+    		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+		    <h:outputScript library="scripts" name="tag-it.js" />
+			
 			<f:phaseListener type="util.LoggedInCheck" />
 			<f:event type="preRenderView" listener="#{jobBean.init}" />
 			
@@ -19,15 +26,42 @@
 				<!-- Choose certain search list based on role? -->
 				
 				<!-- title -->
-		    	<p class="page-header">#{jobBean.title}</p>
+				<h3>#{jobBean.title}</h3>
+		    	<p class="page-header"></p>
 		    	
-		    	<!-- Search bar -->
-		    	
+		    	<h:outputLabel for="desc">Description:</h:outputLabel><br />
+				<h:outputText id="desc" value="#{jobBean.description}" /><br />
 				
-				<!-- Table -->
+		    	<h:outputLabel for="req">Requirement:</h:outputLabel><br />
+				<h:outputText id="req" value="#{jobBean.requirement}" /><br />
+				
+		    	<h:outputLabel for="resp">Responsibility:</h:outputLabel><br />
+				<h:outputText id="resp" value="#{jobBean.responsibility}" /><br />
+				
+		    	<h:outputLabel for="exp">Experience:</h:outputLabel><br />
+				<h:outputText id="exp" value="#{jobBean.experience}" /><br />
+				
+		    	<h:outputLabel for="company">Company:</h:outputLabel><br />
+				<h:outputText id="company" value="#{jobBean.company.name}" /><br /><br />
+				
+		    	<!--  Skills -->
+		    	<h:outputLabel for="skills">Skills:</h:outputLabel>
+				<ul id="skills">
+					<ui:repeat value="#{jobBean.skills}" var="skill">
+						<li>#{skill}</li>
+					</ui:repeat>					
+	            </ul>
+				<!-- applicants -->
 				
 			</div>
 			</div>
+			
+			<script>
+			$('#skills').tagit({
+                readOnly: true
+            });
+
+			</script>
 		</ui:define>
 	</ui:composition>
 
