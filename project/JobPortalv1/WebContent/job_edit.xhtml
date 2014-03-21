@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<head>
+</head>
+
+<body>
+	<ui:composition template="/templates/mainLayout.xhtml">
+		<ui:define name="content">
+			
+			<h:outputStylesheet library="css" name="jquery.tagit.css" />
+			<h:outputStylesheet library="css" name="tagit.ui-zendesk.css" />
+			<h:outputStylesheet library="css" name="jobportal.css" />
+			
+    		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+		    <h:outputScript library="scripts" name="tag-it.js" />
+			
+			<f:phaseListener type="util.LoggedInCheck" />
+			<f:event type="preRenderView" listener="#{jobBean.init}" />
+			
+			<div class="container">
+				<div class="content col-sm-9" style="margin-top: 50px;">
+					<h:form prependId="false">
+						<h:messages style="color:red;margin:8px;" />
+						<!-- title -->
+				    	<div class="page-header">
+							<h3>#{jobBean.title}</h3>
+				    	</div>
+				    	
+				    	<div>
+				    	<table>
+				    		<tr>
+					    		<td><h:outputLabel for="desc">Description:</h:outputLabel></td>
+								<td><h:inputText id="desc" value="#{jobBean.description}" /></td>
+							</tr>
+							
+							<tr>
+					    		<td><h:outputLabel for="req">Requirement:</h:outputLabel></td>
+								<td><h:inputText id="req" value="#{jobBean.requirement}" /></td>
+							</tr>
+							
+							<tr>
+					    		<td><h:outputLabel for="resp">Responsibility:</h:outputLabel></td>
+								<td><h:inputText id="resp" value="#{jobBean.responsibility}" /></td>
+							</tr>
+							
+							<!-- Drop-down menu for experience -->
+					    	<tr>
+					    		<td><h:outputLabel for="exp">Experience:</h:outputLabel></td>
+					    		<td>
+							    	<h:selectOneMenu id="exp" value="#{jobBean.experience}">
+							    		<f:selectItems value="#{experienceController.all}" />
+							    	</h:selectOneMenu>
+							    </td>
+							</tr>
+							
+							<!-- Auto-complete for company information -->
+					    	<tr>
+					    		<td colspan="2">
+						    	<p:fieldset id="companyField" legend="Company">
+						    		<table>
+						    		<tr>
+						    			<td><h:outputLabel for="companyName">Name:</h:outputLabel></td>
+										<td><h:inputText id="companyName" value="#{jobBean.company.name}" /></td>
+									</tr>
+									
+									<tr>
+										<td><h:outputLabel for="companyAddress">Address:</h:outputLabel></td>
+										<td><h:inputText id="companyAddress" value="#{jobBean.company.contact.address}" /></td>
+									</tr>
+									
+									<tr>
+										<td><h:outputLabel for="companyCity">City:</h:outputLabel></td>
+										<td><h:inputText id="companyCity" value="#{jobBean.company.contact.city}" /></td>
+									</tr>
+									
+									<tr>
+										<td><h:outputLabel for="companyEmail">Email:</h:outputLabel></td>
+										<td><h:inputText id="companyEmail" value="#{jobBean.company.contact.company_email}" /></td>
+									</tr>
+									
+									<tr>
+										<td><h:outputLabel for="companyZip">Zip:</h:outputLabel></td>
+										<td><h:inputText id="companyZip" value="#{jobBean.company.contact.zip}" /></td>
+									</tr>
+									
+									<tr>
+										<td><h:outputLabel for="companyLat">Latitude:</h:outputLabel></td>
+										<td><h:inputText id="companyLat" value="#{jobBean.company.contact.lat}" /></td>
+									</tr>
+									
+									<tr>
+										<td><h:outputLabel for="companyLng">Longitude:</h:outputLabel></td>
+										<td><h:inputText id="companyLng" value="#{jobBean.company.contact.lng}" /></td>
+									</tr>
+									
+									<tr>
+							    		<td><h:outputLabel for="companyState">State:</h:outputLabel></td>
+							    		<td>
+								    		<h:selectOneMenu id="companyState" value="#{jobBean.company.contact.state}">
+							    				<f:selectItems value="#{stateController.all}" />
+								    		</h:selectOneMenu>
+							    		</td>
+									</tr>
+									</table>
+								</p:fieldset>
+								</td>
+							</tr>
+							
+					    	<!--  Skills -->
+					    	<tr>
+					    		<td colspan="2">
+						    		<h:outputLabel for="skillInput">Skills:</h:outputLabel>
+									<h:inputHidden id="skillInput" value="#{jobBean.skillInput}" />
+									<ul id="skills"></ul>
+								</td>
+							</tr>
+							
+							<!-- applicants -->
+							
+						</table>
+						
+						</div>
+						
+						<p:commandButton event="click" value="Save" actionListener="#{jobBean.saveOrUpdate}">
+							<f:ajax execute="@form" />
+						</p:commandButton>
+					</h:form>
+				</div>
+			</div>
+			
+			<h:outputScript library="scripts" name="mytagit.js" />
+		</ui:define>
+	</ui:composition>
+
+</body>
+</html>

@@ -12,13 +12,23 @@
 	<ui:composition template="/templates/mainLayout.xhtml">
 		<ui:define name="content">
 			<div class="content" style="margin-top: 50px; height: 300px;">
-
-				<h:inputText style="width:50px;" styleClass="pure-form input"
+			<form prependId="false">
+				<table>
+				<tr>
+				<td>
+				<h:inputText id="desc" style="width:50px;" value="#{jobBean.description}" styleClass="pure-form input"
 					maxlength="5" />
+				</td>
+				</tr>
+				</table>
+				<a href="#">Sign Up</a>
 				<h:commandButton value="test" style="width:76px;"
 					styleClass="button-xsmall pure-button">
 				</h:commandButton>
-				<a href="#">Sign Up</a>
+				<h:commandButton value="Save" actionListener="#{jobBean.saveOrUpdate}">
+					<f:ajax render="desc" execute="desc" />
+				</h:commandButton>
+				</form>
 			</div>
 		</ui:define>
 	</ui:composition>

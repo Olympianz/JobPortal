@@ -29,6 +29,7 @@ public class ContactService {
 		contactBean.setState(contact.getState().getState_n());
 		contactBean.setType(contact.getContact_type().getContact_type_n());
 		contactBean.setZip(contact.getLocation().getZip_c());
+		contactBean.setCompany_email(contact.getCompany_email_name());
 	}
 
 	public static void loadFromDB(ContactBean contactBean, Integer id) {

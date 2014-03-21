@@ -49,3 +49,9 @@
 .content {
 	height: auto;
 }
+
+legend {
+	font-size: 1.1em !important;
+	width: auto !important;
+	padding: 0.1em 1em !important;
+}

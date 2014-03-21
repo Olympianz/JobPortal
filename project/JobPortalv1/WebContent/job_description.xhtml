@@ -22,12 +22,13 @@
 			<f:event type="preRenderView" listener="#{jobBean.init}" />
 			
 			<div class="container">
-			<div class="content col-sm-9" style="margin-top: 50px; height: 300px;">
+			<div class="content col-sm-9" style="margin-top: 50px;">
 				<!-- Choose certain search list based on role? -->
 				
 				<!-- title -->
-				<h3>#{jobBean.title}</h3>
-		    	<p class="page-header"></p>
+		    	<div class="page-header">
+					<h3>#{jobBean.title}</h3>
+		    	</div>
 		    	
 		    	<h:outputLabel for="desc">Description:</h:outputLabel><br />
 				<h:outputText id="desc" value="#{jobBean.description}" /><br />
@@ -57,9 +58,11 @@
 			</div>
 			
 			<script>
-			$('#skills').tagit({
-                readOnly: true
-            });
+			$(function() {
+				$('#skills').tagit({
+	                readOnly: true
+	            });
+			});
 
 			</script>
 		</ui:define>

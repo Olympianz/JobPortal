@@ -1,17 +1,22 @@
 package modelMB;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 
 import service.JobService;
 import data.entity.Job;
 
 @ManagedBean
+@SessionScoped
 public class JobBean {
 	JobService jobService = new JobService();
 
@@ -27,19 +32,30 @@ public class JobBean {
 	private List<ApplicationBean> applications = new ArrayList<ApplicationBean>();
 	private Boolean active;
 	private UserBean author;
+	private String skillInput;
 
 	public void init() {
+        if (FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest()) { 
+            return; // Skip ajax requests.
+        }
+        
 		ExternalContext ec = FacesContext.getCurrentInstance()
 				.getExternalContext();
 		HttpServletRequest request = (HttpServletRequest) ec.getRequest();
 
 		String jobId = request.getParameter("id");
 
-		System.out.println("Initializing...(" + jobId + ")");
 		if (jobId != null) {
 			jobService.getJobById(this, Integer.parseInt(jobId), true);
-			System.out.println(this);
+			//System.out.println(this);
 		}
+		
+		StringBuilder skillString = new StringBuilder();
+		for (String skill : this.getSkills()){
+			skillString.append(skill);
+			skillString.append(",");
+		}
+		this.setSkillInput(skillString.toString());
 	}
 
 	public void loadFromDB(Integer id) {
@@ -51,7 +67,23 @@ public class JobBean {
 	}
 	
 	public void saveOrUpdate() {
-		JobService.saveOrUpdate(this);
+		int id = JobService.saveOrUpdate(this);
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		
+		if ( id > 0 ) {
+			try {
+				ec.redirect("job_description.xhtml?id=" + id);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			String message = "Fail to create/update the job.";
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_WARN, message, null);
+			 
+			throw new ValidatorException(facesMessage);
+		}
+		
 	}
 
 	public boolean isFull_record() {
@@ -154,6 +186,14 @@ public class JobBean {
 		this.author = author;
 	}
 	
+	public String getSkillInput() {
+		return skillInput;
+	}
+
+	public void setSkillInput(String skillInput) {
+		this.skillInput = skillInput;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder output = new StringBuilder();
