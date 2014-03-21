@@ -9,6 +9,24 @@ import data.entity.Application;
 import data.entity.Company;
 
 public class CompanyDAO extends DAO {
+	public List<Company> search(String query) {
+		List<Company> companies = null;
+		try {
+			Query q = getSession().createQuery("from Company where company_n like :query");
+			q.setString("query", ("%" + query + "%"));
+			companies = q.list();
+		}catch (HibernateException e) {
+			if (getSession().getTransaction()!=null) {
+				rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			close();
+		} 
+		
+		return companies;
+	}
+	
 	public List<Company> listEntities() {
 		List<Company> companies = null;
 		try {
@@ -42,6 +60,26 @@ public class CompanyDAO extends DAO {
 		}
 		
 		return company;
+	}
+	
+	public Company getEntityByName(String name) {
+		Company company = null;
+		
+		try{
+			Query q = getSession().createQuery("from Company where company_n = :name");
+			q.setString("name", name);
+			company = (Company) q.uniqueResult();
+		} catch (HibernateException e) {
+			if (getSession().getTransaction()!=null) {
+				rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return company;
+		
 	}
 	
 	public int saveOrUpdate(Company company) {

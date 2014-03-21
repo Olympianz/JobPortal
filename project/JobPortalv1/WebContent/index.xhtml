@@ -3,16 +3,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <head>
 </head>
 
-<body>
+<h:body>
 
 	<ui:composition template="/templates/mainLayout.xhtml">
 		<ui:define name="content">
+			<f:event type="preRenderView" listener="#{jobBean.init}" />
 			<div class="content" style="margin-top: 50px; height: 300px;">
-			<form prependId="false">
+			<h:form prependId="false">
 				<table>
 				<tr>
 				<td>
@@ -28,10 +30,60 @@
 				<h:commandButton value="Save" actionListener="#{jobBean.saveOrUpdate}">
 					<f:ajax render="desc" execute="desc" />
 				</h:commandButton>
-				</form>
+				<br />
+				<br />
+				 <p:autoComplete id="companyName" forceSelection="true"   
+                    value="#{jobBean.company.name}"   
+                    completeMethod="#{companyController.search}" />  
+                    
+						
+					<p:commandButton event="click" value="Fetch" actionListener="#{jobBean.fetchCompany}">
+						<f:ajax execute="companyName" render="companyAddress companyCity companyEmail companyZip companyLat companyLng companyState" />
+					</p:commandButton>
+					<table>
+					<tr>
+									<td><h:outputLabel for="companyAddress">Address:</h:outputLabel></td>
+										<td><h:inputText id="companyAddress" value="#{jobBean.company.contact.address}" /></td>
+									</tr>
+									
+									<tr>
+										<td><h:outputLabel for="companyCity">City:</h:outputLabel></td>
+										<td><h:inputText id="companyCity" value="#{jobBean.company.contact.city}" /></td>
+									</tr>
+									
+									<tr>
+										<td><h:outputLabel for="companyEmail">Email:</h:outputLabel></td>
+										<td><h:inputText id="companyEmail" value="#{jobBean.company.contact.company_email}" /></td>
+									</tr>
+									
+									<tr>
+										<td><h:outputLabel for="companyZip">Zip:</h:outputLabel></td>
+										<td><h:inputText id="companyZip" value="#{jobBean.company.contact.zip}" /></td>
+									</tr>
+									
+									<tr>
+										<td><h:outputLabel for="companyLat">Latitude:</h:outputLabel></td>
+										<td><h:inputText id="companyLat" value="#{jobBean.company.contact.lat}" /></td>
+									</tr>
+									
+									<tr>
+										<td><h:outputLabel for="companyLng">Longitude:</h:outputLabel></td>
+										<td><h:inputText id="companyLng" value="#{jobBean.company.contact.lng}" /></td>
+									</tr>
+									
+									<tr>
+							    		<td><h:outputLabel for="companyState">State:</h:outputLabel></td>
+							    		<td>
+								    		<h:selectOneMenu id="companyState" value="#{jobBean.company.contact.state}">
+							    				<f:selectItems value="#{stateController.all}" />
+								    		</h:selectOneMenu>
+							    		</td>
+									</tr>
+					</table>
+				</h:form>
 			</div>
 		</ui:define>
 	</ui:composition>
 	
-</body>
+</h:body>
 </html>

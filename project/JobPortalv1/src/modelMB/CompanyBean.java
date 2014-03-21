@@ -20,7 +20,7 @@ public class CompanyBean implements Serializable {
 
 	private Integer id;
 	private String name;
-	private ContactBean contact;
+	private ContactBean contact = new ContactBean();
 	
 	public void loadFromDB(Integer id) {
 		CompanyService.loadFromDB(this, id);

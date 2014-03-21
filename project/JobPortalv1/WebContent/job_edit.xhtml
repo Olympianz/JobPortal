@@ -27,12 +27,14 @@
 					<h:form prependId="false">
 						<h:messages style="color:red;margin:8px;" />
 						<!-- title -->
-				    	<div class="page-header">
-							<h3>#{jobBean.title}</h3>
-				    	</div>
 				    	
 				    	<div>
 				    	<table>
+				    		<tr>
+					    		<td><h:outputLabel for="title">Title:</h:outputLabel></td>
+								<td><h:inputText id="title" value="#{jobBean.title}" /></td>
+							</tr>
+							
 				    		<tr>
 					    		<td><h:outputLabel for="desc">Description:</h:outputLabel></td>
 								<td><h:inputText id="desc" value="#{jobBean.description}" /></td>
@@ -65,7 +67,14 @@
 						    		<table>
 						    		<tr>
 						    			<td><h:outputLabel for="companyName">Name:</h:outputLabel></td>
-										<td><h:inputText id="companyName" value="#{jobBean.company.name}" /></td>
+										<td>
+											<p:autoComplete id="companyName" forceSelection="true"   
+                    							value="#{jobBean.company.name}" completeMethod="#{companyController.search}" /> 
+                    							
+                    						<p:commandButton event="click" value="Fetch" actionListener="#{jobBean.fetchCompany}">
+												<f:ajax execute="companyName" render="companyAddress companyCity companyEmail companyZip companyLat companyLng companyState" />
+											</p:commandButton>
+										</td>
 									</tr>
 									
 									<tr>

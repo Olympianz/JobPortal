@@ -12,8 +12,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 
+import service.CompanyService;
 import service.JobService;
+import service.UserService;
+import util.SessionCtl;
 import data.entity.Job;
+import data.entity.User;
 
 @ManagedBean
 @SessionScoped
@@ -27,11 +31,11 @@ public class JobBean {
 	private String requirement;
 	private String responsibility;
 	private String experience;
-	private CompanyBean company;
+	private CompanyBean company = new CompanyBean();;
 	private List<String> skills = new ArrayList<String>();
 	private List<ApplicationBean> applications = new ArrayList<ApplicationBean>();
 	private Boolean active;
-	private UserBean author;
+	private UserBean author = new UserBean();
 	private String skillInput;
 
 	public void init() {
@@ -48,6 +52,14 @@ public class JobBean {
 		if (jobId != null) {
 			jobService.getJobById(this, Integer.parseInt(jobId), true);
 			//System.out.println(this);
+		}
+		else {
+			User current_user = SessionCtl.getLoggedInUser();
+			if (current_user != null) {
+				UserBean userBean = new UserBean();
+				UserService.loadFromEntity(userBean, current_user, false);
+				author = userBean;
+			}
 		}
 		
 		StringBuilder skillString = new StringBuilder();
@@ -84,6 +96,10 @@ public class JobBean {
 			throw new ValidatorException(facesMessage);
 		}
 		
+	}
+	
+	public void fetchCompany() {
+		CompanyService.loadFromDBByName(this.getCompany(), this.getCompany().getName());
 	}
 
 	public boolean isFull_record() {

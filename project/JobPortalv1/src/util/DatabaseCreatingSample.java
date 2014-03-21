@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -281,9 +282,40 @@ public class DatabaseCreatingSample {
 	}
 
 	public static void main(String[] args) {
-		createObjects();
+		testLike();
 	}
 
+	public static void testLike () {
+		// -----------------------------------------------
+		ServiceRegistry sr = new StandardServiceRegistryBuilder()
+				.applySettings(new Configuration().configure().getProperties())
+				.build();
+		SessionFactory sessionFactory = new Configuration().configure()
+				.configure().buildSessionFactory(sr);
+		try {
+			Session session = sessionFactory.openSession();
+			session.beginTransaction();
+			// -----------------------------------------------
+
+			//List<Company> companies = session.createQuery("from Company where company_n like '%og%'").list();
+			String query = "og";
+			Query q = session.createQuery("from Company where company_n like :query");
+			q.setString("query", ("%" + query + "%"));
+			List<Company> companies = q.list();
+			for (Company company: companies){
+				System.out.println(company.getCompany_n());
+			}
+
+			// -----------------------------------------------
+			session.getTransaction().commit();
+			session.close();
+			sessionFactory.close();
+		} finally {
+			((StandardServiceRegistryImpl) sr).destroy();
+		}
+		
+	}
+	
 	public static void accessDB() {
 		// -----------------------------------------------
 		ServiceRegistry sr = new StandardServiceRegistryBuilder()
