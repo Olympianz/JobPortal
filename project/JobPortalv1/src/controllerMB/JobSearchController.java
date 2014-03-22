@@ -1,11 +1,13 @@
 package controllerMB;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import modelMB.JobBean;
 import service.JobService;
 import data.entity.Job;
 
@@ -16,10 +18,9 @@ public class JobSearchController implements Serializable {
 	/**
 	 * 
 	 */
-	JobService jobService = new JobService();
 	
 	private static final long serialVersionUID = -8311357701396332685L;
-	private String keyword;
+	private String keyword = "";
 
 	public String getKeyword() {
 		return keyword;
@@ -29,12 +30,8 @@ public class JobSearchController implements Serializable {
 		this.keyword = keyword;
 	}
 	
-	public List<Job> all() {
-		
-		return jobService.all();
-	}
-	
-	public void search() {
-		
+	public List<JobBean> search() {
+		List<JobBean> jobBeans = JobService.search(keyword);
+		return jobBeans;
 	}
 }

@@ -23,8 +23,32 @@ public class JobService {
 
 	static final JobDAO jobDao = new JobDAO();
 	
-	public List<Job> all() {
-		return jobDao.listEntities();
+	public static List<JobBean> all() {
+		List<Job> jobs = jobDao.listEntities();
+		List<JobBean> jobBeans = new ArrayList<JobBean>();
+		JobBean jobBean = null;
+		
+		for (Job job : jobs) {
+			jobBean = new JobBean();
+			loadFromEntity(jobBean, job, false);
+			jobBeans.add(jobBean);
+		}
+		
+		return jobBeans;
+	}
+	
+	public static List<JobBean> search(String query) {
+		List<Job> jobs = jobDao.listEntities();
+		List<JobBean> jobBeans = new ArrayList<JobBean>();
+		JobBean jobBean = null;
+		
+		for (Job job : jobs) {
+			jobBean = new JobBean();
+			loadFromEntity(jobBean, job, false);
+			jobBeans.add(jobBean);
+		}
+		
+		return jobBeans;
 	}
 	
 	public void getJobById(JobBean jobBean, Integer jobId, boolean deepLoad) {
@@ -145,7 +169,7 @@ public class JobService {
 		SkillDAO skillDao = new SkillDAO();
 		Skill skill = null;
 		List<Skill> skills = new ArrayList<Skill>();
-		List<String> skillStrings = jobBean.getSkills();
+		String [] skillStrings = jobBean.getSkillInput().split(",");
 		for (String skillString : skillStrings) {
 			skill = skillDao.getEntityByName(skillString);
 			if (skill == null){

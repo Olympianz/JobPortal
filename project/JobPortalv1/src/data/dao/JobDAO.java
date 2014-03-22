@@ -70,4 +70,22 @@ public class JobDAO extends DAO{
 		
 		return id;
 	}
+
+	public List<Job> search(String query) {
+		List<Job> jobs = null;
+		try {
+			Query q = getSession().createQuery("from Job where title like :query");
+			q.setString("query", "%" + query + "%");
+			jobs = q.list();
+		} catch (HibernateException e) {
+			if (getSession().getTransaction()!=null) {
+				rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			close();
+		} 
+	
+		return jobs;
+	}
 }

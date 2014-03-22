@@ -36,6 +36,7 @@ public class JobBean {
 	private List<ApplicationBean> applications = new ArrayList<ApplicationBean>();
 	private Boolean active;
 	private UserBean author = new UserBean();
+	
 	private String skillInput;
 
 	public void init() {

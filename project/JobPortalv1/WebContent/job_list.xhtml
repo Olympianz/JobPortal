@@ -13,7 +13,7 @@
 	<ui:composition template="/templates/mainLayout.xhtml">
 		<ui:define name="content">
 			<div class="container">
-			<div class="content col-sm-9" style="margin-top: 50px; height: 300px;">
+			<div class="content col-sm-9" style="margin-top: 50px;">
 				<!-- Choose certain search list based on role? -->
 				
 				<!-- title -->
@@ -26,13 +26,11 @@
 			        	<p:inputText id="keyword" 
 							style="width:225px; margin-right: 4px;"
 							styleClass="form-control" required="true"
-							value="#{jobSearchBean.keyword}" />
+							value="#{jobSearchController.keyword}" />
 						<p:watermark for="keyword" value="Search..." />
 	
-						<h:commandButton styleClass="button-xsmall pure-button"
-							type="button" action="index.xhtml" value="Search">
-							<f:ajax render="jobList" event="click" execute="keyword"
-								actionListener="#{jobSearchBean.search}" />
+						<h:commandButton value="Search">
+							<f:ajax render="jobList" execute="keyword" />
 						</h:commandButton>
 					</h:form>
 					</div>
@@ -41,21 +39,27 @@
 				<!-- Table -->
 				<div id="jobTable" class="row">
 				<div class="panel panel-default">
-				<h:dataTable id="jobList" value="#{jobSearchBean.all()}" var="job" paginator="true" rows="10"
+				<h:dataTable id="jobList" value="#{jobSearchController.search()}" var="jobBean" paginator="true" rows="10"
 					styleClass="table" headerClass="ordersHeader" rowClasses="oddRow,evenRow">
 					<!-- <f:facet name="caption">Jobs</f:facet> -->
 					
 					<h:column headerClass="columnHeader" footerClass="columnFooter"> 
 						<f:facet name="header">Title</f:facet>
-							<h:form>
-								<h:commandLink value="#{job.title}"></h:commandLink>
-							</h:form>
+						<h:link value="#{jobBean.title}" outcome="job_description">
+							<f:param name="id" value="#{jobBean.id}" />
+						</h:link>
 						<f:facet name="footer"></f:facet> 
 					</h:column>
 					
 					<h:column headerClass="columnHeader" footerClass="columnFooter"> 
 						<f:facet name="header">Company</f:facet>
-							#{job.author.user_name}
+						#{jobBean.company.name}
+						<f:facet name="footer"></f:facet> 
+					</h:column>
+					
+					<h:column headerClass="columnHeader" footerClass="columnFooter"> 
+						<f:facet name="header">Level</f:facet>
+							#{jobBean.experience}
 						<f:facet name="footer"></f:facet> 
 					</h:column>
 				</h:dataTable>
