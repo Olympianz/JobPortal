@@ -1,12 +1,19 @@
 package modelMB;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 import service.ApplicationService;
+import service.UserService;
+import util.SessionCtl;
 import data.entity.Application;
+import data.entity.User;
 
 @ManagedBean
 @SessionScoped
@@ -24,22 +31,38 @@ public class ApplicationBean implements Serializable {
 	private JobBean job;
 
 	private String s_id;
-	public String getS_id() {
-		return s_id;
-	}
+	
+	public void init() {
+        if (FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest()) { 
+            return; // Skip ajax requests.
+        }
+        
+		ExternalContext ec = FacesContext.getCurrentInstance()
+				.getExternalContext();
+		HttpServletRequest request = (HttpServletRequest) ec.getRequest();
 
-	public void setS_id(String s_id) {
-		this.s_id = s_id;
+		String appId = request.getParameter("id");
+
+		if (appId != null) {
+			ApplicationService.loadFromDB(this, Integer.parseInt(appId));
+			//System.out.println(this);
+		}
+		else {
+			try {
+				ec.redirect("index.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void load(){
-		System.out.println("Reached");
 		loadFromDB(Integer.parseInt(this.getS_id()));
 	}
 	
 	public void loadFromDB(Integer id) {
 		ApplicationService.loadFromDB(this, id);
-		System.out.println(this);
+		//System.out.println(this);
 	}
 
 	// ===========================================================
@@ -51,6 +74,14 @@ public class ApplicationBean implements Serializable {
 		ApplicationService.saveOrUpdate(this);
 	}
 
+	public String getS_id() {
+		return s_id;
+	}
+
+	public void setS_id(String s_id) {
+		this.s_id = s_id;
+	}
+	
 	public Integer getId() {
 		return id;
 	}

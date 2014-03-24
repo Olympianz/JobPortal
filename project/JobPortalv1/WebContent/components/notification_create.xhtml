@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<head>
+</head>
+
+<body>
+	<ui:composition>
+		
+		<f:phaseListener type="util.LoggedInCheck" />
+		
+		<div class="container">
+			<div class="content col-sm-9" style="margin-top: 50px;">
+				<h:form prependId="false">
+					<h:messages style="color:red;margin:8px;" />
+			    	
+			    	<div>
+			    	<table>
+			    		<tr>
+				    		<td><h:outputLabel for="title">Title:</h:outputLabel></td>
+							<td><h:inputText id="title" value="#{notificationBean.title}" /></td>
+						</tr>
+						
+						<!-- Drop-down menu for experience -->
+						<tr>
+							<td><h:outputLabel for="toUser">To:</h:outputLabel></td>
+							<td>
+								<p:autoComplete id="toUser" forceSelection="true"   
+	    		              		value="#{notificationBean.toUser.email}" completeMethod="#{userController.searchEmail}" /> 
+							</td>
+						</tr>
+	                  					
+				    	<tr>
+				    		<td><h:outputLabel for="type">Type:</h:outputLabel></td>
+				    		<td>
+						    	<h:selectOneMenu id="type" value="#{notificationBean.type}">
+						    		<f:selectItems value="#{notificationController.allTypes}" />
+						    	</h:selectOneMenu>
+						    </td>
+						</tr>
+						
+			    		<tr>
+				    		<td><h:outputLabel for="content">Content:</h:outputLabel></td>
+							<td><h:inputTextarea id="content" value="#{notificationBean.content}" cols="40" rows="10" /></td>
+						</tr>
+						
+					</table>
+					
+					</div>
+					<br /><br />
+					<p:commandButton value="Save" actionListener="#{notificationBean.saveOrUpdate}" />
+				</h:form>
+			</div>
+		</div>
+
+	</ui:composition>
+
+</body>
+</html>

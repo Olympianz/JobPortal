@@ -1,6 +1,8 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import util.SessionCtl;
 import modelMB.ApplicationBean;
@@ -22,9 +24,9 @@ public class ApplicationService {
 	static final ApplicationDAO applicationDao = new ApplicationDAO();
 
 	public static void loadFromEntity(ApplicationBean appBean, Application app) {
-		if ( appBean == null || app == null)
+		if (appBean == null || app == null)
 			return;
-		
+
 		AssetBean assetBean = new AssetBean();
 		AssetService.loadFromEntity(assetBean, app.getAsset());
 		appBean.setAsset(assetBean);
@@ -50,9 +52,9 @@ public class ApplicationService {
 		int result = -1;
 		String loggedInUserName = null;
 		User loggedInUser = SessionCtl.getLoggedInUser();
-		if(loggedInUser == null)
+		if (loggedInUser == null)
 			loggedInUserName = "sysdba";
-			//return -1;
+		// return -1;
 		else
 			loggedInUserName = loggedInUser.getUser_name();
 		Application app = null;
@@ -64,10 +66,9 @@ public class ApplicationService {
 		} else {
 			// Create new record
 			User user = SessionCtl.getLoggedInUser();
-			if (user == null){
+			if (user == null) {
 				app = new Application();
-			}
-			else {
+			} else {
 				app = new Application(user.getUser_name());
 			}
 		}
@@ -76,28 +77,43 @@ public class ApplicationService {
 		// Copy new data from bean to entity
 		UserDAO userDao = new UserDAO();
 		User user = userDao.getEntityById(appBean.getApplicant().getUser_id());
-		
+
 		AssetDAO assetDao = new AssetDAO();
 		Asset asset = assetDao.getEntityById(appBean.getAsset().getId());
-		
-		
+
 		JobDAO jobDao = new JobDAO();
 		Job job = jobDao.getEntityById(appBean.getJob().getId());
-		
+
 		ApplicationStatusDAO appStatusDao = new ApplicationStatusDAO();
 		ApplicationStatus status = appStatusDao.getByName(appBean.getStatus());
-		
-		if ( user != null && asset != null && job != null && status != null) {
+
+		if (user != null && asset != null && job != null && status != null) {
 			app.setApplicant(user);
 			app.setAsset(asset);
 			app.setPosition(job);
 			app.setStatus(status);
 			app.setUpdate_user(loggedInUserName);
 			app.setUpdate_time(Calendar.getInstance());
-System.out.println("Saving app entity: status name = " + status.getName());
+
 			result = applicationDao.saveOrUpdate(app);
 		}
-		
+
 		return result;
+	}
+
+	public static List<ApplicationBean> search(String query) {
+		List<Application> apps = applicationDao.search(query);
+		List<ApplicationBean> appBeans = new ArrayList<ApplicationBean>();
+		ApplicationBean appBean = null;
+
+		if (apps != null) {
+			for (Application app : apps) {
+				appBean = new ApplicationBean();
+				loadFromEntity(appBean, app);
+				appBeans.add(appBean);
+			}
+		}
+
+		return appBeans;
 	}
 }

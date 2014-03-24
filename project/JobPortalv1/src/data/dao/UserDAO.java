@@ -8,6 +8,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 
 import data.entity.Application;
+import data.entity.Job;
 import data.entity.User;
 import util.TableManipulation;
 
@@ -132,6 +133,25 @@ public class UserDAO extends DAO implements TableManipulation {
 		return user;
 	}
 
+	public User getEntityByEmail(String email) {
+		User user = null;
+
+		try {
+			Query q = getSession().createQuery("from User where email = :email");
+			q.setString("email", email);
+			user = (User) q.uniqueResult();
+		} catch (HibernateException e) {
+			if (getSession().getTransaction() != null) {
+				rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+
+		return user;
+	}
+
 	public User getUserByEmailPassword(String email, String password) {
 		User user = null;
 
@@ -206,6 +226,42 @@ public class UserDAO extends DAO implements TableManipulation {
 		}
 		
 		return id;
+	}
+
+	public List<User> search(String query) {
+		List<User> users = null;
+		try {
+			Query q = getSession().createQuery("from User where user_name like :query");
+			q.setString("query", "%" + query + "%");
+			users = q.list();
+		} catch (HibernateException e) {
+			if (getSession().getTransaction()!=null) {
+				rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			close();
+		} 
+	
+		return users;
+	}
+
+	public List<User> searchEmail(String query) {
+		List<User> users = null;
+		try {
+			Query q = getSession().createQuery("from User where email like :query");
+			q.setString("query", query + "%");
+			users = q.list();
+		} catch (HibernateException e) {
+			if (getSession().getTransaction()!=null) {
+				rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			close();
+		} 
+	
+		return users;
 	}
 	
 }

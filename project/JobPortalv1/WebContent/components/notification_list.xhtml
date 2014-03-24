@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<head>
+</head>
+
+<body>
+
+	<ui:composition>
+		<div class="container">
+			<div class="content col-sm-9" style="margin-top: 50px;">
+				<!-- Choose certain search list based on role? -->
+				
+				<!-- title -->
+		    	<p class="page-header">Job List</p>
+		    	
+		    	<!-- Search bar -->
+		    	<div class="row">
+			    	<div class="col-sm-6">
+					<h:form prependId="false" class="navbar-form">
+			        	<p:inputText id="keyword" 
+							style="width:225px; margin-right: 4px;"
+							styleClass="form-control" required="true"
+							value="#{notificationController.keyword}" />
+						<p:watermark for="keyword" value="Search..." />
+	
+						<h:commandButton value="Search">
+							<f:ajax render="notifList" execute="keyword" />
+						</h:commandButton>
+					</h:form>
+					</div>
+				</div>
+				
+				<!-- Table -->
+				<div id="notifTable" class="row">
+				<div class="panel panel-default">
+				<h:dataTable id="notifList" value="#{notificationController.search()}" var="notifBean" paginator="true" rows="10"
+					styleClass="table" headerClass="ordersHeader" rowClasses="oddRow,evenRow">
+					<!-- <f:facet name="caption">Jobs</f:facet> -->
+					
+					<h:column headerClass="columnHeader" footerClass="columnFooter"> 
+						<f:facet name="header">Title</f:facet>
+						<h:link value="#{notifBean.title}" outcome="notification_description">
+							<f:param name="id" value="#{notifBean.id}" />
+						</h:link>
+						<f:facet name="footer"></f:facet> 
+					</h:column>
+					
+					<h:column headerClass="columnHeader" footerClass="columnFooter"> 
+						<f:facet name="header">From</f:facet>
+						#{notifBean.fromUser.user_name}
+						<f:facet name="footer"></f:facet> 
+					</h:column>
+					
+					<h:column headerClass="columnHeader" footerClass="columnFooter"> 
+						<f:facet name="header">To</f:facet>
+						#{notifBean.toUser.user_name}
+						<f:facet name="footer"></f:facet> 
+					</h:column>
+				</h:dataTable>
+				</div>
+				</div>
+			</div>
+		</div>
+	</ui:composition>
+
+</body>
+</html>

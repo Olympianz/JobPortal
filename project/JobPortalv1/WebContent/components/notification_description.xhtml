@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<head>
+</head>
+
+<body>
+	<ui:composition>
+		
+		<f:phaseListener type="util.LoggedInCheck" />
+		<f:event type="preRenderView" listener="#{notificationBean.init}" />
+		
+		<div class="container">
+			<div class="content col-sm-9" style="margin-top: 50px;">
+				
+				<!-- title -->
+		    	<div class="page-header">
+					<h3>#{notificationBean.title}</h3>
+		    	</div>
+				
+		    	<h:outputLabel for="from">From:</h:outputLabel>
+				<h:outputText id="from" value="#{notificationBean.fromUser.user_name}" /><br />
+				
+		    	<h:outputLabel for="to">To:</h:outputLabel>
+				<h:outputText id="to" value="#{notificationBean.toUser.user_name}" /><br />
+				
+		    	<h:outputLabel for="type">Type:</h:outputLabel>
+				<h:outputText id="type" value="#{notificationBean.type}" /><br />
+				
+		    	<h:outputLabel for="content">Content:</h:outputLabel><br />
+				<h:outputText id="content" value="#{notificationBean.content}" /><br />
+				
+			</div>
+		</div>
+	</ui:composition>
+
+</body>
+</html>

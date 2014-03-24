@@ -1,6 +1,8 @@
 package controllerMB;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -10,7 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import modelMB.UserBean;
+import data.entity.Asset;
 import data.entity.User;
+import service.JobService;
+import service.UserService;
 import util.SessionCtl;
 
 @ManagedBean
@@ -25,7 +31,33 @@ public class UserController implements Serializable {
 	private String name;
 	private String email;
 	private String password;
+	private List<Asset> assets = null;
+	private String keyword = "";
 	
+	public List<String> searchEmail(String query) {
+		List<String> emailStrings = UserService.searchEmail(query);
+		return emailStrings;
+	}
+	
+	public List<Asset> getAssets() {
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		HttpSession session = (HttpSession)ec.getSession(false);
+		User user = null;
+		
+		if (session != null && (user = (User)session.getAttribute("loggedin_user")) != null){
+			assets = user.getAssets();
+		}
+		else {
+			assets = new ArrayList<Asset>();
+		}
+		
+		return assets;
+	}
+
+	public void setAssets(List<Asset> assets) {
+		this.assets = assets;
+	}
+
 	public String getName() {
 		return name;
 	}

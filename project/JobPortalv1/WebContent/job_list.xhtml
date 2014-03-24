@@ -1,74 +1,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 <head>
 </head>
 
-<body>
+<h:body>
 
 	<ui:composition template="/templates/mainLayout.xhtml">
 		<ui:define name="content">
-			<div class="container">
-			<div class="content col-sm-9" style="margin-top: 50px;">
-				<!-- Choose certain search list based on role? -->
-				
-				<!-- title -->
-		    	<p class="page-header">Job List</p>
-		    	
-		    	<!-- Search bar -->
-		    	<div class="row">
-			    	<div class="col-sm-6">
-					<h:form prependId="false" class="navbar-form">
-			        	<p:inputText id="keyword" 
-							style="width:225px; margin-right: 4px;"
-							styleClass="form-control" required="true"
-							value="#{jobSearchController.keyword}" />
-						<p:watermark for="keyword" value="Search..." />
-	
-						<h:commandButton value="Search">
-							<f:ajax render="jobList" execute="keyword" />
-						</h:commandButton>
-					</h:form>
-					</div>
-				</div>
-				
-				<!-- Table -->
-				<div id="jobTable" class="row">
-				<div class="panel panel-default">
-				<h:dataTable id="jobList" value="#{jobSearchController.search()}" var="jobBean" paginator="true" rows="10"
-					styleClass="table" headerClass="ordersHeader" rowClasses="oddRow,evenRow">
-					<!-- <f:facet name="caption">Jobs</f:facet> -->
-					
-					<h:column headerClass="columnHeader" footerClass="columnFooter"> 
-						<f:facet name="header">Title</f:facet>
-						<h:link value="#{jobBean.title}" outcome="job_description">
-							<f:param name="id" value="#{jobBean.id}" />
-						</h:link>
-						<f:facet name="footer"></f:facet> 
-					</h:column>
-					
-					<h:column headerClass="columnHeader" footerClass="columnFooter"> 
-						<f:facet name="header">Company</f:facet>
-						#{jobBean.company.name}
-						<f:facet name="footer"></f:facet> 
-					</h:column>
-					
-					<h:column headerClass="columnHeader" footerClass="columnFooter"> 
-						<f:facet name="header">Level</f:facet>
-							#{jobBean.experience}
-						<f:facet name="footer"></f:facet> 
-					</h:column>
-				</h:dataTable>
-				</div>
-				</div>
-			</div>
-			</div>
+			<ui:include src="/components/job_list.xhtml" />
 		</ui:define>
 	</ui:composition>
-
-</body>
+	
+</h:body>
 </html>

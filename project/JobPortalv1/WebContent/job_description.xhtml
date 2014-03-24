@@ -1,72 +1,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 <head>
 </head>
 
-<body>
+<h:body>
+
 	<ui:composition template="/templates/mainLayout.xhtml">
 		<ui:define name="content">
-			
-			<h:outputStylesheet library="css" name="jquery.tagit.css" />
-			<h:outputStylesheet library="css" name="tagit.ui-zendesk.css" />
-			
-    		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
-		    <h:outputScript library="scripts" name="tag-it.js" />
-			
-			<f:phaseListener type="util.LoggedInCheck" />
-			<f:event type="preRenderView" listener="#{jobBean.init}" />
-			
-			<div class="container">
-			<div class="content col-sm-9" style="margin-top: 50px;">
-				<!-- Choose certain search list based on role? -->
-				
-				<!-- title -->
-		    	<div class="page-header">
-					<h3>#{jobBean.title}</h3>
-		    	</div>
-		    	
-		    	<h:outputLabel for="desc">Description:</h:outputLabel><br />
-				<h:outputText id="desc" value="#{jobBean.description}" /><br />
-				
-		    	<h:outputLabel for="req">Requirement:</h:outputLabel><br />
-				<h:outputText id="req" value="#{jobBean.requirement}" /><br />
-				
-		    	<h:outputLabel for="resp">Responsibility:</h:outputLabel><br />
-				<h:outputText id="resp" value="#{jobBean.responsibility}" /><br />
-				
-		    	<h:outputLabel for="exp">Experience:</h:outputLabel><br />
-				<h:outputText id="exp" value="#{jobBean.experience}" /><br />
-				
-		    	<h:outputLabel for="company">Company:</h:outputLabel><br />
-				<h:outputText id="company" value="#{jobBean.company.name}" /><br /><br />
-				
-		    	<!--  Skills -->
-		    	<h:outputLabel for="skills">Skills:</h:outputLabel>
-				<ul id="skills">
-					<ui:repeat value="#{jobBean.skills}" var="skill">
-						<li>#{skill}</li>
-					</ui:repeat>					
-	            </ul>
-				<!-- applicants -->
-				
-			</div>
-			</div>
-			
-			<script>
-			$(function() {
-				$('#skills').tagit({
-	                readOnly: true
-	            });
-			});
-
-			</script>
+			<ui:include src="/components/job_description.xhtml" />
 		</ui:define>
 	</ui:composition>
-
-</body>
+	
+</h:body>
 </html>

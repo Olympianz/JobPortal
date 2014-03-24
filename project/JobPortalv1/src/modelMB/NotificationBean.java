@@ -1,12 +1,19 @@
 package modelMB;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 import service.NotificationService;
+import service.UserService;
+import util.SessionCtl;
 import data.entity.Notification;
+import data.entity.User;
 
 @ManagedBean
 @SessionScoped
@@ -20,11 +27,35 @@ public class NotificationBean implements Serializable {
 	private Integer id;
 	private String title;
 	private String content;
-	private Boolean read;
-	private UserBean fromUser;
-	private UserBean toUser;
+	private Boolean read = false;
+	private UserBean fromUser = new UserBean();
+	private UserBean toUser = new UserBean();
 	private String type;
 
+	public void init() {
+		if (FacesContext.getCurrentInstance().getPartialViewContext()
+				.isAjaxRequest()) {
+			return; // Skip ajax requests.
+		}
+
+		ExternalContext ec = FacesContext.getCurrentInstance()
+				.getExternalContext();
+		HttpServletRequest request = (HttpServletRequest) ec.getRequest();
+
+		String notifId = request.getParameter("id");
+
+		if (notifId != null) {
+			NotificationService.loadFromDB(this, Integer.parseInt(notifId));
+			// System.out.println(this);
+		} else {
+			try {
+				ec.redirect("index.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public void loadFromDB(int id) {
 		NotificationService.loadFromDB(this, id);
 	}

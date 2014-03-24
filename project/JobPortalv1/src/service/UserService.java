@@ -84,6 +84,30 @@ public class UserService implements MetaService {
 		}
 	}
 
+	public static List<UserBean> search(String query) {
+		List<User> users = userDao.search(query);
+		List<UserBean> userBeans = new ArrayList<UserBean>();
+		UserBean userBean = null;
+		
+		for (User user : users) {
+			userBean = new UserBean();
+			loadFromEntity(userBean, user, false);
+			userBeans.add(userBean);
+		}
+		
+		return userBeans;
+	}
+
+	public static List<String> searchEmail(String query) {
+		List<User> users = userDao.searchEmail(query);
+		List<String> emailStrings = new ArrayList<String>();
+		
+		for (User user : users) {
+			emailStrings.add(user.getEmail());
+		}
+		
+		return emailStrings;
+	}
 	/**
 	 * Check if the email and password pair matches the database record. If yes,
 	 * update new sessionId to database. Otherwise, return null.

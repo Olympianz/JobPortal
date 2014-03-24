@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<head>
+</head>
+
+<body>
+	<ui:composition>
+			
+		<f:event type="preRenderView" listener="#{applicationBean.init}" />
+		
+		<div class="container">
+			<div class="content col-sm-9" style="margin-top: 50px;">
+				<!-- Choose certain search list based on role? -->
+				
+		    	<h:outputLabel for="title">Title:</h:outputLabel>
+		    	<h:link value="#{applicationBean.job.title}" outcome="job_description">
+					<f:param name="id" value="#{applicationBean.job.id}" />
+				</h:link><br />
+				
+		    	<h:outputLabel for="status">Status:</h:outputLabel>
+		    		#{applicationBean.status}
+		    	<br />
+		    	
+		    	<h:outputLabel for="applicant">Applicant:</h:outputLabel>
+		    	<h:link value="#{applicationBean.applicant.user_name}" outcome="user_description">
+					<f:param name="id" value="#{applicationBean.applicant.user_id}" />
+				</h:link><br />
+				
+				
+		    	<h:outputLabel for="asset">Attachment:</h:outputLabel>
+		    	<h:link id="asset" value="#{applicationBean.asset.name}(#{applicationBean.asset.type})" 
+		    		outcome="#{applicationBean.asset.location}">
+				</h:link>
+		    	<br />
+				
+			</div>
+		</div>
+	</ui:composition>
+
+</body>
+</html>

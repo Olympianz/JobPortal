@@ -1,9 +1,12 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import util.SessionCtl;
 import modelMB.ContactBean;
+import modelMB.JobBean;
 import modelMB.NotificationBean;
 import modelMB.UserBean;
 import data.dao.ContactTypeDAO;
@@ -13,6 +16,7 @@ import data.dao.StateDAO;
 import data.dao.UserDAO;
 import data.entity.Contact;
 import data.entity.Contact_type;
+import data.entity.Job;
 import data.entity.Location;
 import data.entity.Notification;
 import data.entity.NotificationType;
@@ -21,6 +25,20 @@ import data.entity.User;
 
 public class NotificationService {
 	static final NotificationDAO notifDao = new NotificationDAO();
+	
+	public static List<NotificationBean> search(String query) {
+		List<Notification> notifs = notifDao.search(query);
+		List<NotificationBean> notifBeans = new ArrayList<NotificationBean>();
+		NotificationBean notifBean = null;
+		
+		for (Notification notif : notifs) {
+			notifBean = new NotificationBean();
+			loadFromEntity(notifBean, notif);
+			notifBeans.add(notifBean);
+		}
+		
+		return notifBeans;
+	}
 
 	public static void loadFromEntity(NotificationBean notifBean,
 			Notification notif) {
@@ -63,8 +81,8 @@ public class NotificationService {
 		// Fetch all necessary object from database
 		// Copy new data from bean to entity
 		UserDAO userDao = new UserDAO();
-		User fromUser = userDao.getEntityById(notifBean.getFromUser().getUser_id());
-		User toUser = userDao.getEntityById(notifBean.getToUser().getUser_id());
+		User fromUser = SessionCtl.getLoggedInUser();
+		User toUser = userDao.getEntityByEmail(notifBean.getToUser().getEmail());
 		
 		NotificationTypeDAO notifTypeDao = new NotificationTypeDAO();
 		NotificationType notifType = notifTypeDao.getByName(notifBean.getType());

@@ -38,7 +38,7 @@ public class JobService {
 	}
 	
 	public static List<JobBean> search(String query) {
-		List<Job> jobs = jobDao.listEntities();
+		List<Job> jobs = jobDao.search(query);
 		List<JobBean> jobBeans = new ArrayList<JobBean>();
 		JobBean jobBean = null;
 		

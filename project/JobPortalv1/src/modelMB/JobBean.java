@@ -12,6 +12,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 
+import service.ApplicationService;
+import service.AssetService;
 import service.CompanyService;
 import service.JobService;
 import service.UserService;
@@ -36,14 +38,16 @@ public class JobBean {
 	private List<ApplicationBean> applications = new ArrayList<ApplicationBean>();
 	private Boolean active;
 	private UserBean author = new UserBean();
-	
+
+	private Integer asset_id = -1;
 	private String skillInput;
 
 	public void init() {
-        if (FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest()) { 
-            return; // Skip ajax requests.
-        }
-        
+		if (FacesContext.getCurrentInstance().getPartialViewContext()
+				.isAjaxRequest()) {
+			return; // Skip ajax requests.
+		}
+
 		ExternalContext ec = FacesContext.getCurrentInstance()
 				.getExternalContext();
 		HttpServletRequest request = (HttpServletRequest) ec.getRequest();
@@ -52,9 +56,8 @@ public class JobBean {
 
 		if (jobId != null) {
 			jobService.getJobById(this, Integer.parseInt(jobId), true);
-			//System.out.println(this);
-		}
-		else {
+			// System.out.println(this);
+		} else {
 			User current_user = SessionCtl.getLoggedInUser();
 			if (current_user != null) {
 				UserBean userBean = new UserBean();
@@ -62,9 +65,9 @@ public class JobBean {
 				author = userBean;
 			}
 		}
-		
+
 		StringBuilder skillString = new StringBuilder();
-		for (String skill : this.getSkills()){
+		for (String skill : this.getSkills()) {
 			skillString.append(skill);
 			skillString.append(",");
 		}
@@ -78,31 +81,58 @@ public class JobBean {
 	public void loadFromEntity(Job entity) {
 		JobService.loadFromEntity(this, entity, true);
 	}
-	
+
 	public void saveOrUpdate() {
 		int id = JobService.saveOrUpdate(this);
-		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-		
-		if ( id > 0 ) {
+		ExternalContext ec = FacesContext.getCurrentInstance()
+				.getExternalContext();
+
+		if (id > 0) {
 			try {
 				ec.redirect("job_description.xhtml?id=" + id);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
-		else {
+		} else {
 			String message = "Fail to create/update the job.";
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_WARN, message, null);
-			 
+			FacesMessage facesMessage = new FacesMessage(
+					FacesMessage.SEVERITY_WARN, message, null);
+
 			throw new ValidatorException(facesMessage);
 		}
-		
-	}
-	
-	public void fetchCompany() {
-		CompanyService.loadFromDBByName(this.getCompany(), this.getCompany().getName());
+
 	}
 
+	public void fetchCompany() {
+		CompanyService.loadFromDBByName(this.getCompany(), this.getCompany()
+				.getName());
+	}
+
+	public void apply() {
+System.out.println("Applying...");
+		User current_user = SessionCtl.getLoggedInUser();
+		if (current_user == null || asset_id < 0
+				|| !current_user.getRole().getRole_n().equals("jobseeker"))
+			return;
+
+		UserBean userBean = new UserBean();
+		UserService.loadFromEntity(userBean, current_user, false);
+		
+		AssetBean assetBean = new AssetBean();
+		AssetService.loadFromDB(assetBean, this.getAsset_id());
+		
+		String status = "Pending";
+		
+		ApplicationBean appBean = new ApplicationBean();
+		appBean.setApplicant(userBean);
+		appBean.setJob(this);
+		appBean.setStatus(status);
+		appBean.setAsset(assetBean);
+		
+		ApplicationService.saveOrUpdate(appBean);
+	}
+
+	// ==============================================================
 	public boolean isFull_record() {
 		return full_record;
 	}
@@ -202,13 +232,21 @@ public class JobBean {
 	public void setAuthor(UserBean author) {
 		this.author = author;
 	}
-	
+
 	public String getSkillInput() {
 		return skillInput;
 	}
 
 	public void setSkillInput(String skillInput) {
 		this.skillInput = skillInput;
+	}
+
+	public int getAsset_id() {
+		return asset_id;
+	}
+
+	public void setAsset_id(int asset_id) {
+		this.asset_id = asset_id;
 	}
 
 	@Override
@@ -226,7 +264,7 @@ public class JobBean {
 		output.append("=" + this.getCompany() + "\n");
 		output.append("=" + this.getAuthor() + "\n");
 		output.append("= Skills: \n");
-		for ( String skillBean : this.getSkills()){
+		for (String skillBean : this.getSkills()) {
 			output.append("==" + skillBean + "\n");
 		}
 		return output.toString();

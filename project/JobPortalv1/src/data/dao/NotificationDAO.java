@@ -70,5 +70,23 @@ public class NotificationDAO extends DAO {
 		return id;
 	}
 
+	public List<Notification> search(String query) {
+		List<Notification> notifs = null;
+		try {
+			Query q = getSession().createQuery("from Notification where title like :query");
+			q.setString("query", "%" + query + "%");
+			notifs = q.list();
+		} catch (HibernateException e) {
+			if (getSession().getTransaction()!=null) {
+				rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			close();
+		} 
+	
+		return notifs;
+	}
+
 
 }

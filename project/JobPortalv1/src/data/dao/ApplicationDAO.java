@@ -6,12 +6,34 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 
 import data.entity.Application;
+import data.entity.Job;
 
 public class ApplicationDAO extends DAO {
 	public List<Application> listEntities() {
 		List<Application> apps = null;
 		try {
 			apps = getSession().createQuery("from Application").list();
+		} catch (HibernateException e) {
+			if (getSession().getTransaction()!=null) {
+				rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			close();
+		} 
+	
+		return apps;
+	}
+
+	public List<Application> search(String query) {
+		if ( query == null )
+			query = "";
+		
+		List<Application> apps = null;
+		try {
+			Query q = getSession().createQuery("from Application where position.title like :query");
+			q.setString("query", "%" + query + "%");
+			apps = q.list();
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();

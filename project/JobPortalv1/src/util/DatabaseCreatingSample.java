@@ -298,7 +298,8 @@ public class DatabaseCreatingSample {
 			// -----------------------------------------------
 
 			//List<Company> companies = session.createQuery("from Company where company_n like '%og%'").list();
-			String query = "og";
+			String query = "";
+			//Query q = session.createQuery("from Application where position.title like :query");
 			Query q = session.createQuery("from Company where company_n like :query");
 			q.setString("query", ("%" + query + "%"));
 			List<Company> companies = q.list();

@@ -4,9 +4,6 @@ import java.util.Calendar;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 @Entity
 @Table(name = "J_NOTIFICATIONS")
 public class Notification {
@@ -77,7 +74,6 @@ public class Notification {
 	}
 
 	@ManyToOne(fetch=FetchType.EAGER) 
-	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "FROM_USER_I")
 	public User getFrom() {
 		return from;
@@ -88,7 +84,6 @@ public class Notification {
 	}
 
 	@ManyToOne(fetch=FetchType.EAGER) 
-	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "TO_USER_I")
 	public User getTo() {
 		return to;
@@ -99,7 +94,6 @@ public class Notification {
 	}
 
 	@ManyToOne(fetch=FetchType.EAGER) 
-	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "NOTIFICATION_TYPE_I")
 	public NotificationType getType() {
 		return type;

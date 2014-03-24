@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<head>
+</head>
+
+<body>
+
+	<ui:composition>
+		<div class="container">
+			<div class="content col-sm-9" style="margin-top: 50px;">
+				<!-- Choose certain search list based on role? -->
+				
+				<!-- title -->
+		    	<p class="page-header">Application List</p>
+		    	
+		    	<!-- Search bar -->
+		    	<div class="row">
+			    	<div class="col-sm-6">
+					<h:form prependId="false" class="navbar-form">
+			        	<p:inputText id="keyword" 
+							style="width:225px; margin-right: 4px;"
+							styleClass="form-control" required="true"
+							value="#{applicationController.keyword}" />
+						<p:watermark for="keyword" value="Search..." />
+	
+						<h:commandButton value="Search">
+							<f:ajax render="appList" execute="keyword" />
+						</h:commandButton>
+					</h:form>
+					</div>
+				</div>
+				
+				<!-- Table -->
+				<div id="jobTable" class="row">
+				<div class="panel panel-default">
+				<h:dataTable id="appList" value="#{applicationController.search()}" var="appBean" paginator="true" rows="10"
+					styleClass="table" headerClass="ordersHeader" rowClasses="oddRow,evenRow">
+					<!-- <f:facet name="caption">Jobs</f:facet> -->
+					
+					<h:column headerClass="columnHeader" footerClass="columnFooter"> 
+						<f:facet name="header">Title</f:facet>
+						<h:link value="#{appBean.job.title}" outcome="application_description">
+							<f:param name="id" value="#{appBean.id}" />
+						</h:link>
+						<f:facet name="footer"></f:facet> 
+					</h:column>
+					
+					<h:column headerClass="columnHeader" footerClass="columnFooter"> 
+						<f:facet name="header">Applicant</f:facet>
+						#{appBean.applicant.user_name}
+						<f:facet name="footer"></f:facet> 
+					</h:column>
+					
+					<h:column headerClass="columnHeader" footerClass="columnFooter"> 
+						<f:facet name="header">Company</f:facet>
+							#{appBean.job.company.name}
+						<f:facet name="footer"></f:facet> 
+					</h:column>
+					
+					<h:column headerClass="columnHeader" footerClass="columnFooter"> 
+						<f:facet name="header">Status</f:facet>
+							#{appBean.status}
+						<f:facet name="footer"></f:facet> 
+					</h:column>
+				</h:dataTable>
+				</div>
+				</div>
+			</div>
+		</div>
+	</ui:composition>
+
+</body>
+</html>
