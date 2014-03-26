@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="templates/mainLayout.xhtml">
+	<ui:define name="content">
+		<body>
+			<ui:debug hotkey="x"
+				rendered="#{initParam['javax.faces.FACELETS_DEVELOPMENT']}" />
+			<h:form>
+					<h:panelGrid class="pure-form pure-form-aligned" columns="3">
+						<h:outputText class="pure-form pure-form-aligned" value="Email"></h:outputText>
+						<h:inputText id="email1" value="#{userController.email}" required="true" label="Email" validatorMessage="Email address is not valid. Must in email format.">
+							<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+						</h:inputText>
+						<p:message for="email1" />
+					</h:panelGrid>
+	
+				<h:commandButton class="pure-button pure-button-primary" execute="email1" render="password" />
+				<br /> <br />
+				<h:outputText id="password" value="#{userController.retrievePwd()}" />
+			</h:form>
+		</body>
+	</ui:define>
+</ui:composition>
+</html>

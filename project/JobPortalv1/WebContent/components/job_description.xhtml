@@ -52,11 +52,22 @@
 				</ui:repeat>					
             </ul>
             
-			<!-- Applicants: show if the user is the owner of this posting -->
 			
 
+						
+			<!-- Edit button -->
+			<h:panelGroup rendered="#{jobBean.owned()}">
+				<h:link value="Edit" outcome="job_edit">
+					<f:param name="id" value="#{jobBean.id}" />
+				</h:link>
+			</h:panelGroup> <br /> <br />
+			
+			<!-- Applicants: show if the user is the owner of this posting -->
+			<h:panelGroup rendered="#{jobBean.owned()}">
+			</h:panelGroup> <br />
+
 			<!-- Show to job seekers -->
-			<h:form prependId="false">
+			<h:form prependId="false" rendered="#{userController.isJobSeeker()}">
 			Select a document to apply this position: 
     		<h:selectOneMenu id="asset" value="#{jobBean.asset_id}">
    				<f:selectItems value="#{userController.assets}" var="asset"

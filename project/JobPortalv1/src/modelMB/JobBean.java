@@ -1,16 +1,19 @@
 package modelMB;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import service.ApplicationService;
 import service.AssetService;
@@ -22,8 +25,13 @@ import data.entity.Job;
 import data.entity.User;
 
 @ManagedBean
-@SessionScoped
-public class JobBean {
+@RequestScoped
+public class JobBean implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8983329096246519715L;
+
 	JobService jobService = new JobService();
 
 	private boolean full_record;
@@ -109,7 +117,6 @@ public class JobBean {
 	}
 
 	public void apply() {
-System.out.println("Applying...");
 		User current_user = SessionCtl.getLoggedInUser();
 		if (current_user == null || asset_id < 0
 				|| !current_user.getRole().getRole_n().equals("jobseeker"))
@@ -129,7 +136,39 @@ System.out.println("Applying...");
 		appBean.setStatus(status);
 		appBean.setAsset(assetBean);
 		
-		ApplicationService.saveOrUpdate(appBean);
+		int id = ApplicationService.saveOrUpdate(appBean);
+		ExternalContext ec = FacesContext.getCurrentInstance()
+				.getExternalContext();
+		
+		if (id > 0) {
+			try {
+				ec.redirect("application_description.xhtml?id=" + id);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			String message = "Fail to send the message.";
+			FacesMessage facesMessage = new FacesMessage(
+					FacesMessage.SEVERITY_WARN, message, null);
+
+			throw new ValidatorException(facesMessage);
+		}
+	}
+	
+	public boolean owned() {
+
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		HttpServletRequest request = (HttpServletRequest) ec.getRequest();
+		HttpSession session = (HttpSession)ec.getSession(false);
+
+		User user = null;
+		if(session != null && author != null &&
+			(user = (User)session.getAttribute("loggedin_user")) != null &&
+			user.getUser_id() == author.getUser_id()) {
+			return true;
+		}
+		
+		return false;
 	}
 
 	// ==============================================================

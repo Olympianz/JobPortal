@@ -5,46 +5,48 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
+		
 <h:head>
 	<title><ui:insert name="title">Cogent InfoTech</ui:insert></title>
-
+	
 	<h:outputStylesheet library="css" name="jobportal.css" />
-
+	
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet"
 		href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
 	<link rel="stylesheet"
 		href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css" />
+		
+	<!-- Bootstrap js -->
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js" > </script>
+	
 </h:head>
 
-<h:body>
+<body>
 	<!-- Debug -->
 	<ui:debug hotkey="x"
 		rendered="#{initParam['javax.faces.FACELETS_DEVELOPMENT']}" />
 
 	<!-- Heaader -->
-	<div id="header" class="container-fluid">
+	<div id="header">
 		<ui:insert name="header">
- 			<ui:include src="/components/mainHeader.xhtml" />
+			<ui:include src="/components/mainHeader.xhtml" />
 		</ui:insert>
 	</div>
-			
+
 	<div class="container-fluid" style="margin-top: 51px;">
 		<div class="row">
 			<!-- Menu -->
 			<div id="menu" class="col-sm-2" style="background-color: #f0f0f0">
-				<div class="menu list-group" style="margin-top: 50px; height: 300px;">
+				<div class="menu list-group" style="height: auto; min-height: 350px; ">
 					<!-- Choose certain menu based on role -->
-					<h:panelGroup rendered="#{userController.role eq 'anonymous'}">
-						<ui:include src="/components/anonymous/menu.xhtml" />
-					</h:panelGroup>
-					<h:panelGroup rendered="#{userController.role eq 'administrator'}">
+					<h:panelGroup rendered="#{userController.isAdmin()}">
 						<ui:include src="/components/administrator/menu.xhtml" />
 					</h:panelGroup>
-					<h:panelGroup rendered="#{userController.role eq 'jobseeker'}">
+					<h:panelGroup rendered="#{userController.isJobSeeker()}">
 						<ui:include src="/components/jobseeker/menu.xhtml" />
 					</h:panelGroup>
-					<h:panelGroup rendered="#{userController.role eq 'employer'}">
+					<h:panelGroup rendered="#{userController.isEmp()}">
 						<ui:include src="/components/employer/menu.xhtml" />
 					</h:panelGroup>
 				</div>
@@ -58,15 +60,13 @@
 			</div>
 		</div>
 	</div>
-		
+
 	<!-- Footer -->
-	<div id="footer" class="container">
+	<div id="footer">
 		<ui:insert name="footer">
 			<ui:include src="/components/mainFooter.xhtml" />
 		</ui:insert>
 	</div>
-	
-	<!-- Load Javascript files -->
-	<h:outputScript library="scripts" name="bootstrap.min.js" />
-</h:body>
+
+</body>
 </html>

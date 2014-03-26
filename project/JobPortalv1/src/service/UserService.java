@@ -28,6 +28,7 @@ import data.entity.Application;
 import data.entity.Asset;
 import data.entity.Company;
 import data.entity.Contact;
+import data.entity.Contact_type;
 import data.entity.Experience;
 import data.entity.Job;
 import data.entity.Notification;
@@ -39,6 +40,15 @@ public class UserService implements MetaService {
 
 	static final UserDAO userDao = new UserDAO();
 
+	//
+	public static String retrievePwd(String email){
+		List<String> l = userDao.getUserByEmail(email);
+		if(l.size() > 0)
+			return l.get(0);
+		else
+			return "";
+	}
+	
 	public Integer addEntity(Object obj) {
 
 		return userDao.addEntity(obj);
@@ -108,6 +118,67 @@ public class UserService implements MetaService {
 		
 		return emailStrings;
 	}
+	
+	public static List<JobBean> searchSavedJob(String keyword, Integer id) {
+		UserBean userBean = new UserBean();
+		loadFromDB(userBean, id);
+		
+		List<JobBean> jobBeans = new ArrayList<JobBean>();		
+		for(JobBean jobBean : userBean.getSaved_jobs()) {
+			if(keyword.equals("") || jobBean.getTitle().contains(keyword))
+				jobBeans.add(jobBean);
+		}
+		return jobBeans;
+	}
+	
+	public static List<JobBean> searchPostedJob(String keyword, Integer id) {
+		UserBean userBean = new UserBean();
+		loadFromDB(userBean, id);
+		
+		List<JobBean> jobBeans = new ArrayList<JobBean>();		
+		for(JobBean jobBean : userBean.getPost_jobs()) {
+			if(keyword.equals("") || jobBean.getTitle().contains(keyword))
+				jobBeans.add(jobBean);
+		}
+		return jobBeans;
+	}
+	
+	public static List<NotificationBean> searchSentNotification(String keyword, Integer id) {
+		UserBean userBean = new UserBean();
+		loadFromDB(userBean, id);
+		
+		List<NotificationBean> notifBeans = new ArrayList<NotificationBean>();
+		for(NotificationBean notifBean : userBean.getSent_notif()) {
+			if(keyword.equals("") || notifBean.getTitle().contains(keyword))
+				notifBeans.add(notifBean);
+		}
+		return notifBeans;
+	}
+	
+	public static List<NotificationBean> searchRecvNotification(String keyword, Integer id) {
+		UserBean userBean = new UserBean();
+		loadFromDB(userBean, id);
+		
+		List<NotificationBean> notifBeans = new ArrayList<NotificationBean>();
+		for(NotificationBean notifBean : userBean.getRecv_notif()) {
+			if(keyword.equals("") || notifBean.getTitle().contains(keyword))
+				notifBeans.add(notifBean);
+		}
+		return notifBeans;
+	}
+	
+	public static List<ApplicationBean> searchApplications(String keyword, Integer id) {
+		UserBean userBean = new UserBean();
+		loadFromDB(userBean, id);
+	
+		List<ApplicationBean> appBeans = new ArrayList<ApplicationBean>();
+		for(ApplicationBean appBean : userBean.getApplications()) {
+			if(keyword.equals("") || appBean.getJob().getTitle().contains(keyword)) 
+				appBeans.add(appBean);
+		}
+		return appBeans;
+	}
+	
 	/**
 	 * Check if the email and password pair matches the database record. If yes,
 	 * update new sessionId to database. Otherwise, return null.
@@ -175,6 +246,7 @@ public class UserService implements MetaService {
 		userBean.setUpdate_timestamp(user.getUpdate_timestamp());
 		userBean.setUser_id(user.getUser_id());
 		userBean.setUser_name(user.getUser_name());
+		userBean.setPassword(user.getPassword());
 		
 		if (deepLoad) {
 			userBean.setFull_record(true);
@@ -258,13 +330,17 @@ public class UserService implements MetaService {
 	public static int saveOrUpdate(UserBean userBean) {
 		User user = null;
 		Integer id = userBean.getUser_id();
-
+		User current_user = SessionCtl.getLoggedInUser();
+		
 		if (id != null && id >= 0) {
 			// Get existing record
 			user = userDao.getEntityById(id);
 		} else {
 			// Create new record
-			user = new User(SessionCtl.getLoggedInUser().getUser_name());
+			if (current_user != null)
+				user = new User(current_user.getUser_name());
+			else
+				user = new User();
 		}
 
 		// Fetch all necessary object from database
@@ -315,47 +391,80 @@ public class UserService implements MetaService {
 		
 		CompanyDAO companyDao = new CompanyDAO();
 		ContactDAO contactDao = new ContactDAO();
-		Company company = companyDao.getEntityById(userBean.getCompany().getId());
+		Company company = null;
+		
+		if (userBean.getCompany() != null) {
+			company = companyDao.getEntityById(userBean.getCompany().getId());
+		}
+		
 		if(company == null){
-			company = new Company(SessionCtl.getLoggedInUser().getUser_name());
+			if (current_user == null)
+				company = new Company();
+			else
+				company = new Company(current_user.getUser_name());
+		}
+		else {
 			company.setCompany_n(userBean.getCompany().getName());
 			company.setContact(contactDao.getEntityById(userBean.getContact().getId()));
 		}
 		
-		ContactTypeDAO contactTypeDao = new ContactTypeDAO();
-		StateDAO stateDao = new StateDAO();
-		Contact contact = contactDao.getEntityById(userBean.getContact().getId());
-		if(contact == null){
-			int contact_id = ContactService.saveOrUpdate(userBean.getContact());
-			contact = contactDao.getEntityById(contact_id);
+		
+		Contact contact = null;
+		if (userBean.getContact() != null) {
+			contact = contactDao.getEntityById(userBean.getContact().getId());
+			
+			if(contact == null){
+				int contact_id = ContactService.saveOrUpdate(userBean.getContact());
+				contact = contactDao.getEntityById(contact_id);
+			}
 		}
+		
 
 		RoleDAO roleDao = new RoleDAO();
-		Role role = roleDao.getByName(userBean.getRole());
+		Role role = null;
+		
+		if (userBean.getRole() != null) {
+			role = roleDao.getByName(userBean.getRole());
+		}
+		else
+			role = roleDao.getByName("jobseeker");
 
 		ExperienceDAO expDao = new ExperienceDAO();
-		Experience exp = expDao.getByName(userBean.getExperience());
+		Experience exp = null;
+		if(userBean.getExperience() != null)
+			exp = expDao.getByName(userBean.getExperience());
+		else
+			exp = new Experience();
 		
 		int result = -1;
-		if (role != null && company != null && contact != null) {
 
-			user.setAssets(assets);
-			user.setCompany(company);
+		user.setAssets(assets);
+		user.setCompany(company);
+		user.setEmail(userBean.getEmail());
+		user.setExperience(exp);
+		user.setPassword(userBean.getPassword());
+		user.setSaved_jobs(jobs);
+		user.setSkills(skills);
+		user.setUpdate_timestamp(Calendar.getInstance());
+		if (contact != null)
 			user.setContact(contact);
-			user.setEmail(userBean.getEmail());
-			user.setExperience(exp);
-			user.setPassword(userBean.getPassword());
+		if (role != null)
 			user.setRole(role);
-			user.setSaved_jobs(jobs);
-			user.setSkills(skills);
+		if (userBean.getUser_name() != null)
 			user.setUser_name(userBean.getUser_name());
-			
-			user.setUpdate_user_name(SessionCtl.getLoggedInUser()
-					.getUser_name());
-			user.setUpdate_timestamp(Calendar.getInstance());
-			result = userDao.saveOrUpdate(user);
-		}
+		if (current_user != null)
+			user.setUpdate_user_name(current_user.getUser_name());
+		
+		result = userDao.saveOrUpdate(user);
+		
 
 		return result;
+	}
+	
+	public static void deactiveUser() {
+		User user = null;
+		user = SessionCtl.getLoggedInUser();
+		user.setActive_status("N");
+		userDao.saveOrUpdate(user);
 	}
 }

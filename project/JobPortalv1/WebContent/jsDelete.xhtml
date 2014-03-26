@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/templates/loggedInLayout.xhtml">
+	<ui:define name="content">
+		<div class="pure-menu pure-menu-open pure-menu-horizontal">
+			<a class="pure-menu-heading" style="font-size: 20px">You sure
+				want to delete this account?</a>
+		</div>
+
+		<h:form>
+			<h:commandButton class="pure-button pure-button-primary" value="Yes" onclick="return confirm('Are you sure to delete?')" 
+				actionListener="#{userController.deactiveUser}" action="index.xhtml"/>
+			<h:commandButton class="pure-button pure-button-primary" value="No" action="jsDelete.xhtml" />
+			<h:commandButton class="pure-button pure-button-primary" value="Cancel" action="index.xthml" />
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

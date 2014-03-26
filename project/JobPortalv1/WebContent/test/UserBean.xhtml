@@ -8,6 +8,21 @@
 </h:head>
 
 <h:body>
+	<h:form prependId="false">
+		<h:inputText value="#{userBean.role}" />
+		<br />
+		<h:inputText value="#{userBean.user_name}" />
+		<br /><br />
+		
+		<h:commandButton value="Get" actionListener="#{userBean.load}">
+			<f:ajax render="@all" execute="@all" />
+		</h:commandButton>
+		
+		<h:commandButton value="Save" actionListener="#{userBean.saveOrUpdate}">
+			<f:ajax render="@all" execute="@all" />
+		</h:commandButton>
+		
+	</h:form>
 
 </h:body>
 </html>

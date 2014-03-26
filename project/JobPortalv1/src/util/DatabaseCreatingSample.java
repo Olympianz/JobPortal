@@ -282,9 +282,38 @@ public class DatabaseCreatingSample {
 	}
 
 	public static void main(String[] args) {
-		testLike();
+		loadNSaveUser();
 	}
+	
+	public static void loadNSaveUser() {
+		// -----------------------------------------------
+		ServiceRegistry sr = new StandardServiceRegistryBuilder()
+				.applySettings(new Configuration().configure().getProperties())
+				.build();
+		SessionFactory sessionFactory = new Configuration().configure()
+				.configure().buildSessionFactory(sr);
+		try {
+			Session session = sessionFactory.openSession();
+			session.beginTransaction();
+			// -----------------------------------------------
 
+			Query q = session.createQuery("from User where user_id=62");
+			User user = (User) q.uniqueResult();
+			
+			user.setUser_name("Adam10");
+			user.getContact().setStreet_address_name("aaaaaaaaaaaaa");
+			session.saveOrUpdate(user);
+
+			// -----------------------------------------------
+			session.getTransaction().commit();
+			session.close();
+			sessionFactory.close();
+		} finally {
+			((StandardServiceRegistryImpl) sr).destroy();
+		}
+		
+	}
+	
 	public static void testLike () {
 		// -----------------------------------------------
 		ServiceRegistry sr = new StandardServiceRegistryBuilder()

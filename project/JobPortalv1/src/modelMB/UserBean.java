@@ -5,8 +5,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
 
 import data.entity.User;
 import service.UserService;
@@ -32,6 +37,7 @@ public class UserBean implements Serializable {
 	private String role;
 	private ContactBean contact;
 	private CompanyBean company;
+	private String skillInput;
 
 	private List<JobBean> saved_jobs = new ArrayList<JobBean>();
 
@@ -42,6 +48,19 @@ public class UserBean implements Serializable {
 	private List<AssetBean> assets = new ArrayList<AssetBean>();
 	private List<ApplicationBean> applications = new ArrayList<ApplicationBean>();
 
+	//delete account
+	public void deactiveUser(){
+		UserService.deactiveUser();
+	}
+		
+	public void clear() {
+		this.setEmail("");
+	}
+	
+	public void load() {
+		UserService.loadFromDB(this, 62);
+	}
+	
 	public void loadFromDB(int id) {
 		UserService.loadFromDB(this, id);
 	}
@@ -60,6 +79,14 @@ public class UserBean implements Serializable {
 
 	public void setFull_record(boolean full_record) {
 		this.full_record = full_record;
+	}
+	
+	public String getSkillInput() {
+		return skillInput;
+	}
+	
+	public void setSkillInput(String skillInput) {
+		this.skillInput = skillInput;
 	}
 
 	public Integer getUser_id() {
@@ -249,5 +276,69 @@ public class UserBean implements Serializable {
 			output.append("==" + notifBean + "\n");
 		}
 		return output.toString();
+	}
+	
+	public void validatePassword(ComponentSystemEvent event) {
+		 
+		  FacesContext fc = FacesContext.getCurrentInstance();
+	 
+		  UIComponent components = event.getComponent();
+	 
+		  // get password
+		  UIInput uiInputPassword = (UIInput) components.findComponent("password");
+		  String password = uiInputPassword.getLocalValue() == null ? ""
+			: uiInputPassword.getLocalValue().toString();
+		  String passwordId = uiInputPassword.getClientId();
+	 
+		  // get confirm password
+		  UIInput uiInputConfirmPassword = (UIInput) components.findComponent("password3");
+		  String confirmPassword = uiInputConfirmPassword.getLocalValue() == null ? ""
+			: uiInputConfirmPassword.getLocalValue().toString();
+	 
+		  // Let required="true" do its job.
+		  if (password.isEmpty() || confirmPassword.isEmpty()) {
+			return;
+		  }
+	 
+		  if (!password.equals(confirmPassword)) {
+	 
+			FacesMessage msg = new FacesMessage("Password must match confirm password");
+			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+			fc.addMessage(passwordId, msg);
+			fc.renderResponse();
+	 
+		  }
+	}
+	
+	public void validatePassword1(ComponentSystemEvent event) {
+		 
+		  FacesContext fc = FacesContext.getCurrentInstance();
+	 
+		  UIComponent components = event.getComponent();
+	 
+		  // get password
+		  UIInput uiInputPassword = (UIInput) components.findComponent("password1");
+		  String password = uiInputPassword.getLocalValue() == null ? ""
+			: uiInputPassword.getLocalValue().toString();
+		  String passwordId = uiInputPassword.getClientId();
+	 
+		  // get confirm password
+		  UIInput uiInputConfirmPassword = (UIInput) components.findComponent("password2");
+		  String confirmPassword = uiInputConfirmPassword.getLocalValue() == null ? ""
+			: uiInputConfirmPassword.getLocalValue().toString();
+	 
+		  // Let required="true" do its job.
+		  if (password.isEmpty() || confirmPassword.isEmpty()) {
+			return;
+		  }
+	 
+		  if (!password.equals(confirmPassword)) {
+	 
+			FacesMessage msg = new FacesMessage("Password must match confirm password");
+			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+			fc.addMessage(passwordId, msg);
+			fc.renderResponse();
+	 
+		  }
 	}
 }

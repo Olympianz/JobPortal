@@ -11,65 +11,84 @@
 
 <h:body>
 	<div class="header">
-		<h:form prependId="false">
-		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+
 			<div class="container-fluid">
+
 				<div class="navbar-header">
-					<h:link styleClass="navbar-brand" value="Job Portal" outcome="index.xhtml"/>
+					<a class="navbar-brand" href="#"> Job Portal</a>
 				</div>
-							
-				<div class="collapse navbar-collapse navbar-right">
+
+				<div class="navbar-collapse">
 					<h:panelGroup rendered="#{!userController.isLoggedIn()}">
-						<div class="navbar-form">
-							<ul id="header_bar" class="nav navbar-nav">
-								<li>
-									<h:outputFormat styleClass="form-group">
-										<p:inputText id="username"
-											style="width:125px; margin-right: 4px;"
-											styleClass="form-group" required="true"
-											value="#{userController.email}" />
+						<div class="nav navbar-nav navbar-right">
+							<li id="menuLogin" class="dropdown">
+								<a id="navLogin" data-toggle="dropdown" href="#" class="dropdown-toggle">Login</a>
+	
+								<div style="padding: 17px;" class="dropdown-menu">
+									<h:form styleClass="form" prependId="false">
+										<label>Login</label>
+										<p:inputText type="text" id="username" required="true" value="#{userController.email}" style="margin-bottom:5px;"/>
 										<p:watermark for="username" value="Email" />
-										
-										<p:inputText id="password" style="width:125px;" type="password"
-											styleClass="form-group" required="true"
-											value="#{userController.password}" />
+										<p:inputText type="password" id="password" required="true" value="#{userController.password}" style="margin-bottom:5px;"/>
 										<p:watermark for="password" value="Password" />
-										
-										<h:selectBooleanCheckbox styleClass="form-group" name="remember" />
-										<label for="remember" style="color: #D3D3D3; font-size: 10px;"
-											class="form-group"> Remember me </label>
-									</h:outputFormat>
-								</li>
-								<li>
-									<h:commandButton styleClass="btn btn-success form-group" execute="username password"
-										actionListener="#{userController.login}" render="username password"
-										value="Sign in" action="index.xhtml">
-									</h:commandButton>
-								</li>
-								<li>
-									<h:commandButton styleClass="btn btn-success form-group"
-										value="Sign up">
-									</h:commandButton>
-								</li>
-								<li>
-									<a>
-										<span class="form-group glyphicon glyphicon-question-sign"></span>
-									</a>
-								</li>
-							</ul>
+	
+										<h:selectBooleanCheckbox style="" name="remember" />
+										<label for="remember" style="color: #D3D3D3; font-size: 10px;">
+											Remember me </label>
+										<h:commandButton styleClass="btn" id="btnLogin" type="submit" value="Login" actionListener="#{userController.login}" action="mainMenu.xhtml"
+											style="float:right; margin-bottom:20px; display:block;"> </h:commandButton>
+									</h:form><br/>
+	
+									<h:form style="margin-bottom:20px;">
+								
+										<h:commandLink data-target="#formRegister" data-toggle="collapse"
+											id="btnNewUser" title="Fast and free sign up!"
+											actionListener="#{userController.signUp}">
+											> Sign-up
+										</h:commandLink>
+									</h:form> 
+									<br/>
+									<h:link value="Forgot password?" outcome="forgetPwd.xhtml" />
+								</div>
+							</li>
+	
+							<li id="menuUser" class="dropdown">
+								<a title="See your Bootply collection and profile" data-toggle="dropdown" class="dropdown-toggle" href="#"> 
+								<i class="icon-user icon-xxlarge"> </i> 
+								<span id="lblUsername"></span>
+								<span class="glyphicon glyphicon-cog"></span>
+							</a>
+								<ul class="dropdown-menu">
+									<li>
+										<a data-toggle="modal" data-target="#about">About</a>
+									</li>
+								</ul>
+							</li>
 						</div>
 					</h:panelGroup>
 					
+					<script>
+					    function popupwindow(url, title, w, h) {
+					    	  var left = (screen.width/2)-(w/2);
+					    	  var top = (screen.height/2)-(h/2);
+					    	  return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
+					    } 
+				    </script>
+					
 					<h:panelGroup rendered="#{userController.isLoggedIn()}">
-						<div class="navbar-form">
+						<div class="nav navbar-nav navbar-right">
 							<ul id="header_bar" class="nav navbar-nav">
-								<li>
-									<a><span class="form-group glyphicon glyphicon-user"></span></a>
+								<li style="height:50px;">
+									<a style="height:14px;"><span class="form-group glyphicon glyphicon-user"></span></a>
 								</li>
 								<li>
 									<a>
 										<span class="form-group" style="font-size: 15px; color:#ffffff; !important">
-											<b><i>Welcome, #{userController.name}</i></b>
+											<b><i> Welcome, 
+												<h:outputText value="#{userController.loggedInName}"/>
+											</i></b>
 										</span>
 									</a>
 								</li>
@@ -79,24 +98,70 @@
 								<li>
 									<a><span class="glyphicon glyphicon-question-sign"></span></a>
 								</li>
-								<li class="dropdown">
-									<a class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog" ></span></a>
-								  	<ul class="dropdown-menu">
-								  		<li class="divider"></li>
-										<li>
-											<h:commandLink value="Log out" actionListener="#{userController.logout}" action="index.xhtml" />
+								<li id="menuUser" class="dropdown"><a
+									title="See your Bootply collection and profile"
+									data-toggle="dropdown" class="dropdown-toggle" href="#"> 
+									<i class="icon-user icon-xxlarge"> </i> 
+									<span id="lblUsername"></span>
+									<span class="glyphicon glyphicon-cog"></span>
+								</a>
+									<ul class="dropdown-menu">
+										<li><h:form
+												style="text-align:center; text-decoration:none;">
+												<h:commandLink value="Logout"
+													actionListener="#{userController.logout}"
+													action="index.xhtml"></h:commandLink>
+											</h:form>
 										</li>
-									</ul>
-								</li>
-			
+										<li class="divider"></li>
+										<li><a href="#">Settings</a></li>
+										<li>
+											<a data-toggle="modal" data-target="#about">About</a>
+										</li>
+									</ul></li>
 							</ul>
 						</div>
 					</h:panelGroup>
+	
+					<div class="nav navbar-nav navbar-right"
+						style="margin-top: 20px; margin-right: 0px; display:none;">
+						<ul class="nav nav-pills hidden-phone hidden-tablet">
+							<li data-font="arial" data-show-faces="false" data-width="80"
+								data-layout="button_count" data-send="false"
+								data-href="http://bootply.com"
+								class="fb-like hidden-phone hidden-tablet fb_iframe_widget"
+								fb-xfbml-state="rendered"
+								fb-iframe-plugin-query="app_id=482723745132387&amp;font=arial&amp;href=http%3A%2F%2Fbootply.com%2F&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey&amp;send=false&amp;show_faces=false&amp;width=80">
+								<span style="vertical-align: bottom; width: 82px; height: 20px;">
+								<iframe width="80px" scrolling="no" height="1000px" frameborder="0"
+										name="f25474a1ddf9124" allowtransparency="true"
+										title="fb:like Facebook Social Plugin"
+										style="border: medium none; visibility: visible; width: 82px; height: 20px;"
+										src="http://www.facebook.com/plugins/like.php?app_id=482723745132387&amp;channel=http%3A%2F%2Fstatic.ak.facebook.com%2Fconnect%2Fxd_arbiter%2FLEdxGgtB9cN.js%3Fversion%3D40%23cb%3Df3b78e2f78bcc82%26domain%3Dwww.bootply.com%26origin%3Dhttp%253A%252F%252Fwww.bootply.com%252Ff3072a9af64161c%26relation%3Dparent.parent&amp;font=arial&amp;href=http%3A%2F%2Fbootply.com%2F&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey&amp;send=false&amp;show_faces=false&amp;width=80"
+										class=""></iframe>
+								</span>
+							</li>
+						</ul>
+					</div>
+					
 				</div>
 			</div>
-		</nav>
-		</h:form>
+		</div>
 	</div>
-	<h:messages />
+
+						
+	<!-- Modal -->
+	<div class="modal fade" id="about" tabindex="-1" role="dialog" aria-hidden="true" >
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	    	<div class="modal-body">
+				<h:graphicImage library="img" name="cogent.jpg" width="500" height="400" />
+			</div>
+			<div class="modal-footer">
+	        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        </div>
+	    </div>
+	  </div>
+	</div>
 </h:body>
 </html>

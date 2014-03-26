@@ -1,20 +1,143 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
 <head>
 </head>
 
-<h:body>
+<body>
 
 	<ui:composition template="/templates/mainLayout.xhtml">
 		<ui:define name="content">
-			
+			<div class="content" style="margin-top: 50px; height: auto;">
+				<h:panelGroup rendered="#{!userController.signOn}">
+					<p>
+						<a style="font-size: 25px;"> Welcome to Cogent InfoTech</a>
+					</p>
+
+					<p align="justify">Headquartered in Pittsburgh, PA, COGENT is a
+						turnkey Information Technology (IT) Consulting firm that has
+						consistently delivered innovative IT and Business solutions to
+						both the Commercial and Public Sector clients since 2003.</p>
+
+					<p align="justify">Our innovative, cutting edge yet flexible
+						solutions, enable our clients to address their critical Business
+						and IT issues in order to stay ahead of competition without
+						incurring excessive costs. To achieve our client's objectives, we
+						leverage our business experience and domain knowledge, collaborate
+						with industry leading IT vendors and engage top echelon talent.</p>
+
+					<p align="justify">Our success to date has been a result of a
+						hands-on approach of the co-founders of the organization and the
+						support of a highly motivated team that is enthusiastic,
+						passionate and always strives to act in a professional manner.</p>
+
+					<p aligh="justify">All our divisions have experienced
+						unprecedented growth in recent years despite adverse economic
+						conditions. We have enjoyed year-on-year growth since inception in
+						2003. This is directly attributable to a rapidly expanding client
+						base comprising Small and Medium Enterprises (SME), Fortune 1000
+						and the Public Sector coupled with our ability to consistently
+						react and adapt to ever changing market dynamics.</p>
+				</h:panelGroup>
+
+				<h:panelGroup rendered="#{userController.signOn}">
+					<h:form>
+				<h:selectOneMenu styleClass="bootstrap-select"
+						value="#{userBean.role}">
+						<label for="state">User Type</label>
+						<br />
+						<f:selectItem itemValue="#" itemLabel="Select One" />
+						<f:selectItem itemValue="jobseeker" itemLabel="Job Seeker" />
+						<f:selectItem itemValue="employer" itemLabel="Employer" />
+						<f:ajax render="@form" />
+				</h:selectOneMenu>
+				<h:panelGroup rendered="#{userBean.role == 'jobseeker'}">
+				  
+				    <h:message for="js" style="color:red;" />
+				
+					<h:panelGrid id="js" class="pure-form pure-form-aligned" columns="3">			
+					
+						<f:event listener="#{userBean.validatePassword}" type="postValidate" />				
+					
+						<h:outputText class="pure-form pure-form-aligned" value="Email"></h:outputText>
+						<h:inputText id="email" value="#{userBean.email}" required="true" label="Email" validatorMessage="Email address is not valid. Must in email format.">
+							<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+						</h:inputText>
+						<p:message for="email" />
+						
+						<h:outputText class="pure-form pure-form-aligned" value="Name"></h:outputText>
+						<h:inputText id="name" value="#{userBean.user_name}" required="true" label="Name" ></h:inputText>
+						<p:message for="name" />
+						
+						<h:outputText class="pure-form pure-form-aligned" value="Password"></h:outputText>
+						<h:inputSecret id="password" value="#{userBean.password}" required="true" label="Password" validatorMessage="Password is not valid. At Least 6 characters long, contain one lower case letter and one capital case letter.">
+							<f:validateRegex pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20})" />
+						</h:inputSecret>
+						<p:message for="password" />
+						
+						<h:outputText class="pure-form pure-form-aligned" value="Confirm Password"></h:outputText>
+						<h:inputSecret id="password3" value="#{userBean.password}" required="true" requiredMessage="Please enter confirm password">
+						</h:inputSecret>
+						<p:message for="password3" />
+						
+					</h:panelGrid>
+				</h:panelGroup>
+				<h:panelGroup rendered="#{userBean.role == 'employer'}">
+				
+					 <h:message for="em" style="color:red;" />
+						
+					<h:panelGrid id="em" class="pure-form pure-form-aligned" columns="3">
+					
+						<f:event listener="#{userBean.validatePassword1}" type="postValidate" />				
+					
+						<h:outputText class="pure-form pure-form-aligned" value="Email"></h:outputText>
+						<h:inputText id="email1" value="#{userBean.email}" required="true" label="Email" validatorMessage="Email address is not valid. Must in email format.">
+							<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+						</h:inputText>
+						<p:message for="email1" />
+						
+						<h:outputText class="pure-form pure-form-aligned" value="Name"></h:outputText>
+						<h:inputText id="name1" value="#{userBean.user_name}" required="true" label="Name" ></h:inputText>
+						<p:message for="name1" />
+						
+						<h:outputText class="pure-form pure-form-aligned" value="Password"></h:outputText>
+						<h:inputSecret id="password1" value="#{userBean.password}" required="true" label="Password" validatorMessage="Password is not valid. At Least 6 characters long, contain one lower case letter and one capital case letter.">
+							<f:validateRegex pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20})" />
+						</h:inputSecret>
+						<p:message for="password1" />
+						
+						<h:outputText class="pure-form pure-form-aligned" value="Confirm Password"></h:outputText>
+						<h:inputSecret id="password2" value="#{userBean.password}" required="true" requiredMessage="Please enter confirm password">
+						</h:inputSecret>
+						<p:message for="password2" />
+					</h:panelGrid>
+				</h:panelGroup>
+	
+				<h:commandButton class="pure-button pure-button-primary"
+					value="Submit" action="index.xhtml">
+					<f:actionListener binding="#{userBean.saveOrUpdate()}" />
+					<f:actionListener binding="#{userController.signedUp()}" />
+				</h:commandButton>
+<!-- 				<h:commandButton class="pure-button pure-button-primary" -->
+<!-- 					value="Reset" type="reset" /> -->
+					
+<!-- 				<h:inputText value="#{userController.name}" > -->
+<!-- 					<f:ajax event="change" render="ucName"/> -->
+<!-- 				</h:inputText> -->
+				
+<!-- 				<h:outputText value="#{userController.name}" id="ucName"/> -->
+			</h:form>
+				</h:panelGroup>
+			</div>
 		</ui:define>
 	</ui:composition>
-	
-</h:body>
+
+</body>
 </html>

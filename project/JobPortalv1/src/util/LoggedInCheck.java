@@ -14,6 +14,10 @@ public class LoggedInCheck implements PhaseListener {
 
 	@Override
 	public void afterPhase(PhaseEvent event) {
+	}
+
+	@Override
+	public void beforePhase(PhaseEvent event) {
 
 		ExternalContext ec = event.getFacesContext().getExternalContext();
 
@@ -27,10 +31,6 @@ public class LoggedInCheck implements PhaseListener {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	@Override
-	public void beforePhase(PhaseEvent event) {
 	}
 
 	@Override

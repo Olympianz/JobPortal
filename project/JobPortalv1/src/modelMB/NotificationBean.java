@@ -3,10 +3,12 @@ package modelMB;
 import java.io.IOException;
 import java.io.Serializable;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 
 import service.NotificationService;
@@ -65,7 +67,23 @@ public class NotificationBean implements Serializable {
 	}
 	
 	public void saveOrUpdate() {
-		NotificationService.saveOrUpdate(this);
+		int id = NotificationService.saveOrUpdate(this);
+		ExternalContext ec = FacesContext.getCurrentInstance()
+				.getExternalContext();
+
+		if (id > 0) {
+			try {
+				ec.redirect("notification_description.xhtml?id=" + id);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			String message = "Fail to send the message.";
+			FacesMessage facesMessage = new FacesMessage(
+					FacesMessage.SEVERITY_WARN, message, null);
+
+			throw new ValidatorException(facesMessage);
+		}
 	}
 
 	public Integer getId() {

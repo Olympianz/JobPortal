@@ -173,6 +173,29 @@ public class UserDAO extends DAO implements TableManipulation {
 
 		return user;
 	}
+	
+	//
+	public List<String> getUserByEmail(String email) {
+		List<String> l = null;
+
+		try {
+			begin();
+
+			Query q = getSession().createQuery(
+					"select password from User where email=:email").setParameter("email", email);
+			
+			System.out.println(q.list());
+			
+			l = (List<String>) q.list();
+			
+			System.out.println(l);
+
+			commit();
+		} catch (Exception e) {
+			rollback();
+		}
+		return l;
+	}
 
 	public User getUserByEmailSessionId(String email, String sessionId) {
 		User user = null;
@@ -263,5 +286,4 @@ public class UserDAO extends DAO implements TableManipulation {
 	
 		return users;
 	}
-	
 }

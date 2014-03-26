@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -33,6 +34,24 @@ public class UserController implements Serializable {
 	private String password;
 	private List<Asset> assets = null;
 	private String keyword = "";
+	private boolean signOn = false;
+	private String role = "";
+	
+	//
+	public String retrievePwd(){
+		return UserService.retrievePwd(this.email);
+	}
+
+	@ManagedProperty(value="#{userBean}")
+	private UserBean userBean;
+	
+	public UserBean getUserBean() {
+		return userBean;
+	}
+	
+	public void setUserBean(UserBean userBean) {
+		this.userBean = userBean;
+	}
 	
 	public List<String> searchEmail(String query) {
 		List<String> emailStrings = UserService.searchEmail(query);
@@ -56,6 +75,30 @@ public class UserController implements Serializable {
 
 	public void setAssets(List<Asset> assets) {
 		this.assets = assets;
+	}
+	
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
+	public String getRole() {
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		HttpSession session = (HttpSession)ec.getSession(false);
+		User user = null;
+
+		if (session != null && (user = (User)session.getAttribute("loggedin_user")) != null){
+			role = user.getRole().getRole_n();
+		}
+		
+		return "anonymous";
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public String getName() {
@@ -92,6 +135,22 @@ public class UserController implements Serializable {
 		return name;
 	}
 	
+	public void signUp() {
+		this.signOn = true;
+	}
+	
+	public void signedUp() {
+		this.signOn = false;
+	}
+	
+	public boolean getSignOn() {
+		return signOn;
+	}
+	
+	public void setSignOn(boolean signOn) {
+		this.signOn = signOn;
+	}
+	
 	public boolean isLoggedIn() {
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 		return SessionCtl.checkLogIn((HttpServletRequest)ec.getRequest(), (HttpServletResponse)ec.getResponse());
@@ -106,4 +165,42 @@ public class UserController implements Serializable {
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 		SessionCtl.logout((HttpServletRequest)ec.getRequest(), (HttpServletResponse)ec.getResponse());
 	}
+
+
+	public boolean isAdmin() {
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		HttpSession session = (HttpSession)ec.getSession(false);
+		User user = (User)session.getAttribute("loggedin_user");
+		
+		String role = (user == null)? "anonymous" : user.getRole().getRole_n();
+
+		return role.equals("administrator");
+	}
+	
+	public boolean isJobSeeker() {
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		HttpSession session = (HttpSession)ec.getSession(false);
+		User user = (User)session.getAttribute("loggedin_user");
+		
+		String role = (user == null)? "anonymous" : user.getRole().getRole_n();
+		
+		return role.equals("jobseeker");
+	}
+	
+	public boolean isEmp() {
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		HttpSession session = (HttpSession)ec.getSession(false);
+		User user = (User)session.getAttribute("loggedin_user");
+		
+		String role = (user == null)? "anonymous" : user.getRole().getRole_n();
+		
+		return role.equals("employer");
+	}
+	
+	public void deactiveUser() {
+		UserService.deactiveUser();
+		logout();
+	}
+	
+
 }

@@ -53,6 +53,7 @@ public class User {
 	}
 	
 	public User(String creation_user) {
+		this.user_name = "default";
 		this.active_status = "Y";
 		this.creation_user_name = creation_user;
 		this.update_user_name = creation_user;

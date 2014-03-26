@@ -16,7 +16,15 @@ public class Experience {
 	private Calendar creation_time;
 	private Calendar update_time;
 	
-
+	public Experience() {
+		this.name = "Entry Level";
+		this.active = "Y";
+		this.creation_user = "sysdba";
+		this.update_user = "sysdba";
+		this.creation_time = Calendar.getInstance();
+		this.update_time = Calendar.getInstance();
+	}
+	
 	@Id
 	@GeneratedValue
 	@Column(name = "EXPERIENCE_I")

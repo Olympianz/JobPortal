@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 
@@ -9,17 +12,20 @@
 <body>
 
 	<ui:composition>
-		<ul class="sidebar-nav">
-			<li class="sidebar-brand">Active</li>
-	        <li><a href="em_searchjob.xhtml">Search Jobs</a></li>
-	        <li><a href="em_addjob.xhtml">Add Jobs</a></li>
-	        <li><a href="em_message.xhtml">Message</a></li>
-	        <li><a href="em_showapp.xhtml">Show Applications</a></li>
+		<div class="list-group">
+			<h4 class="list-group-heading">Active</h4>
+			<h:link styleClass="list-group-item" value="Search Applications" outcome="application_list.xhtml" />
+			<h:link styleClass="list-group-item" value="Search Job Seekers" outcome="mainMenu.xhtml" />
+			<h:link styleClass="list-group-item" value="Send Message" outcome="notification_edit.xhtml" />
+			<h:link styleClass="list-group-item" value="Sent Message" outcome="notification_list.xhtml?mode=sent" />
+			<h:link styleClass="list-group-item" value="Received Message" outcome="notification_list.xhtml?mode=recv" />
+			<h:link styleClass="list-group-item" value="New Job Position" outcome="job_edit.xhtml" />
+			<h:link styleClass="list-group-item" value="List Postings" outcome="job_list.xhtml?mode=posted" />
 	        
-	        <li class="sidebar-brand"> <b>Profile</b> </li>
-	        <li><a href="em_edit.xhtml">View/Edit Profile</a></li>
-	        <li><a href="em_delete.xhtml">Delete Profile</a></li>
-		</ul>
+	     	<h4 class="list-group-heading">Profile</h4>
+			<h:link styleClass="list-group-item" value="View/Edit Profile" outcome="jsEditProfile.xhtml" />
+			<h:link styleClass="list-group-item" value="Delete Profile" outcome="jsDelete.xhtml" />
+		</div>
 	</ui:composition>
 
 </body>
