@@ -79,7 +79,7 @@ public class User {
 		this.recv_notif = recv_notif;
 	}
 
-	@ManyToMany(fetch=FetchType.EAGER, cascade={CascadeType.ALL})
+	@ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(name="J_SAVED_JOBS", 
                 joinColumns={@JoinColumn(name="USER_I")}, 
                 inverseJoinColumns={@JoinColumn(name="POSTING_I")})
@@ -130,7 +130,7 @@ public class User {
 		this.applications = applications;
 	}
 	
-	@ManyToOne(cascade={CascadeType.ALL})
+	@ManyToOne
 	@JoinColumn(name="role_id", nullable=false)
 	public Role getRole() {
 		return role;
@@ -140,7 +140,7 @@ public class User {
 		this.role = role;
 	}
 
-	@ManyToOne(cascade={CascadeType.ALL})
+	@ManyToOne
 	@JoinColumn(name="experience_id", nullable=false)
 	public Experience getExperience() {
 		return experience;

@@ -62,8 +62,10 @@
 				</h:link>
 			</h:panelGroup> <br /> <br />
 			
-			<!-- Applicants: show if the user is the owner of this posting -->
+			<!-- Applications: show if the user is the owner of this posting -->
 			<h:panelGroup rendered="#{jobBean.owned()}">
+			
+			
 			</h:panelGroup> <br />
 
 			<!-- Show to job seekers -->
@@ -74,7 +76,15 @@
    					itemLabel="#{asset.name}" itemValue="#{asset.id}" />
     		</h:selectOneMenu>
 			
-			<p:commandButton value="Apply" actionListener="#{jobBean.apply}" />
+			&nbsp;<p:commandButton value="Apply" actionListener="#{jobBean.apply}" />
+			
+			<br /><br />
+			
+			<h:panelGroup id="saveButton">
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+				<p:commandButton value="Save" update="saveButton" actionListener="#{jobBean.saveJob}" />
+			</h:panelGroup> <br />
+			
 			</h:form>
 		</div>
 		</div>

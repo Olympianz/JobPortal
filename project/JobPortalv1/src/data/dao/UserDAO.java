@@ -250,6 +250,28 @@ public class UserDAO extends DAO implements TableManipulation {
 		
 		return id;
 	}
+	
+	public int merge(User user) {
+		int id = -1;
+		
+		try{
+			begin();
+			if(user.getUser_id() != null && user.getUser_id() >= 0) {
+				id = user.getUser_id();
+				getSession().merge(user);
+			}
+			commit();
+		} catch (HibernateException e) {
+			if (getSession().getTransaction()!=null) {
+				rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return id;
+	}
 
 	public List<User> search(String query) {
 		List<User> users = null;

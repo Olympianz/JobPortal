@@ -7,10 +7,10 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -25,14 +25,12 @@ import data.entity.Job;
 import data.entity.User;
 
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class JobBean implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8983329096246519715L;
-
-	JobService jobService = new JobService();
 
 	private boolean full_record;
 	private Integer id;
@@ -63,7 +61,7 @@ public class JobBean implements Serializable{
 		String jobId = request.getParameter("id");
 
 		if (jobId != null) {
-			jobService.getJobById(this, Integer.parseInt(jobId), true);
+			JobService.getJobById(this, Integer.parseInt(jobId), true);
 			// System.out.println(this);
 		} else {
 			User current_user = SessionCtl.getLoggedInUser();
@@ -109,6 +107,27 @@ public class JobBean implements Serializable{
 			throw new ValidatorException(facesMessage);
 		}
 
+	}
+	
+	//savejob
+	 public void saveInfo(ActionEvent actionEvent) {  
+		 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Info message", "Job successfully saved"));  
+	 }  
+	   
+	 public void loginInfo(ActionEvent actionEvent) {  
+		 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Info message", "Please log in before you save the job"));  
+	 } 
+	   
+	
+	
+	 public void saveJob(ActionEvent actionEvent){
+		if (SessionCtl.getLoggedInUser() != null){
+			JobService.saveJob(this.id);
+			saveInfo(actionEvent); 
+		}else{
+			loginInfo(actionEvent);
+		}
+		
 	}
 
 	public void fetchCompany() {
@@ -158,7 +177,6 @@ public class JobBean implements Serializable{
 	public boolean owned() {
 
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-		HttpServletRequest request = (HttpServletRequest) ec.getRequest();
 		HttpSession session = (HttpSession)ec.getSession(false);
 
 		User user = null;

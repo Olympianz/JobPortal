@@ -123,7 +123,8 @@ public class UserService implements MetaService {
 		UserBean userBean = new UserBean();
 		loadFromDB(userBean, id);
 		
-		List<JobBean> jobBeans = new ArrayList<JobBean>();		
+		List<JobBean> jobBeans = new ArrayList<JobBean>();
+		
 		for(JobBean jobBean : userBean.getSaved_jobs()) {
 			if(keyword.equals("") || jobBean.getTitle().contains(keyword))
 				jobBeans.add(jobBean);
@@ -284,7 +285,7 @@ public class UserService implements MetaService {
 			List<JobBean> saved_jobs = new ArrayList<JobBean>();
 			JobBean sJobBean = null;
 			for(Job job: user.getSaved_jobs()) {
-				jobBean = new JobBean();
+				sJobBean = new JobBean();
 				JobService.loadFromEntity(sJobBean, job, false);
 				saved_jobs.add(sJobBean);
 			}

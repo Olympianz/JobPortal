@@ -22,6 +22,18 @@ import data.entity.User;
 public class JobService {
 
 	static final JobDAO jobDao = new JobDAO();
+	//
+	static final UserDAO userDao = new UserDAO();
+	
+	//saveJob
+	public static void saveJob(int id){
+		User user = null;
+		Job savejob = jobDao.getEntityById(id);
+		user = SessionCtl.getLoggedInUser();
+		user.getSaved_jobs().add(savejob);
+		userDao.saveOrUpdate(user);
+	
+	}
 	
 	public static List<JobBean> all() {
 		List<Job> jobs = jobDao.listEntities();
@@ -51,7 +63,7 @@ public class JobService {
 		return jobBeans;
 	}
 	
-	public void getJobById(JobBean jobBean, Integer jobId, boolean deepLoad) {
+	public static void getJobById(JobBean jobBean, Integer jobId, boolean deepLoad) {
 		Job job = jobDao.getEntityById(jobId);
 		
 		if (job != null) {
