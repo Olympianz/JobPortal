@@ -15,6 +15,12 @@
 
 	<ui:composition template="/templates/mainLayout.xhtml">
 		<ui:define name="content">
+			<h:panelGroup rendered="#{userController.message ne ''}">
+				<div class="alert alert-success alert-dismissable">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+					#{userController.message}
+				</div>
+			</h:panelGroup>
 				<h:panelGroup rendered="#{!userController.signOn}">
 					<p>
 						<a style="font-size: 25px;"> Welcome to Cogent InfoTech</a>
@@ -37,7 +43,7 @@
 						support of a highly motivated team that is enthusiastic,
 						passionate and always strives to act in a professional manner.</p>
 
-					<p aligh="justify">All our divisions have experienced
+					<p align="justify">All our divisions have experienced
 						unprecedented growth in recent years despite adverse economic
 						conditions. We have enjoyed year-on-year growth since inception in
 						2003. This is directly attributable to a rapidly expanding client
@@ -126,14 +132,6 @@
 						value="Submit">
 						<f:actionListener binding="#{userController.saveSignUp()}" />
 					</h:commandButton>
-<!-- 				<h:commandButton class="pure-button pure-button-primary" -->
-<!-- 					value="Reset" type="reset" /> -->
-					
-<!-- 				<h:inputText value="#{userController.name}" > -->
-<!-- 					<f:ajax event="change" render="ucName"/> -->
-<!-- 				</h:inputText> -->
-				
-<!-- 				<h:outputText value="#{userController.name}" id="ucName"/> -->
 				</h:form>
 			</h:panelGroup>
 		</ui:define>

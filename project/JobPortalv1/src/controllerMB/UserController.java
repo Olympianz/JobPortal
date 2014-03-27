@@ -18,7 +18,6 @@ import javax.servlet.http.HttpSession;
 import modelMB.UserBean;
 import data.entity.Asset;
 import data.entity.User;
-import service.JobService;
 import service.UserService;
 import util.SessionCtl;
 
@@ -162,8 +161,7 @@ public class UserController implements Serializable {
 		if (id >= 0) {
 			try {
 				this.signOn = false;
-				message = "Account created uccessfully.";
-				ec.redirect("index.xhtml");
+				ec.redirect("index.xhtml?message=Account created successfully.");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -228,7 +226,14 @@ public class UserController implements Serializable {
 	}
 
 	public String getMessage() {
-		return message;
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		HttpServletRequest request = (HttpServletRequest) ec.getRequest();
+		String message = request.getParameter("message");
+		
+		if( message != null)	
+			return message;
+		else
+			return "";
 	}
 
 	public void setMessage(String message) {
