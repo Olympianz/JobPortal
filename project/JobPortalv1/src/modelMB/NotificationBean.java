@@ -77,13 +77,14 @@ public class NotificationBean implements Serializable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else {
-			String message = "Fail to send the message.";
+		} else {			 
 			FacesMessage facesMessage = new FacesMessage(
-					FacesMessage.SEVERITY_WARN, message, null);
-
-			throw new ValidatorException(facesMessage);
+				FacesMessage.SEVERITY_INFO,"Info message", 
+					"Fail to send the message.");
+			FacesContext.getCurrentInstance().addMessage(null, 
+					facesMessage);  
 		}
+
 	}
 
 	public Integer getId() {

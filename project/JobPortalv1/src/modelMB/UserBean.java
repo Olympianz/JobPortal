@@ -1,5 +1,6 @@
 package modelMB;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -10,6 +11,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 
@@ -69,8 +71,8 @@ public class UserBean implements Serializable {
 		UserService.loadFromEntity(this, entity, true);
 	}
 	
-	public void saveOrUpdate() {
-		UserService.saveOrUpdate(this);
+	public int saveOrUpdate() {
+		return UserService.saveOrUpdate(this);
 	}
 
 	public boolean isFull_record() {
@@ -333,12 +335,10 @@ public class UserBean implements Serializable {
 		  }
 	 
 		  if (!password.equals(confirmPassword)) {
-	 
 			FacesMessage msg = new FacesMessage("Password must match confirm password");
 			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 			fc.addMessage(passwordId, msg);
 			fc.renderResponse();
-	 
 		  }
 	}
 }

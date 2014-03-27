@@ -68,8 +68,11 @@
 			
 			</h:panelGroup> <br />
 
+			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			
 			<!-- Show to job seekers -->
 			<h:form prependId="false" rendered="#{userController.isJobSeeker()}">
+			<br />
 			Select a document to apply this position: 
     		<h:selectOneMenu id="asset" value="#{jobBean.asset_id}">
    				<f:selectItems value="#{userController.assets}" var="asset"
@@ -80,11 +83,18 @@
 			
 			<br /><br />
 			
-			<h:panelGroup id="saveButton">
-				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			<!-- Save Button -->
+			<h:panelGroup id="saveButton" rendered="#{!jobBean.checkSavedJob()}">
 				<p:commandButton value="Save" update="saveButton" actionListener="#{jobBean.saveJob}" />
 			</h:panelGroup> <br />
-			
+							
+			<!--  Remove Button -->	
+			<h:panelGroup rendered="#{jobBean.checkSavedJob()}">
+				<p:commandButton value="Remove" onclick="return confirm('Are you sure to remove?')" 
+					actionListener="#{jobBean.deleteJob()}">
+				</p:commandButton>
+			</h:panelGroup> 
+				
 			</h:form>
 		</div>
 		</div>

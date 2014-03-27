@@ -424,18 +424,19 @@ public class UserService implements MetaService {
 		RoleDAO roleDao = new RoleDAO();
 		Role role = null;
 		
-		if (userBean.getRole() != null) {
+		if (userBean.getRole() != null) 
 			role = roleDao.getByName(userBean.getRole());
-		}
-		else
+		
+		if (role == null)
 			role = roleDao.getByName("jobseeker");
 
 		ExperienceDAO expDao = new ExperienceDAO();
 		Experience exp = null;
 		if(userBean.getExperience() != null)
 			exp = expDao.getByName(userBean.getExperience());
-		else
-			exp = new Experience();
+		
+		if(exp == null)
+			exp = expDao.getByName("Entry level");
 		
 		int result = -1;
 

@@ -1,9 +1,11 @@
 package controllerMB;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -36,6 +38,7 @@ public class UserController implements Serializable {
 	private String keyword = "";
 	private boolean signOn = false;
 	private String role = "";
+	private String message = "";
 	
 	//
 	public String retrievePwd(){
@@ -151,6 +154,28 @@ public class UserController implements Serializable {
 		this.signOn = signOn;
 	}
 	
+	public void saveSignUp() {
+		int id = userBean.saveOrUpdate();
+		ExternalContext ec = FacesContext.getCurrentInstance()
+				.getExternalContext();
+		
+		if (id >= 0) {
+			try {
+				this.signOn = false;
+				message = "Account created uccessfully.";
+				ec.redirect("index.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {			 
+			FacesMessage facesMessage = new FacesMessage(
+				FacesMessage.SEVERITY_ERROR,"Info message", 
+					"Fail to create/update the account.");
+			FacesContext.getCurrentInstance().addMessage(null, 
+					facesMessage);  
+		}
+	}
+	
 	public boolean isLoggedIn() {
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 		return SessionCtl.checkLogIn((HttpServletRequest)ec.getRequest(), (HttpServletResponse)ec.getResponse());
@@ -200,6 +225,14 @@ public class UserController implements Serializable {
 	public void deactiveUser() {
 		UserService.deactiveUser();
 		logout();
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 	
 

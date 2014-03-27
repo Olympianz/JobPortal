@@ -35,6 +35,32 @@ public class JobService {
 	
 	}
 	
+	//delete job
+	public static void deleteJob(int id){
+		User user = null;
+		user = SessionCtl.getLoggedInUser();
+
+		for(Job job : user.getSaved_jobs()) {
+			if(job.getId() == id) {
+				user.getSaved_jobs().remove(job);
+				break;
+			}
+		}
+		
+		userDao.saveOrUpdate(user);
+	}
+	
+    //search job by job id  in user's saved_job
+	public static boolean searchJob(int id){
+		User user = null;
+		user = SessionCtl.getLoggedInUser();
+		for (Job job : user.getSaved_jobs()) {
+			if( job.getId() == id)
+				return true;
+		}
+		return false;
+	}
+	
 	public static List<JobBean> all() {
 		List<Job> jobs = jobDao.listEntities();
 		List<JobBean> jobBeans = new ArrayList<JobBean>();

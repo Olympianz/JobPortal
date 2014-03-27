@@ -15,7 +15,6 @@
 
 	<ui:composition template="/templates/mainLayout.xhtml">
 		<ui:define name="content">
-			<div class="content" style="margin-top: 50px; height: auto;">
 				<h:panelGroup rendered="#{!userController.signOn}">
 					<p>
 						<a style="font-size: 25px;"> Welcome to Cogent InfoTech</a>
@@ -49,82 +48,84 @@
 
 				<h:panelGroup rendered="#{userController.signOn}">
 					<h:form>
-				<h:selectOneMenu styleClass="bootstrap-select"
-						value="#{userBean.role}">
-						<label for="state">User Type</label>
-						<br />
-						<f:selectItem itemValue="#" itemLabel="Select One" />
-						<f:selectItem itemValue="jobseeker" itemLabel="Job Seeker" />
-						<f:selectItem itemValue="employer" itemLabel="Employer" />
-						<f:ajax render="@form" />
-				</h:selectOneMenu>
-				<h:panelGroup rendered="#{userBean.role == 'jobseeker'}">
+						<h:selectOneMenu styleClass="bootstrap-select"
+							value="#{userController.userBean.role}">
+							<label for="state">User Type</label>
+							<br />
+							<f:selectItem itemValue="#" itemLabel="Select One" />
+							<f:selectItem itemValue="jobseeker" itemLabel="Job Seeker" />
+							<f:selectItem itemValue="employer" itemLabel="Employer" />
+							<f:ajax render="@form" />	
+						</h:selectOneMenu>
+						<h:panelGroup rendered="#{userController.userBean.role == 'jobseeker'}">
 				  
-				    <h:message for="js" style="color:red;" />
+					    <h:message for="js" style="color:red;" />
 				
-					<h:panelGrid id="js" class="pure-form pure-form-aligned" columns="3">			
+						<h:panelGrid id="js" class="pure-form pure-form-aligned" columns="3">			
 					
-						<f:event listener="#{userBean.validatePassword}" type="postValidate" />				
+							<f:event listener="#{userController.userBean.validatePassword}" type="postValidate" />				
 					
-						<h:outputText class="pure-form pure-form-aligned" value="Email"></h:outputText>
-						<h:inputText id="email" value="#{userBean.email}" required="true" label="Email" validatorMessage="Email address is not valid. Must in email format.">
-							<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
-						</h:inputText>
-						<p:message for="email" />
-						
-						<h:outputText class="pure-form pure-form-aligned" value="Name"></h:outputText>
-						<h:inputText id="name" value="#{userBean.user_name}" required="true" label="Name" ></h:inputText>
-						<p:message for="name" />
-						
-						<h:outputText class="pure-form pure-form-aligned" value="Password"></h:outputText>
-						<h:inputSecret id="password" value="#{userBean.password}" required="true" label="Password" validatorMessage="Password is not valid. At Least 6 characters long, contain one lower case letter and one capital case letter.">
-							<f:validateRegex pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20})" />
-						</h:inputSecret>
-						<p:message for="password" />
-						
-						<h:outputText class="pure-form pure-form-aligned" value="Confirm Password"></h:outputText>
-						<h:inputSecret id="password3" value="#{userBean.password}" required="true" requiredMessage="Please enter confirm password">
-						</h:inputSecret>
-						<p:message for="password3" />
-						
-					</h:panelGrid>
-				</h:panelGroup>
-				<h:panelGroup rendered="#{userBean.role == 'employer'}">
+							<h:outputText class="pure-form pure-form-aligned" value="Email"></h:outputText>
+							<h:inputText id="email" value="#{userController.userBean.email}" required="true" label="Email" validatorMessage="Email address is not valid. Must in email format.">
+								<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+							</h:inputText>
+							<p:message for="email" />
+							
+							<h:outputText class="pure-form pure-form-aligned" value="Name"></h:outputText>
+							<h:inputText id="name" value="#{userController.userBean.user_name}" required="true" label="Name" ></h:inputText>
+							<p:message for="name" />
+							
+							<h:outputText class="pure-form pure-form-aligned" value="Password"></h:outputText>
+							<h:inputSecret id="password" value="#{userController.userBean.password}" required="true" label="Password" validatorMessage="Password is not valid. At Least 6 characters long, contain one lower case letter and one capital case letter.">
+								<f:validateRegex pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20})" />
+							</h:inputSecret>
+							<p:message for="password" />
+							
+							<h:outputText class="pure-form pure-form-aligned" value="Confirm Password"></h:outputText>
+							<h:inputSecret id="password3" value="#{userController.userBean.password}" required="true" requiredMessage="Please enter confirm password">
+							</h:inputSecret>
+							<p:message for="password3" />
+							
+						</h:panelGrid>
+					</h:panelGroup>
+					
+					<h:panelGroup rendered="#{userController.userBean.role == 'employer'}">
 				
-					 <h:message for="em" style="color:red;" />
+						<h:message for="em" style="color:red;" />
 						
-					<h:panelGrid id="em" class="pure-form pure-form-aligned" columns="3">
+						<h:panelGrid id="em" class="pure-form pure-form-aligned" columns="3">
 					
-						<f:event listener="#{userBean.validatePassword1}" type="postValidate" />				
+							<f:event listener="#{userController.userBean.validatePassword1}" type="postValidate" />				
 					
-						<h:outputText class="pure-form pure-form-aligned" value="Email"></h:outputText>
-						<h:inputText id="email1" value="#{userBean.email}" required="true" label="Email" validatorMessage="Email address is not valid. Must in email format.">
-							<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
-						</h:inputText>
-						<p:message for="email1" />
+							<h:outputText class="pure-form pure-form-aligned" value="Email"></h:outputText>
+							<h:inputText id="email1" value="#{userController.userBean.email}" required="true" label="Email" validatorMessage="Email address is not valid. Must in email format.">
+								<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+							</h:inputText>
+							<p:message for="email1" />
 						
-						<h:outputText class="pure-form pure-form-aligned" value="Name"></h:outputText>
-						<h:inputText id="name1" value="#{userBean.user_name}" required="true" label="Name" ></h:inputText>
-						<p:message for="name1" />
+							<h:outputText class="pure-form pure-form-aligned" value="Name"></h:outputText>
+							<h:inputText id="name1" value="#{userController.userBean.user_name}" required="true" label="Name" ></h:inputText>
+							<p:message for="name1" />
 						
-						<h:outputText class="pure-form pure-form-aligned" value="Password"></h:outputText>
-						<h:inputSecret id="password1" value="#{userBean.password}" required="true" label="Password" validatorMessage="Password is not valid. At Least 6 characters long, contain one lower case letter and one capital case letter.">
-							<f:validateRegex pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20})" />
-						</h:inputSecret>
-						<p:message for="password1" />
+							<h:outputText class="pure-form pure-form-aligned" value="Password"></h:outputText>
+							<h:inputSecret id="password1" value="#{userController.userBean.password}" required="true" label="Password" validatorMessage="Password is not valid. At Least 6 characters long, contain one lower case letter and one capital case letter.">
+								<f:validateRegex pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20})" />
+							</h:inputSecret>
+							<p:message for="password1" />
 						
-						<h:outputText class="pure-form pure-form-aligned" value="Confirm Password"></h:outputText>
-						<h:inputSecret id="password2" value="#{userBean.password}" required="true" requiredMessage="Please enter confirm password">
-						</h:inputSecret>
-						<p:message for="password2" />
-					</h:panelGrid>
-				</h:panelGroup>
-	
-				<h:commandButton class="pure-button pure-button-primary"
-					value="Submit" action="index.xhtml">
-					<f:actionListener binding="#{userBean.saveOrUpdate()}" />
-					<f:actionListener binding="#{userController.signedUp()}" />
-				</h:commandButton>
+							<h:outputText class="pure-form pure-form-aligned" value="Confirm Password"></h:outputText>
+							<h:inputSecret id="password2" value="#{userController.userBean.password}" required="true" requiredMessage="Please enter confirm password">
+							</h:inputSecret>
+							<p:message for="password2" />
+						</h:panelGrid>
+					</h:panelGroup>
+				
+					<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+					<br />
+					<h:commandButton class="pure-button pure-button-primary"
+						value="Submit">
+						<f:actionListener binding="#{userController.saveSignUp()}" />
+					</h:commandButton>
 <!-- 				<h:commandButton class="pure-button pure-button-primary" -->
 <!-- 					value="Reset" type="reset" /> -->
 					
@@ -133,9 +134,8 @@
 <!-- 				</h:inputText> -->
 				
 <!-- 				<h:outputText value="#{userController.name}" id="ucName"/> -->
-			</h:form>
-				</h:panelGroup>
-			</div>
+				</h:form>
+			</h:panelGroup>
 		</ui:define>
 	</ui:composition>
 

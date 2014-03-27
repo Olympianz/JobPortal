@@ -101,12 +101,12 @@ public class JobBean implements Serializable{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else {
-			String message = "Fail to create/update the job.";
+		} else {			 
 			FacesMessage facesMessage = new FacesMessage(
-					FacesMessage.SEVERITY_WARN, message, null);
-
-			throw new ValidatorException(facesMessage);
+				FacesMessage.SEVERITY_INFO,"Info message", 
+					"Fail to create/update the job.");
+			FacesContext.getCurrentInstance().addMessage(null, 
+					facesMessage);  
 		}
 
 	}
@@ -129,7 +129,16 @@ public class JobBean implements Serializable{
 		}else{
 			loginInfo(actionEvent);
 		}
-		
+	}
+	 
+	//check if this job is a saved job
+	public boolean checkSavedJob() {
+		return JobService.searchJob(this.id);
+	}
+	 
+    //delete job
+	public void deleteJob(){
+		JobService.deleteJob(this.id);
 	}
 
 	public void fetchCompany() {
@@ -161,14 +170,14 @@ public class JobBean implements Serializable{
 		ExternalContext ec = FacesContext.getCurrentInstance()
 				.getExternalContext();
 		
-		if (id > 0) {
+		if (id >= 0) {
 			try {
 				ec.redirect("application_description.xhtml?id=" + id);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
-			String message = "Fail to send the message.";
+			String message = "Fail to apply this job.";
 			FacesMessage facesMessage = new FacesMessage(
 					FacesMessage.SEVERITY_WARN, message, null);
 
