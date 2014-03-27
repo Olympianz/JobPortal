@@ -13,168 +13,174 @@
 <ui:composition template="/templates/loggedInLayout.xhtml">
 	<ui:define name="content">
 
-		<h:form>
-
-			<p:growl id="growl" sticky="true" showDetail="true" />
-
-			<p:wizard  widgetVar="wiz" flowListener="#{profileMB.onFlowProcess}">
-
-				<p:tab id="personal" title="Personal">
-					<p:panel header="Personal Details">
-
-						<h:messages errorClass="error" />
-
-						<h:panelGrid columns="2" columnClasses="gridLabel, gridValue" styleClass="grid">
-							<h:outputText value="Username: *" />
-							<p:inputText required="true"
-								value="#{profileMB.userBean.user_name}" />
-
-							<h:outputText value="Password: *" />
-							<h:inputText required="true"
-								value="#{profileMB.userBean.password}" />
-
-							<h:outputText value="Email: *" />
-							<h:inputText value="#{profileMB.userBean.email}" />
-
-							<h:outputText value="Role: *" />
-							<h:selectOneMenu id="selectRole"
-								value="#{profileMB.userBean.role}">
-								<f:selectItem itemValue="jobseeker" itemLabel="Job Seeker" />
-								<f:selectItem itemValue="employer" itemLabel="Employer" />
-							</h:selectOneMenu>
-
-							<h:outputText value="Experience: *" />
-							<h:selectOneMenu id="selectExp"
-								value="#{profileMB.userBean.experience}">
-								<f:selectItem itemValue="Intern" itemLabel="Internship" />
-								<f:selectItem itemValue="Entry level" itemLabel="Entry Level" />
-								<f:selectItem itemValue="Junior level" itemLabel="Junior Level" />
-								<f:selectItem itemValue="Senior level" itemLabel="Senior Level" />
-								<f:selectItem itemValue="Manager" itemLabel="Manager" />
-								<f:selectItem itemValue="Director" itemLabel="Director" />
-							</h:selectOneMenu>
-
-							<h:outputText value="Skip to last: " />
-							<h:selectBooleanCheckbox value="#{profileMB.skip}" />
-
-						</h:panelGrid>
-					</p:panel>
-
-				</p:tab>
-
-				<p:tab id="address" title="Contact">
-					<p:panel header="Contact Details">
-
-						<h:messages errorClass="error" />
-
-						<h:panelGrid columns="2" columnClasses="gridLabel, gridValue" styleClass="grid">
-							<h:outputText value="Contact type: *" />
-							<h:selectOneMenu id="selectContactType"
-								value="#{profileMB.userBean.contact.type}">
-								<f:selectItem itemValue="company" itemLabel="Company" />
-								<f:selectItem itemValue="individual" itemLabel="Individual" />
-							</h:selectOneMenu>
-
-							<h:outputText value="Street: " />
-
-							<h:inputText value="#{profileMB.userBean.contact.address}">
-							</h:inputText>
-
-							<h:outputText value="City: " />
-							<h:inputText value="#{profileMB.userBean.contact.city}">
-							</h:inputText>
-
-							<h:outputText value="State: " />
-							<h:inputText value="#{profileMB.userBean.contact.state}">
-							</h:inputText>
-
-							<h:outputText value="Zip code: " />
-							<h:inputText value="#{profileMB.userBean.contact.zip}">
-							</h:inputText>
-
-							<h:outputText value="Skip to last: " />
-							<h:selectBooleanCheckbox value="#{profileMB.skip}" />
-						</h:panelGrid>
-					</p:panel>
-				</p:tab>
-
-				<p:tab id="contact" title="Company">
-					<p:panel header="Company Information">
-
-						<h:messages errorClass="error" />
-
-						<h:panelGrid columns="2" columnClasses="gridLabel, gridValue" styleClass="grid">
-
-							<h:outputText value="Company name: *" />
-							<h:inputText required="true" label="Email"
-								value="#{profileMB.userBean.company.name}">
-							</h:inputText>
-
-						</h:panelGrid>
-					</p:panel>
-				</p:tab>
-
-				<p:tab id="confirm" title="Confirmation">
-					<p:panel header="Confirmation">
-
-						<h:panelGrid id="confirmation" columns="4" columnClasses="gridLabel, gridValue gridLabel, gridValue" styleClass="grid">
-							<h:outputText value="User Name: " />
-							<h:outputText styleClass="outputLabel"
-								value="#{profileMB.userBean.user_name}" />
-
-							<h:outputText value="Email: " />
-							<h:outputText styleClass="outputLabel"
-								value="#{profileMB.userBean.email}" />
-
-							<h:outputText value="Role: " />
-							<h:outputText styleClass="outputLabel"
-								value="#{profileMB.userBean.role}" />
-
-							<h:outputText value="Experience: " />
-							<h:outputText styleClass="outputLabel"
-								value="#{profileMB.userBean.experience}" />
-
-							<h:outputText value="Skills: " />
-							<h:outputText styleClass="outputLabel"
-								value="#{profileMB.userBean.skillInput}" />
-
-							<h:outputText value="Contact type: " />
-							<h:outputText styleClass="outputLabel"
-								value="#{profileMB.userBean.contact.type}" />
-
-							<h:outputText value="Street: " />
-							<h:outputText styleClass="outputLabel"
-								value="#{profileMB.userBean.contact.address}" />
-
-							<h:outputText value="City: " />
-							<h:outputText styleClass="outputLabel"
-								value="#{profileMB.userBean.contact.city}" />
-
-							<h:outputText value="State: " />
-							<h:outputText styleClass="outputLabel"
-								value="#{profileMB.userBean.contact.state}" />
-
-							<h:outputText value="Zip: " />
-							<h:outputText styleClass="outputLabel"
-								value="#{profileMB.userBean.contact.zip}" />
-
-							<h:outputText value="Company: " />
-							<h:outputText styleClass="outputLabel"
-								value="#{profileMB.userBean.company.name}" />
-
-							<h:outputText />
-							<h:outputText />
-						</h:panelGrid>
-
-						<h:commandButton value="Submit" actionListener="#{profileMB.save}"
-							action="mainMenu.xhtml" />
-					</p:panel>
-				</p:tab>
-
-			</p:wizard>
-
+		<h:form id="form">
+			<p:panel header="Profile">
+				<p:messages id="messages" showDetail="true" autoUpdate="true"/>
+				
+				<p:panel header="Basics">
+					<h:panelGrid columns="2" cellpadding="5">
+	
+						<p:spacer height="2" />
+						<p:spacer height="2" />
+	
+						<h:outputText value="Name:" />
+						<p:inputText id="userName" value="#{profileMB.userBean.user_name}" />
+	
+						<p:spacer height="2" />
+						<p:spacer height="2" />
+	
+						<h:outputText value="New password: " />
+						<p:password id="password1" value="#{profileMB.userBean.password}" match="password2"
+							feedback="true" />
+	
+						<p:spacer height="2" />
+						<p:spacer height="2" />
+	
+						<h:outputText value="Repeat password:" />
+						<p:password id="password2" value="#{profileMB.userBean.password}"
+							feedback="true" />
+	
+						<p:spacer height="2" />
+						<p:spacer height="2" />
+	
+						<h:outputText value="Email: " />
+						<p:inputText id="email" value="#{profileMB.userBean.email}" />
+	
+						<p:spacer height="2" />
+						<p:spacer height="2" />
+	
+						<h:outputText value="Role: " />
+						<p:selectOneMenu value="#{profileMB.userBean.role}">
+							<f:selectItem itemLabel="Select One" itemValue="" />
+							<f:selectItem itemLabel="Job Seeker" itemValue="jobseeker" />
+							<f:selectItem itemLabel="Employer" itemValue="employer" />
+							<f:selectItem itemLabel="Administrator" itemValue="administrator" />
+						</p:selectOneMenu>
+	
+						<p:spacer height="2" />
+						<p:spacer height="2" />
+	
+						<h:outputText value="Experience: " />
+						<p:selectOneMenu value="#{profileMB.userBean.experience}">
+							<f:selectItem itemLabel="Select One" itemValue="" />
+							<f:selectItem itemLabel="Internship" itemValue="Intern" />
+							<f:selectItem itemLabel="Entry Level" itemValue="Entry level" />
+							<f:selectItem itemLabel="Junior Level" itemValue="Junior level" />
+							<f:selectItem itemLabel="Senior Level" itemValue="Senior level" />
+							<f:selectItem itemLabel="Manager" itemValue="Manager" />
+							<f:selectItem itemLabel="Director" itemValue="Director" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+				</p:panel>
+				
+				<p:panel header="Contact" toggleable="true" toggleSpeed="500">
+					<h:panelGrid columns="2" cellpadding="5">
+	
+						<p:spacer height="2" />
+						<p:spacer height="2" />
+	
+						<h:outputText value="Contact Type: " />
+						<p:selectOneMenu value="#{profileMB.contactBean.type}">
+							<f:selectItem itemLabel="Company" itemValue="company" />
+							<f:selectItem itemLabel="Individual" itemValue="individual" />
+						</p:selectOneMenu>
+	
+						<p:spacer height="2" />
+						<p:spacer height="2" />
+	
+						<h:outputText value="Street: " />
+						<p:inputText id="cStreet" value="#{profileMB.contactBean.address}" />
+	
+						<p:spacer height="2" />
+						<p:spacer height="2" />
+	
+						<h:outputText value="City: " />
+						<p:inputText id="cCity" value="#{profileMB.contactBean.city}" />
+	
+						<p:spacer height="2" />
+						<p:spacer height="2" />
+	
+						<h:outputText value="State: " />
+						<p:inputText id="cState" value="#{profileMB.contactBean.state}" />
+	
+						<p:spacer height="2" />
+						<p:spacer height="2" />
+	
+						<h:outputText value="Zip: " />
+						<p:inputText id="cZip" value="#{profileMB.contactBean.zip}" />
+	
+					</h:panelGrid>
+				</p:panel>
+				
+				<p:panel header="Company" toggleable="true" toggleSpeed="500">
+					<h:panelGrid columns="2" cellpadding="5">
+	
+						<p:spacer height="2" />
+						<p:spacer height="2" />
+	
+						<h:outputText value="Company: " />
+						<p:inputText id="companyName" value="#{profileMB.companyBean.name}" />
+	
+					</h:panelGrid>
+				</p:panel>
+				
+				<p:spacer height="10"/>
+				
+				<p:commandButton value="Preview" update="summary"
+				style="margin-top: 15px; margin-bottom: 15px; float: left;" />
+				
+				<p:commandButton value="Save" action="mainMenu.xhtml" 
+				actionListener="#{profileMB.save}" 
+				style="margin-top: 15px; margin-bottom: 15px;" />
+				
+				<p:spacer height="10"/>
+				
+				<p:panel id="summary" header="Summary">
+					<h:panelGrid columns="2" cellpadding="10">
+						<h:outputText value="User Name: " />
+						<h:outputText styleClass="outputLabel" style="margin-left: 10px;"
+							value="#{profileMB.userBean.user_name}" />
+		
+						<h:outputText value="Email: " />
+						<h:outputText styleClass="outputLabel" style="margin-left: 10px;"
+							value="#{profileMB.userBean.email}" />
+		
+						<h:outputText value="Role: " />
+						<h:outputText styleClass="outputLabel" style="margin-left: 10px;"
+							value="#{profileMB.userBean.role}" />
+		                 
+		                <h:outputText value="Experience: " />
+						<h:outputText styleClass="outputLabel" style="margin-left: 10px;"
+							value="#{profileMB.userBean.experience}" />
+		
+						<h:outputText value="Contact type: " />
+						<h:outputText styleClass="outputLabel" style="margin-left: 10px;"
+							value="#{profileMB.userBean.contact.type}" />
+		
+						<h:outputText value="Street: " />
+						<h:outputText styleClass="outputLabel" style="margin-left: 10px;"
+							value="#{profileMB.userBean.contact.address}" />
+		
+						<h:outputText value="City: " />
+						<h:outputText styleClass="outputLabel" style="margin-left: 10px;"
+							value="#{profileMB.userBean.contact.city}" />
+		
+						<h:outputText value="State: " />
+						<h:outputText styleClass="outputLabel" style="margin-left: 10px;"
+							value="#{profileMB.userBean.contact.state}" />
+		
+						<h:outputText value="Zip: " />
+						<h:outputText styleClass="outputLabel" style="margin-left: 10px;"
+							value="#{profileMB.userBean.contact.zip}" />
+		
+						<h:outputText value="Company: " />
+						<h:outputText styleClass="outputLabel" style="margin-left: 10px;"
+							value="#{profileMB.userBean.company.name}" />
+							
+					</h:panelGrid>
+				</p:panel>
+			</p:panel>
 		</h:form>
-
 	</ui:define>
 </ui:composition>
 </h:body>

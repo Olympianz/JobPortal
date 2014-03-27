@@ -16,7 +16,7 @@ import javax.faces.event.ComponentSystemEvent;
 import data.entity.User;
 import service.UserService;
 
-@ManagedBean
+@ManagedBean(name="userBean")
 @SessionScoped
 public class UserBean implements Serializable {
 

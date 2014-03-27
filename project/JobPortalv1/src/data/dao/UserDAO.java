@@ -7,8 +7,6 @@ import modelMB.UserBean;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 
-import data.entity.Application;
-import data.entity.Job;
 import data.entity.User;
 import util.TableManipulation;
 

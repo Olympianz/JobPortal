@@ -50,12 +50,14 @@ public class ContactDAO extends DAO {
 		int id = -1;
 
 		try {
+			begin();
 			if (contact.getContact_id() != null && contact.getContact_id() >= 0) {
 				id = contact.getContact_id();
 				getSession().update(contact);
 			} else {
 				id = (Integer) getSession().save(contact);
 			}
+			commit();
 		} catch (HibernateException e) {
 			if (getSession().getTransaction() != null) {
 				rollback();

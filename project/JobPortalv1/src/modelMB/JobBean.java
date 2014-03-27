@@ -73,9 +73,11 @@ public class JobBean implements Serializable{
 		}
 
 		StringBuilder skillString = new StringBuilder();
-		for (String skill : this.getSkills()) {
-			skillString.append(skill);
-			skillString.append(",");
+		if (this.getSkills() != null) {
+			for (String skill : this.getSkills()) {
+				skillString.append(skill);
+				skillString.append(",");
+			}
 		}
 		this.setSkillInput(skillString.toString());
 	}
