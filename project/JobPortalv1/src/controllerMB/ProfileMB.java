@@ -1,18 +1,31 @@
 package controllerMB;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
+
+import service.AssetService;
 import service.CompanyService;
 import service.ContactService;
 import service.UserService;
 import util.SessionCtl;
-
 import data.entity.User;
-
+import modelMB.AssetBean;
 import modelMB.CompanyBean;
 import modelMB.ContactBean;
 import modelMB.SkillBean;
@@ -28,6 +41,61 @@ public class ProfileMB implements Serializable{
 	private static final long serialVersionUID = 400747030976990728L;
 	private User user;
 	private boolean skip;
+
+    public void submit(FileUploadEvent event) {
+    	UploadedFile file = event.getFile();
+    	String filename = file.getFileName();
+    	Integer size = file.getContents().length;
+    	String loc = "/resources/files/" + filename;
+    	String[] tmp = filename.split("\\.");
+    	String type = tmp[tmp.length - 1];
+   	
+
+		InputStream inputStr = null;
+		try {
+		    inputStr = file.getInputstream();
+		} catch (IOException e) {
+		    //log error
+			FacesMessage msg = new FacesMessage("Fail to upload file " + event.getFile().getFileName() + ".");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			return;
+		}
+		
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+		String directory = externalContext.getInitParameter("uploadDirectory");
+		String fileName = FilenameUtils.getName(file.getFileName());
+		File destFile = new File(directory, fileName);
+		try {
+		    FileUtils.copyInputStreamToFile(inputStr, destFile);
+		} catch (IOException e) {
+		    //log error
+			FacesMessage msg = new FacesMessage("Fail to upload file " + event.getFile().getFileName() + ".");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			return;
+	    }
+		
+		User user = SessionCtl.getLoggedInUser();
+		UserBean userBean = new UserBean();
+		UserService.loadFromEntity(userBean, user, false);
+	
+		AssetBean assetBean = new AssetBean();
+		assetBean.setAuthor(userBean);
+		assetBean.setLocation(loc);
+		assetBean.setName(filename);
+		assetBean.setSize(size);
+		assetBean.setType(type);
+			
+		int id = AssetService.saveOrUpdate(assetBean);
+
+		if (id < 0) {
+			FacesMessage msg = new FacesMessage("Fail to upload file " + event.getFile().getFileName() + ".");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			return;
+		}
+
+		FacesMessage msg = new FacesMessage(event.getFile().getFileName() + " is uploaded.");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 	
 //	public ProfileMB() {
 //		FacesContext context = FacesContext.getCurrentInstance();
@@ -106,6 +174,9 @@ public class ProfileMB implements Serializable{
 	public void loadUserInfo() {
 		
 		User current_user = SessionCtl.getLoggedInUser();
+		if(current_user == null)
+			return;
+		
 		UserService.loadFromEntity(userBean, current_user, true);
 		ContactService.loadFromEntity(contactBean, current_user.getContact());
 		CompanyService.loadFromEntity(companyBean, current_user.getCompany());

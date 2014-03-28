@@ -496,7 +496,7 @@ public class DatabaseCreatingSample {
 		AssetType at3 = newAssetType("txt", "Y", cal, "sysdba", cal, "sysdba");
 
 		// 10. Asset
-		Asset asset1 = newAssets("CV", user3, at1, "/files/cvs/323232.pdf",
+		Asset asset1 = newAssets("CV", user3, at1, "/resources/files/CV.pdf",
 				100, "Y", cal, "sysdba", cal, "sysdba");
 
 		// 11. Notification type

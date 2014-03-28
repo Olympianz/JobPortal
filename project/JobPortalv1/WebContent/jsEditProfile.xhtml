@@ -180,6 +180,45 @@
 					</h:panelGrid>
 				</p:panel>
 			</p:panel>
+			<p:panel header="Assets">
+				<!-- Table -->
+				<div id="assetTable" class="row panel panel-default">
+					<h:form enctype="multipart/form-data">
+					<h:dataTable id="assetList" value="#{assetController.search()}" var="assetBean" paginator="true" rows="10"
+						styleClass="table" headerClass="ordersHeader" rowClasses="oddRow,evenRow">
+						
+						<h:column headerClass="columnHeader" footerClass="columnFooter"> 
+							<f:facet name="header">Title</f:facet>
+							#{assetBean.name}
+							<f:facet name="footer"></f:facet> 
+						</h:column>
+						
+						<h:column headerClass="columnHeader" footerClass="columnFooter"> 
+							<f:facet name="header">Type</f:facet>
+							#{assetBean.type}
+							<f:facet name="footer"></f:facet> 
+						</h:column>
+						
+						<h:column headerClass="columnHeader" footerClass="columnFooter"> 
+							<f:facet name="header">Size</f:facet>
+							#{assetBean.size}
+							<f:facet name="footer"></f:facet> 
+						</h:column>
+						
+						<h:column headerClass="columnHeader" footerClass="columnFooter"> 
+							<f:facet name="header">Link</f:facet>
+								<h:outputLink value="#{request.contextPath}#{assetBean.location}">Download</h:outputLink>
+							<f:facet name="footer"></f:facet> 
+						</h:column>
+					</h:dataTable>
+					<br />
+						<p:fileUpload fileUploadListener="#{profileMB.submit}" mode="advanced" dragDropSupport="false"  
+                     		 update="messages assetList" sizeLimit="1000000" fileLimit="3" allowTypes="/(\.|\/)(pdf|docx|txt)$/" />  
+        				<p:messages id="messages" showDetail="true"/>  
+					</h:form>
+				</div>
+			
+			</p:panel>
 		</h:form>
 	</ui:define>
 </ui:composition>

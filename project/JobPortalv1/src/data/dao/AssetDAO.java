@@ -49,6 +49,7 @@ public class AssetDAO extends DAO {
 		
 		try{
 			begin();
+System.out.println("Begin!!!!!!!!");
 			if(asset.getId() != null && asset.getId() >= 0) {
 				id = asset.getId();
 				getSession().update(asset);
@@ -56,12 +57,14 @@ public class AssetDAO extends DAO {
 			else {
 				id = (Integer)getSession().save(asset); 
 			}
+System.out.println("commit!!!!!!!!");
 			commit();
 		} catch (HibernateException e) {
+System.out.println("EXception!!!!!!!!");
+			e.printStackTrace();
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
-			e.printStackTrace();
 		} finally {
 			close();
 		}

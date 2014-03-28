@@ -180,6 +180,13 @@ public class UserService implements MetaService {
 		return appBeans;
 	}
 	
+	public static List<AssetBean> searchAssets(Integer id) {
+		UserBean userBean = new UserBean();
+		loadFromDB(userBean, id);
+	
+		return userBean.getAssets();
+	}
+	
 	/**
 	 * Check if the email and password pair matches the database record. If yes,
 	 * update new sessionId to database. Otherwise, return null.

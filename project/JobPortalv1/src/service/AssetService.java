@@ -59,6 +59,8 @@ public class AssetService {
 		AssetType type = assetTypeDao.getByName(assetBean.getType());
 		
 		int result = -1;
+System.out.println(user);
+System.out.println(type);
 		if ( user != null && type != null) {
 			asset.setUser(user);
 			asset.setLocation(location);
@@ -67,6 +69,7 @@ public class AssetService {
 			asset.setType(type);
 			asset.setUpdate_user(SessionCtl.getLoggedInUser().getUser_name());
 			asset.setUpdate_time(Calendar.getInstance());
+System.out.println("reached");
 			result = assetDao.saveOrUpdate(asset);
 		}
 		
