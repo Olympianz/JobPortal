@@ -19,16 +19,18 @@ public class LoggedInCheck implements PhaseListener {
 	@Override
 	public void beforePhase(PhaseEvent event) {
 
-		ExternalContext ec = event.getFacesContext().getExternalContext();
+		if (event.getPhaseId() == PhaseId.RESTORE_VIEW) {
+			ExternalContext ec = event.getFacesContext().getExternalContext();
 
-		// Check logged-in by calling SessionCtl object
-		if (!SessionCtl.checkLogIn((HttpServletRequest) ec.getRequest(),
-				(HttpServletResponse) ec.getResponse())) {
-			
-			try {
-				ec.redirect("index.xhtml");
-			} catch (IOException e) {
-				e.printStackTrace();
+			// Check logged-in by calling SessionCtl object
+			if (!SessionCtl.checkLogIn((HttpServletRequest) ec.getRequest(),
+					(HttpServletResponse) ec.getResponse())) {
+
+				try {
+					ec.redirect("index.xhtml");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

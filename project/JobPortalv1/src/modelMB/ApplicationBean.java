@@ -2,6 +2,7 @@ package modelMB;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Calendar;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -12,10 +13,7 @@ import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 
 import service.ApplicationService;
-import service.UserService;
-import util.SessionCtl;
 import data.entity.Application;
-import data.entity.User;
 
 @ManagedBean
 @SessionScoped
@@ -31,6 +29,8 @@ public class ApplicationBean implements Serializable {
 	private AssetBean asset;
 	private UserBean applicant;
 	private JobBean job;
+	private Calendar creation_time;
+	private String create_time;
 
 	private String s_id;
 	
@@ -138,6 +138,22 @@ public class ApplicationBean implements Serializable {
 
 	public void setJob(JobBean job) {
 		this.job = job;
+	}
+
+	public Calendar getCreation_time() {
+		return creation_time;
+	}
+
+	public void setCreation_time(Calendar creation_time) {
+		this.creation_time = creation_time;
+	}
+
+	public String getCreate_time() {
+		return create_time;
+	}
+
+	public void setCreate_time(String create_time) {
+		this.create_time = create_time;
 	}
 	
 	@Override

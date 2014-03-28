@@ -48,7 +48,16 @@ public class NotificationBean implements Serializable {
 
 		if (notifId != null) {
 			NotificationService.loadFromDB(this, Integer.parseInt(notifId));
-			// System.out.println(this);
+System.out.println("+++++++++++++++");			
+			// Read
+			User user = SessionCtl.getLoggedInUser();
+			if (user != null) {
+				if (user.getUser_id().equals(this.getToUser().getUser_id()) && !this.read) {
+System.out.println("reached");
+					this.read = true;
+					NotificationService.saveOrUpdate(this);
+				}	
+			}
 		} else {
 			try {
 				ec.redirect("index.xhtml");
@@ -79,7 +88,7 @@ public class NotificationBean implements Serializable {
 			}
 		} else {			 
 			FacesMessage facesMessage = new FacesMessage(
-				FacesMessage.SEVERITY_INFO,"Info message", 
+				FacesMessage.SEVERITY_ERROR,"Error message", 
 					"Fail to send the message.");
 			FacesContext.getCurrentInstance().addMessage(null, 
 					facesMessage);  

@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/templates/loggedInLayout.xhtml">
+	<ui:define name="content">
+		
+		<h:form prependId="false">
+				
+			<p:dataTable id="postings" var="app" value="#{applicationMB.applications}" paginator="true" rows="5"
+			 	stickyHeader="true" editable="true" >
+				
+				<p:ajax event="rowEdit" listener="#{applicationMB.onEdit}" update="postings" />    
+				
+				<p:column style="width:5%">  
+		            <p:rowToggler />  
+		        </p:column>
+				
+				<p:column sortBy="job.title" headerText="Job Title">
+					<h:link outcome="job_description" value="#{app.job.title}">
+						<f:param name="id" value="#{app.job.id}" />
+					</h:link>
+				</p:column>
+				
+				<p:column style="width:10%" sortBy="job.author.user_name" headerText="Author">
+					<h:link outcome="user_description.xhtml" value="#{app.job.author.user_name}">
+						<f:param name="id" value="#{app.job.author.user_id}" />
+					</h:link>
+				</p:column>
+				
+				<p:column style="width:10%" sortBy="applicant.user_name" headerText="Applicant">
+					<h:link outcome="user_description.xhtml" value="#{app.applicant.user_name}">
+						<f:param name="id" value="#{app.applicant.user_id}" />
+					</h:link>
+				</p:column>
+				
+				<p:column sortBy="job.company.name" headerText="Company"> 
+					<h:outputText value="#{app.job.company.name}" />
+				</p:column>
+				
+				<p:column sortBy="status" headerText="Status">
+					<p:cellEditor>  
+						<f:facet name="output">  
+		                    <h:outputText value="#{app.status}" />  
+		                </f:facet>  
+		                <f:facet name="input">  
+		                    <p:selectOneMenu id="app_status" style="width: 50%;" value="#{app.status}" >  
+								<f:selectItem itemLabel="Rejected" itemValue="Rejected" />
+								<f:selectItem itemLabel="Accepted" itemValue="Accepted" />
+								<f:selectItem itemLabel="Pending" itemValue="Pending" />
+								<f:selectItem itemLabel="Processing" itemValue="Processing" />
+			                </p:selectOneMenu>  
+		                </f:facet>
+					</p:cellEditor>
+				</p:column>
+				
+				<p:column>
+					<p:rowEditor />
+				</p:column>
+				
+				<p:rowExpansion>
+					<p:panelGrid columns="2">
+						<h:outputText value="Job title" style="width: 20%;" />
+						<h:outputText id="desc_job_title" value="#{app.job.title}" />
+						
+						<h:outputText value="Job id" style="width: 20%;" />
+						<h:outputText id="desc_job_id" value="#{app.job.id}" />
+						
+						<h:outputText value="Author id" style="width: 20%;" />
+						<h:outputText id="desc_author_id" value="#{app.job.author.user_id}"/>
+						
+						<h:outputText value="Applicant id" style="width: 20%;" />	
+						<h:outputText value="#{app.applicant.user_id}" />
+						
+						<h:outputText value="Creation Time" style="width: 20%;" />
+						<h:outputText value="#{app.create_time}" />
+					</p:panelGrid>
+				</p:rowExpansion>  
+				
+			</p:dataTable>
+				
+		</h:form>
+		
+	</ui:define>
+</ui:composition>
+
+</html>

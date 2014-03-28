@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -32,7 +32,7 @@ import modelMB.SkillBean;
 import modelMB.UserBean;
 
 @ManagedBean(name="profileMB")
-@SessionScoped
+@ViewScoped
 public class ProfileMB implements Serializable{
 
 	/**
@@ -164,6 +164,7 @@ public class ProfileMB implements Serializable{
 		userBean.setContact(contactBean);
 		userBean.setCompany(companyBean);
 //		CompanyService.saveOrUpdate(companyBean);
+		skillsToString();
 	    UserService.saveOrUpdate(userBean);
 	    
 	    System.out.println(userBean.getExperience());
@@ -177,10 +178,16 @@ public class ProfileMB implements Serializable{
 		if(current_user == null)
 			return;
 		
-		UserService.loadFromEntity(userBean, current_user, true);
-		ContactService.loadFromEntity(contactBean, current_user.getContact());
-		CompanyService.loadFromEntity(companyBean, current_user.getCompany());
+		UserService.loadFromDB(userBean, current_user.getUser_id());
+		if (current_user.getContact() != null)
+			ContactService.loadFromDB(contactBean, current_user.getContact().getContact_id());
+		if (current_user.getCompany() != null)
+			CompanyService.loadFromDB(companyBean, current_user.getCompany().getCompany_id());
 		
+		skillsToString();
+	}
+	
+	public void skillsToString() {
 		StringBuilder skillString = new StringBuilder();
 		if(userBean.getSkills() != null) {
 			for (SkillBean skill : userBean.getSkills()){

@@ -70,17 +70,16 @@
     <servlet-name>Faces Servlet</servlet-name>
     <url-pattern>/faces/*</url-pattern>
   </servlet-mapping>
-  
-  	<filter>
-    	<filter-name>PrimeFaces FileUpload Filter</filter-name>
-    	<filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
-	</filter>
-	<context-param>
-	    <param-name>uploadDirectory</param-name>
-	    <param-value>/Users/chih-chuanchan/Desktop/JobPortal_repo/JobPortal/project/JobPortalv1/WebContent/resources/files</param-value>
-	</context-param>
-	<filter-mapping>
-	    <filter-name>PrimeFaces FileUpload Filter</filter-name>
-	    <servlet-name>Faces Servlet</servlet-name>
-	</filter-mapping>
+  <filter>
+    <filter-name>PrimeFaces FileUpload Filter</filter-name>
+    <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+  </filter>
+  <context-param>
+    <param-name>uploadDirectory</param-name>
+    <param-value>/Users/chih-chuanchan/Desktop/JobPortal_repo/JobPortal/project/JobPortalv1/WebContent/resources/files</param-value>
+  </context-param>
+  <filter-mapping>
+    <filter-name>PrimeFaces FileUpload Filter</filter-name>
+    <servlet-name>Faces Servlet</servlet-name>
+  </filter-mapping>
 </web-app>

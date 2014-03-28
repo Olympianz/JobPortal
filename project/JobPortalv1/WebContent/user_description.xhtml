@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+
+<head>
+</head>
+
+<body>
+	<ui:composition template="/templates/loggedInLayout.xhtml">
+		<ui:define name="content">
+		
+			<p:panel id="summary" header="Profile">
+				<h:panelGrid columns="1" cellpadding="30">
+					<p:fieldset>
+						<h:panelGrid columns="2">
+							<h:outputText value="Name: " style="font-weight: bold;" />
+							<h:outputText styleClass="outputLabel" style="margin-left: 10px; 
+								font-style:italic;"
+								value="#{userDesc.userBean.user_name}" />
+		
+							<h:outputText value="Email: " style="font-weight: bold;" />
+							<h:outputText styleClass="outputLabel" style="margin-left: 10px; 
+								font-style:italic; "
+								value="#{userDesc.userBean.email}" />
+		
+							<h:outputText value="Role: " style="font-weight: bold;" />
+							<h:outputText styleClass="outputLabel" style="margin-left: 10px; 
+								font-style:italic;"
+								value="#{userDesc.userBean.role}" />
+		
+							<h:outputText value="Experience: " style="font-weight: bold;"/>
+							<h:outputText styleClass="outputLabel" style="margin-left: 10px; 
+								font-style:italic;"
+								value="#{userDesc.userBean.experience}" />
+						</h:panelGrid>
+					</p:fieldset>
+					
+					<p:spacer height="10px" />
+					
+					<p:fieldset>
+						<h:panelGrid columns="2">
+							<h:outputText value="Contact type: " style="font-weight: bold;" />
+							<h:outputText styleClass="outputLabel" style="margin-left: 10px; 
+								font-style:italic;"
+								value="#{userDesc.userBean.contact.type}" />
+		
+							<h:outputText value="Street: " style="font-weight: bold;" />
+							<h:outputText styleClass="outputLabel" style="margin-left: 10px; 
+								font-style:italic;"
+								value="#{userDesc.userBean.contact.address}" />
+		
+							<h:outputText value="City: " style="font-weight: bold;" />
+							<h:outputText styleClass="outputLabel" style="margin-left: 10px; 
+								font-style:italic; "
+								value="#{userDesc.userBean.contact.city}" />
+		
+							<h:outputText value="State: " style="font-weight: bold;" />
+							<h:outputText styleClass="outputLabel" style="margin-left: 10px; 
+								font-style:italic; "
+								value="#{userDesc.userBean.contact.state}" />
+		
+							<h:outputText value="Zip: " style="font-weight: bold;" />
+							<h:outputText styleClass="outputLabel" style="margin-left: 10px;
+								font-style:italic; "
+								value="#{userDesc.userBean.contact.zip}" />
+		
+						</h:panelGrid>
+					</p:fieldset>
+					
+					<p:spacer height="10px" />
+					
+					<p:fieldset>
+						<h:panelGrid columns="2">
+							<h:outputText value="Company: " style="font-weight: bold;" />
+							<h:outputText styleClass="outputLabel" style="margin-left: 10px; 
+								font-style:italic;"
+								value="#{userDesc.userBean.company.name}" />
+						</h:panelGrid>
+					</p:fieldset>
+					
+					<p:spacer height="15px" />
+					
+					<p:button outcome="jsEditProfile.xhtml" value="Edit" rendered="#{userDesc.userBean.user_id ne userDesc.currentUserId}"
+						icon="ui-icon ui-icon-pencil" disabled="true"/>
+						
+					<p:button outcome="jsEditProfile.xhtml" value="Edit" rendered="#{userDesc.userBean.user_id eq userDesc.currentUserId}"
+						icon="ui-icon ui-icon-pencil" />   
+					 
+				</h:panelGrid>
+			</p:panel>
+
+		</ui:define>
+	</ui:composition>
+
+</body>
+</html>

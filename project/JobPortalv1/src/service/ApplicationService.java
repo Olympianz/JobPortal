@@ -1,5 +1,6 @@
 package service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -41,6 +42,8 @@ public class ApplicationService {
 
 		appBean.setId(app.getId());
 		appBean.setStatus(app.getStatus().getName());
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+		appBean.setCreate_time(sdf.format(app.getCreation_time().getTime()));
 	}
 
 	public static void loadFromDB(ApplicationBean appBean, Integer id) {

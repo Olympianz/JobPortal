@@ -12,7 +12,15 @@
 <h:body>
 <ui:composition template="/templates/loggedInLayout.xhtml">
 	<ui:define name="content">
-
+	
+		<!-- tagit -->
+		<h:outputStylesheet library="css" name="jquery.tagit.css" />
+		<h:outputStylesheet library="css" name="tagit.ui-zendesk.css" />
+		<h:outputStylesheet library="css" name="jobportal.css"/>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+	    <h:outputScript library="scripts" name="tag-it.js" />
+	    
 		<h:form id="form">
 			<p:panel header="Profile">
 				<p:messages id="messages" showDetail="true" autoUpdate="true"/>
@@ -51,7 +59,6 @@
 	
 						<h:outputText value="Role: " />
 						<p:selectOneMenu value="#{profileMB.userBean.role}">
-							<f:selectItem itemLabel="Select One" itemValue="" />
 							<f:selectItem itemLabel="Job Seeker" itemValue="jobseeker" />
 							<f:selectItem itemLabel="Employer" itemValue="employer" />
 							<f:selectItem itemLabel="Administrator" itemValue="administrator" />
@@ -62,7 +69,6 @@
 	
 						<h:outputText value="Experience: " />
 						<p:selectOneMenu value="#{profileMB.userBean.experience}">
-							<f:selectItem itemLabel="Select One" itemValue="" />
 							<f:selectItem itemLabel="Internship" itemValue="Intern" />
 							<f:selectItem itemLabel="Entry Level" itemValue="Entry level" />
 							<f:selectItem itemLabel="Junior Level" itemValue="Junior level" />
@@ -70,6 +76,13 @@
 							<f:selectItem itemLabel="Manager" itemValue="Manager" />
 							<f:selectItem itemLabel="Director" itemValue="Director" />
 						</p:selectOneMenu>
+					</h:panelGrid>
+					
+					<!--  Skills -->
+			    	<h:panelGrid columns="2" >
+			    		<h:outputLabel for="skillInput">Skills:</h:outputLabel>
+						<h:inputHidden id="skillInput" value="#{jobBean.skillInput}" />
+						<ul id="skills"></ul>
 					</h:panelGrid>
 				</p:panel>
 				
@@ -126,10 +139,10 @@
 				
 				<p:spacer height="10"/>
 				
-				<p:commandButton value="Preview" update="summary"
+				<p:commandButton value="Preview" update="summary" icon="ui-icon ui-icon-refresh"
 				style="margin-top: 15px; margin-bottom: 15px; float: left;" />
 				
-				<p:commandButton value="Save" action="mainMenu.xhtml" 
+				<p:commandButton value="Save" action="mainMenu.xhtml" icon="ui-icon ui-icon-disk"
 				actionListener="#{profileMB.save}" 
 				style="margin-top: 15px; margin-bottom: 15px;" />
 				
@@ -152,6 +165,10 @@
 		                <h:outputText value="Experience: " />
 						<h:outputText styleClass="outputLabel" style="margin-left: 10px;"
 							value="#{profileMB.userBean.experience}" />
+							
+						<h:outputText value="Skills: " />
+						<h:outputText styleClass="outputLabel" style="margin-left: 10px;"
+							value="#{profileMB.userBean.skillInput}" />	
 		
 						<h:outputText value="Contact type: " />
 						<h:outputText styleClass="outputLabel" style="margin-left: 10px;"
@@ -220,6 +237,9 @@
 			
 			</p:panel>
 		</h:form>
+		
+		<h:outputScript library="scripts" name="mytagit.js" />
+		
 	</ui:define>
 </ui:composition>
 </h:body>
