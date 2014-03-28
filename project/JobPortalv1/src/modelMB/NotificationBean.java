@@ -48,12 +48,11 @@ public class NotificationBean implements Serializable {
 
 		if (notifId != null) {
 			NotificationService.loadFromDB(this, Integer.parseInt(notifId));
-System.out.println("+++++++++++++++");			
+
 			// Read
 			User user = SessionCtl.getLoggedInUser();
 			if (user != null) {
 				if (user.getUser_id().equals(this.getToUser().getUser_id()) && !this.read) {
-System.out.println("reached");
 					this.read = true;
 					NotificationService.saveOrUpdate(this);
 				}	

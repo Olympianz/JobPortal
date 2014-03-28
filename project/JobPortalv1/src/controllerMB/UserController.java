@@ -180,8 +180,22 @@ public class UserController implements Serializable {
 	}
 	
 	public void login() {
+		boolean flag;
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-		SessionCtl.login((HttpServletRequest)ec.getRequest(), (HttpServletResponse)ec.getResponse());
+		flag = SessionCtl.login((HttpServletRequest)ec.getRequest(), (HttpServletResponse)ec.getResponse());
+		if (flag == true){
+			try {
+				ec.redirect("mainMenu.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else{
+			FacesMessage facesMessage = new FacesMessage(
+					FacesMessage.SEVERITY_ERROR,"Info message", 
+						"Fail to login.");
+			FacesContext.getCurrentInstance().addMessage(null, 
+						facesMessage);  
+		}
 	}
 	
 	public void logout() {
