@@ -15,8 +15,9 @@ public class ContactDAO extends DAO {
 		List<Contact> contacts = null;
 		try {
 			contacts = getSession().createQuery("from Contact").list();
-			for (Contact contact : contacts)
-				getSession().merge(contact);
+			if (contacts != null)
+				for (Contact contact : contacts)
+					getSession().merge(contact);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction() != null) {
 				rollback();
@@ -34,7 +35,8 @@ public class ContactDAO extends DAO {
 			Query q = getSession().createQuery("from Contact where contact_id = :id");
 			q.setInteger("id", id);
 			contact = (Contact) q.uniqueResult();
-			getSession().merge(contact);
+			if (contact != null)
+				getSession().merge(contact);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction() != null) {
 				rollback();
@@ -79,7 +81,8 @@ public class ContactDAO extends DAO {
 			q.setInteger("zip", zip);
 
 			location = (Location) q.uniqueResult();
-			getSession().merge(location);
+			if (location != null)
+				getSession().merge(location);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction() != null) {
 				rollback();

@@ -15,8 +15,9 @@ public class JobDAO extends DAO{
 		List<Job> jobs = null;
 		try {
 			jobs = getSession().createQuery("from Job").list();
-			for (Job job : jobs)
-				getSession().merge(job);
+			if (jobs != null)
+				for (Job job : jobs)
+					getSession().merge(job);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
@@ -34,7 +35,8 @@ public class JobDAO extends DAO{
 			Query q = getSession().createQuery("from Job where id = :id");
 			q.setInteger("id", id);
 			job = (Job) q.uniqueResult();
-			getSession().merge(job);
+			if(job != null)
+				getSession().merge(job);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
@@ -76,8 +78,9 @@ public class JobDAO extends DAO{
 			q.setString("query", "%" + query + "%");
 			jobs = q.list();
 			
-			for(Job job : jobs)
-				getSession().merge(job);
+			if (jobs != null)
+				for(Job job : jobs)
+					getSession().merge(job);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();

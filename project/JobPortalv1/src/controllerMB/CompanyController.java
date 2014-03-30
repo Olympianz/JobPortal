@@ -19,6 +19,8 @@ public class CompanyController implements Serializable {
 	private static final long serialVersionUID = -2741554998075064247L;
 	
 	public List<String> search(String query) {
-		return CompanyService.search(query);
+		List<String> companies = CompanyService.search(query);
+		companies.add(query);
+		return companies;
 	}
 }

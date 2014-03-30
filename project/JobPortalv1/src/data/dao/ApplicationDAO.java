@@ -13,8 +13,9 @@ public class ApplicationDAO extends DAO {
 		List<Application> apps = null;
 		try {
 			apps = getSession().createQuery("from Application").list();
-			for (Application app : apps)
-				getSession().merge(app);
+			if(apps != null)
+				for (Application app : apps)
+					getSession().merge(app);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
@@ -34,8 +35,9 @@ public class ApplicationDAO extends DAO {
 			Query q = getSession().createQuery("from Application where position.title like :query");
 			q.setString("query", "%" + query + "%");
 			apps = q.list();
-			for(Application app : apps)
-				getSession().merge(app);
+			if (apps != null)
+				for(Application app : apps)
+					getSession().merge(app);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
@@ -53,7 +55,8 @@ public class ApplicationDAO extends DAO {
 			Query q = getSession().createQuery("from Application where id = :id");
 			q.setInteger("id", id);
 			app = (Application) q.uniqueResult();
-			getSession().merge(app);
+			if (app != null)
+				getSession().merge(app);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();

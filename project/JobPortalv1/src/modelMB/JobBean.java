@@ -91,6 +91,12 @@ public class JobBean implements Serializable{
 	}
 
 	public void saveOrUpdate() {
+
+		User author = SessionCtl.getLoggedInUser();
+		UserBean authorBean = new UserBean();
+		UserService.loadFromEntity(authorBean, author, false);
+		this.setAuthor(authorBean);
+		
 		int id = JobService.saveOrUpdate(this);
 		ExternalContext ec = FacesContext.getCurrentInstance()
 				.getExternalContext();

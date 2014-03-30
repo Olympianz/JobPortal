@@ -13,8 +13,9 @@ public class ContactTypeDAO extends DAO {
 		List<Contact_type> types = null;
 		try {
 			types = getSession().createQuery("from Contact_type").list();
-			for (Contact_type type : types)
-				getSession().merge(type);
+			if (types != null)
+				for (Contact_type type : types)
+					getSession().merge(type);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
@@ -34,7 +35,8 @@ public class ContactTypeDAO extends DAO {
 			q.setString("name", name);
 
 			type = (Contact_type) q.uniqueResult();
-			getSession().merge(type);
+			if (type != null)
+				getSession().merge(type);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();

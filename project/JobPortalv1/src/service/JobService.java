@@ -9,6 +9,7 @@ import modelMB.ApplicationBean;
 import modelMB.CompanyBean;
 import modelMB.JobBean;
 import modelMB.UserBean;
+import data.dao.CompanyDAO;
 import data.dao.ExperienceDAO;
 import data.dao.JobDAO;
 import data.dao.SkillDAO;
@@ -194,14 +195,16 @@ public class JobService {
 			// Create new record
 			job = new Job(SessionCtl.getLoggedInUser().getUser_name());
 		}
-
+		
 		// Fetch all necessary object from database
 		// Copy new data from bean to entity
 		ExperienceDAO expDao = new ExperienceDAO();
 		Experience exp = expDao.getByName(jobBean.getExperience());
-		
+
 		UserDAO userDao = new UserDAO();
 		User author = userDao.getEntityById(jobBean.getAuthor().getUser_id());
+		
+		CompanyDAO companyDao = new CompanyDAO();
 		
 		
 		SkillDAO skillDao = new SkillDAO();
@@ -211,12 +214,12 @@ public class JobService {
 		for (String skillString : skillStrings) {
 			skill = skillDao.getEntityByName(skillString);
 			if (skill == null){
-				skill = new Skill(SessionCtl.getLoggedInUser().getUser_name());
+				skill = new Skill(author.getUser_name());
 				skill.setName(skillString);
 			}
 			skills.add(skill);
 		}
-		
+	
 		int result = -1;
 		if (exp != null && author != null) {
 			job.setDescription(jobBean.getDescription());
@@ -228,9 +231,9 @@ public class JobService {
 			job.setAuthor(author);
 			job.setSkills(skills);
 			
-			job.setUpdate_user(SessionCtl.getLoggedInUser()
-					.getUser_name());
+			job.setUpdate_user(author.getUser_name());
 			job.setUpdate_time(Calendar.getInstance());
+
 			result = jobDao.saveOrUpdate(job);
 		}
 

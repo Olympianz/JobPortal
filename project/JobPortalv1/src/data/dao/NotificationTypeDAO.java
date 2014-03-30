@@ -13,8 +13,9 @@ public class NotificationTypeDAO extends DAO {
 		List<NotificationType> types = null;
 		try {
 			types = getSession().createQuery("from NotificationType").list();
-			for (NotificationType type : types)
-				getSession().merge(type);
+			if (types != null)
+				for (NotificationType type : types)
+					getSession().merge(type);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
@@ -34,7 +35,8 @@ public class NotificationTypeDAO extends DAO {
 			q.setString("name", name);
 
 			type = (NotificationType) q.uniqueResult();
-			getSession().merge(type);
+			if (type != null)
+				getSession().merge(type);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();

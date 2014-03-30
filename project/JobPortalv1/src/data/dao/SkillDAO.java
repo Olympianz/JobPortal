@@ -14,8 +14,9 @@ public class SkillDAO extends DAO {
 		List<Skill> skills = null;
 		try {
 			skills = getSession().createQuery("from Skill").list();
-			for (Skill skill : skills)
-				getSession().merge(skill);
+			if(skills != null)
+				for (Skill skill : skills)
+					getSession().merge(skill);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
@@ -34,7 +35,8 @@ public class SkillDAO extends DAO {
 				Query q = getSession().createQuery("from Skill where id = :id");
 				q.setInteger("id", id);
 				skill = (Skill) q.uniqueResult();
-				getSession().merge(skill);
+				if (skill != null)
+					getSession().merge(skill);
 			} catch (HibernateException e) {
 				if (getSession().getTransaction()!=null) {
 					rollback();
@@ -77,16 +79,16 @@ public class SkillDAO extends DAO {
 		try{
 			Query q = getSession().createQuery("from Skill where name = :name");
 			q.setString("name", name);
-			
 			skill = (Skill) q.uniqueResult();
-			getSession().merge(skill);
+			if (skill != null)
+				getSession().merge(skill);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
 		}
-		
+
 		return skill;
 		
 	}

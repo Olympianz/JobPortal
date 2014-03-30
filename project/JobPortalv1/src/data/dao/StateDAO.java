@@ -13,8 +13,9 @@ public class StateDAO extends DAO {
 		List<State> states = null;
 		try {
 			states = getSession().createQuery("from State").list();
-			for (State state : states)
-				getSession().merge(state);
+			if (states != null)
+				for (State state : states)
+					getSession().merge(state);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
@@ -34,7 +35,8 @@ public class StateDAO extends DAO {
 			q.setString("name", name);
 
 			state = (State) q.uniqueResult();
-			getSession().merge(state);
+			if(state != null)
+				getSession().merge(state);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();

@@ -59,66 +59,6 @@
 						    </td>
 						</tr>
 						
-						<!-- Auto-complete for company information -->
-				    	<tr>
-				    		<td colspan="2">
-					    	<p:fieldset id="companyField" legend="Company">
-					    		<table>
-					    		<tr>
-					    			<td><h:outputLabel for="companyName">Name:</h:outputLabel></td>
-									<td>
-										<p:autoComplete id="companyName" forceSelection="true"   
-	                  							value="#{jobBean.company.name}" completeMethod="#{companyController.search}" /> 
-	                  							
-	                  						<p:commandButton event="click" value="Fetch" actionListener="#{jobBean.fetchCompany}">
-											<f:ajax execute="companyName" render="companyAddress companyCity companyEmail companyZip companyLat companyLng companyState" />
-										</p:commandButton>
-									</td>
-								</tr>
-								
-								<tr>
-									<td><h:outputLabel for="companyAddress">Address:</h:outputLabel></td>
-									<td><h:inputText id="companyAddress" value="#{jobBean.company.contact.address}" /></td>
-								</tr>
-								
-								<tr>
-									<td><h:outputLabel for="companyCity">City:</h:outputLabel></td>
-									<td><h:inputText id="companyCity" value="#{jobBean.company.contact.city}" /></td>
-								</tr>
-								
-								<tr>
-									<td><h:outputLabel for="companyEmail">Email:</h:outputLabel></td>
-									<td><h:inputText id="companyEmail" value="#{jobBean.company.contact.company_email}" /></td>
-								</tr>
-								
-								<tr>
-									<td><h:outputLabel for="companyZip">Zip:</h:outputLabel></td>
-									<td><h:inputText id="companyZip" value="#{jobBean.company.contact.zip}" /></td>
-								</tr>
-								
-								<tr>
-									<td><h:outputLabel for="companyLat">Latitude:</h:outputLabel></td>
-									<td><h:inputText id="companyLat" value="#{jobBean.company.contact.lat}" /></td>
-								</tr>
-								
-								<tr>
-									<td><h:outputLabel for="companyLng">Longitude:</h:outputLabel></td>
-									<td><h:inputText id="companyLng" value="#{jobBean.company.contact.lng}" /></td>
-								</tr>
-								
-								<tr>
-						    		<td><h:outputLabel for="companyState">State:</h:outputLabel></td>
-						    		<td>
-							    		<h:selectOneMenu id="companyState" value="#{jobBean.company.contact.state}">
-						    				<f:selectItems value="#{stateController.all}" />
-							    		</h:selectOneMenu>
-						    		</td>
-								</tr>
-								</table>
-							</p:fieldset>
-							</td>
-						</tr>
-						
 				    	<!--  Skills -->
 				    	<tr>
 				    		<td colspan="2">

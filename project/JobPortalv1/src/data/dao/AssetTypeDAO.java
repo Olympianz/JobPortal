@@ -13,8 +13,9 @@ public class AssetTypeDAO extends DAO {
 		List<AssetType> types = null;
 		try {
 			types = getSession().createQuery("from AssetType").list();
-			for (AssetType type : types)
-				getSession().merge(type);
+			if (types != null)
+				for (AssetType type : types)
+					getSession().merge(type);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
@@ -34,7 +35,8 @@ public class AssetTypeDAO extends DAO {
 			q.setString("name", name);
 
 			type = (AssetType) q.uniqueResult();
-			getSession().merge(type);
+			if (type != null)
+				getSession().merge(type);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();

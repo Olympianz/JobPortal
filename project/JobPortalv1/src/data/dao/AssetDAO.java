@@ -13,8 +13,9 @@ public class AssetDAO extends DAO {
 		List<Asset> assets = null;
 		try {
 			assets = getSession().createQuery("from Asset").list();
-			for(Asset asset : assets)
-				getSession().merge(asset);
+			if (assets != null)
+				for(Asset asset : assets)
+					getSession().merge(asset);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
@@ -32,7 +33,8 @@ public class AssetDAO extends DAO {
 			Query q = getSession().createQuery("from Asset where id = :id");
 			q.setInteger("id", id);
 			asset = (Asset) q.uniqueResult();
-			getSession().merge(asset);
+			if (asset != null)
+				getSession().merge(asset);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();

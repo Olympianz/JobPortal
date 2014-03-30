@@ -13,8 +13,9 @@ public class ApplicationStatusDAO extends DAO {
 		List<ApplicationStatus> status = null;
 		try {
 			status = getSession().createQuery("from ApplicationStatus").list();
-			for (ApplicationStatus a_status : status)
-				getSession().merge(a_status);
+			if (status != null)
+				for (ApplicationStatus a_status : status)
+					getSession().merge(a_status);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
@@ -34,7 +35,8 @@ public class ApplicationStatusDAO extends DAO {
 			q.setString("name", name);
 
 			status = (ApplicationStatus) q.uniqueResult();
-			getSession().merge(status);
+			if (status != null)
+				getSession().merge(status);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
