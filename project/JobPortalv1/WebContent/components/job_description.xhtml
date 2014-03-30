@@ -83,16 +83,16 @@
 			
 			<br /><br />
 			
-			<!-- Save Button -->
-			<h:panelGroup id="saveButton" rendered="#{!jobBean.checkSavedJob()}">
-				<p:commandButton value="Save" update="saveButton" actionListener="#{jobBean.saveJob}" />
-			</h:panelGroup> <br />
-							
-			<!--  Remove Button -->	
-			<h:panelGroup rendered="#{jobBean.checkSavedJob()}">
+			<h:panelGroup id="buttons" >
+				<!-- Save Button -->
+				<p:commandButton value="Save" update="buttons" 
+					actionListener="#{jobBean.saveJob}" 
+					rendered="#{!jobBean.checkSavedJob()}" />
+								
+				<!--  Remove Button -->	
 				<p:commandButton value="Remove" onclick="return confirm('Are you sure to remove?')" 
-					actionListener="#{jobBean.deleteJob()}">
-				</p:commandButton>
+					rendered="#{jobBean.checkSavedJob()}"
+					actionListener="#{jobBean.deleteJob()}" />
 			</h:panelGroup> 
 				
 			</h:form>

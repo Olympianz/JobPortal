@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import service.UserService;
+import data.dao.UserDAO;
 import data.entity.User;
 
 public class SessionCtl {
@@ -118,8 +119,11 @@ public class SessionCtl {
 		HttpSession session = (HttpSession) ec.getSession(false);
 		User user = null;
 		
-		if( session != null )
+		if( session != null ) {
 			user = (User) session.getAttribute("loggedin_user");
+			if (user != null)
+				user = (new UserDAO()).getEntityById(user.getUser_id());
+		}
 		
 		return user;
 	}

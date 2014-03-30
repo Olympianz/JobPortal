@@ -48,7 +48,7 @@ public class UserDAO extends DAO implements TableManipulation {
 				}
 				e.printStackTrace();
 			} finally {
-				close();
+				//close();
 			}
 		} else {
 			throw new ClassCastException("Not a valid type for User Table");
@@ -71,7 +71,7 @@ public class UserDAO extends DAO implements TableManipulation {
 			}
 			e.printStackTrace();
 		} finally {
-			close();
+			//close();
 		}
 	}
 
@@ -88,7 +88,7 @@ public class UserDAO extends DAO implements TableManipulation {
 				}
 				e.printStackTrace();
 			} finally {
-				close();
+				//close();
 			}
 		} else {
 			throw new ClassCastException("Not a valid type for User Table");
@@ -100,13 +100,12 @@ public class UserDAO extends DAO implements TableManipulation {
 		List<User> users = null;
 		try {
 			users = getSession().createQuery("from User").list();
+			getSession().merge(users);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction() != null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
 		}
 
 		return users;
@@ -119,13 +118,12 @@ public class UserDAO extends DAO implements TableManipulation {
 			Query q = getSession().createQuery("from User where user_id = :id");
 			q.setInteger("id", id);
 			user = (User) q.uniqueResult();
+			getSession().merge(user);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction() != null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
 		}
 
 		return user;
@@ -138,13 +136,12 @@ public class UserDAO extends DAO implements TableManipulation {
 			Query q = getSession().createQuery("from User where email = :email");
 			q.setString("email", email);
 			user = (User) q.uniqueResult();
+			getSession().merge(user);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction() != null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
 		}
 
 		return user;
@@ -154,16 +151,13 @@ public class UserDAO extends DAO implements TableManipulation {
 		User user = null;
 
 		try {
-			begin();
-
 			Query q = getSession().createQuery(
 					"from User where email = :email and password = :password");
 			q.setString("email", email);
 			q.setString("password", password);
 
 			user = (User) q.uniqueResult();
-
-			commit();
+			getSession().merge(user);
 		} catch (Exception e) {
 			e.printStackTrace();
 			rollback();
@@ -177,21 +171,15 @@ public class UserDAO extends DAO implements TableManipulation {
 		List<String> l = null;
 
 		try {
-			begin();
-
 			Query q = getSession().createQuery(
 					"select password from User where email=:email").setParameter("email", email);
-			
-			System.out.println(q.list());
-			
 			l = (List<String>) q.list();
-			
-			System.out.println(l);
 
-			commit();
+			getSession().merge(l);
 		} catch (Exception e) {
 			rollback();
 		}
+		
 		return l;
 	}
 
@@ -199,15 +187,13 @@ public class UserDAO extends DAO implements TableManipulation {
 		User user = null;
 
 		try {
-			begin();
-
 			Query q = getSession().createQuery(
 					"from User where email=:email and session_id=:session");
 			q.setString("email", email);
 			q.setString("session", sessionId);
 			user = (User) q.uniqueResult();
 
-			commit();
+			getSession().merge(user);
 		} catch (Exception e) {
 			rollback();
 		}
@@ -238,34 +224,11 @@ public class UserDAO extends DAO implements TableManipulation {
 			}
 			commit();
 		} catch (HibernateException e) {
+			id = -1;
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
-		}
-		
-		return id;
-	}
-	
-	public int merge(User user) {
-		int id = -1;
-		
-		try{
-			begin();
-			if(user.getUser_id() != null && user.getUser_id() >= 0) {
-				id = user.getUser_id();
-				getSession().merge(user);
-			}
-			commit();
-		} catch (HibernateException e) {
-			if (getSession().getTransaction()!=null) {
-				rollback();
-			}
-			e.printStackTrace();
-		} finally {
-			close();
 		}
 		
 		return id;
@@ -277,14 +240,13 @@ public class UserDAO extends DAO implements TableManipulation {
 			Query q = getSession().createQuery("from User where user_name like :query");
 			q.setString("query", "%" + query + "%");
 			users = q.list();
+			getSession().merge(users);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
-		} 
+		}
 	
 		return users;
 	}
@@ -295,14 +257,13 @@ public class UserDAO extends DAO implements TableManipulation {
 			Query q = getSession().createQuery("from User where email like :query");
 			q.setString("query", query + "%");
 			users = q.list();
+			getSession().merge(users);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
-		} 
+		}
 	
 		return users;
 	}

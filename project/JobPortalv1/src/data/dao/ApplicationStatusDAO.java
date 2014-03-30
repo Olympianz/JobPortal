@@ -13,14 +13,14 @@ public class ApplicationStatusDAO extends DAO {
 		List<ApplicationStatus> status = null;
 		try {
 			status = getSession().createQuery("from ApplicationStatus").list();
+			for (ApplicationStatus a_status : status)
+				getSession().merge(a_status);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
-		} 
+		}
 	
 		return status;
 	}
@@ -34,14 +34,13 @@ public class ApplicationStatusDAO extends DAO {
 			q.setString("name", name);
 
 			status = (ApplicationStatus) q.uniqueResult();
+			getSession().merge(status);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
-		} 
+		}
 		
 		return status;
 	}

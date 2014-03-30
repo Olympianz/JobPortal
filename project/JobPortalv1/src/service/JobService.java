@@ -26,13 +26,13 @@ public class JobService {
 	static final UserDAO userDao = new UserDAO();
 	
 	//saveJob
-	public static void saveJob(int id){
+	public static int saveJob(int id){
 		User user = null;
 		Job savejob = jobDao.getEntityById(id);
 		user = SessionCtl.getLoggedInUser();
 		user.getSaved_jobs().add(savejob);
-		userDao.saveOrUpdate(user);
-	
+		
+		return userDao.saveOrUpdate(user);
 	}
 	
 	//delete job

@@ -61,7 +61,7 @@ public class User {
 		this.update_timestamp = Calendar.getInstance();		
 	}
 	
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="from")
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="from", cascade={CascadeType.MERGE})
 	public List<Notification> getSent_notif() {
 		return sent_notif;
 	}
@@ -70,7 +70,7 @@ public class User {
 		this.sent_notif = sent_notif;
 	}
 
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="to")
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="to", cascade={CascadeType.MERGE})
 	public List<Notification> getRecv_notif() {
 		return recv_notif;
 	}
@@ -79,7 +79,7 @@ public class User {
 		this.recv_notif = recv_notif;
 	}
 
-	@ManyToMany(fetch=FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.EAGER, cascade={CascadeType.MERGE})
     @JoinTable(name="J_SAVED_JOBS", 
                 joinColumns={@JoinColumn(name="USER_I")}, 
                 inverseJoinColumns={@JoinColumn(name="POSTING_I")})
@@ -91,7 +91,7 @@ public class User {
 		this.saved_jobs = saved_jobs;
 	}
 
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="author")
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="author", cascade={CascadeType.MERGE})
 	public List<Job> getPost_jobs() {
 		return post_jobs;
 	}
@@ -112,7 +112,7 @@ public class User {
 		this.skills = skills;
 	}
 
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="user")
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="user", cascade={CascadeType.MERGE})
 	public List<Asset> getAssets() {
 		return assets;
 	}
@@ -121,7 +121,7 @@ public class User {
 		this.assets = assets;
 	}
 
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="applicant")
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="applicant", cascade={CascadeType.MERGE})
 	public List<Application> getApplications() {
 		return applications;
 	}
@@ -130,7 +130,7 @@ public class User {
 		this.applications = applications;
 	}
 	
-	@ManyToOne
+	@ManyToOne(cascade={CascadeType.MERGE})
 	@JoinColumn(name="role_id", nullable=false)
 	public Role getRole() {
 		return role;
@@ -140,7 +140,7 @@ public class User {
 		this.role = role;
 	}
 
-	@ManyToOne
+	@ManyToOne(cascade={CascadeType.MERGE})
 	@JoinColumn(name="experience_id", nullable=false)
 	public Experience getExperience() {
 		return experience;

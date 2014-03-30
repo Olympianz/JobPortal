@@ -15,14 +15,14 @@ public class JobDAO extends DAO{
 		List<Job> jobs = null;
 		try {
 			jobs = getSession().createQuery("from Job").list();
+			for (Job job : jobs)
+				getSession().merge(job);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
-		} 
+		}
 	
 		return jobs;
 	}
@@ -34,13 +34,12 @@ public class JobDAO extends DAO{
 			Query q = getSession().createQuery("from Job where id = :id");
 			q.setInteger("id", id);
 			job = (Job) q.uniqueResult();
+			getSession().merge(job);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
 		}
 		
 		return job;
@@ -50,6 +49,7 @@ public class JobDAO extends DAO{
 		int id = -1;
 		
 		try{
+			getSession().clear();
 			begin();
 			if(job.getId() != null && job.getId() >= 0) {
 				id = job.getId();
@@ -64,8 +64,6 @@ public class JobDAO extends DAO{
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
 		}
 		
 		return id;
@@ -77,14 +75,15 @@ public class JobDAO extends DAO{
 			Query q = getSession().createQuery("from Job where title like :query");
 			q.setString("query", "%" + query + "%");
 			jobs = q.list();
+			
+			for(Job job : jobs)
+				getSession().merge(job);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
-		} 
+		}
 	
 		return jobs;
 	}

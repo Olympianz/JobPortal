@@ -121,7 +121,7 @@ public class Job {
 		this.skills = skills;
 	}
 
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="position")
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="position", cascade={CascadeType.MERGE})
 	public List<Application> getApplications() {
 		return applications;
 	}

@@ -14,14 +14,14 @@ public class NotificationDAO extends DAO {
 		List<Notification> notifs = null;
 		try {
 			notifs = getSession().createQuery("from Notification").list();
+			for (Notification notif : notifs)
+				getSession().merge(notif);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
-		} 
+		}
 	
 		return notifs;
 	}
@@ -33,13 +33,12 @@ public class NotificationDAO extends DAO {
 			Query q = getSession().createQuery("from Notification where id = :id");
 			q.setInteger("id", id);
 			notif = (Notification) q.uniqueResult();
+			getSession().merge(notif);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
 		}
 		
 		return notif;
@@ -76,14 +75,14 @@ public class NotificationDAO extends DAO {
 			Query q = getSession().createQuery("from Notification where title like :query");
 			q.setString("query", "%" + query + "%");
 			notifs = q.list();
+			for (Notification notif : notifs)
+				getSession().merge(notif);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
-		} 
+		}
 	
 		return notifs;
 	}

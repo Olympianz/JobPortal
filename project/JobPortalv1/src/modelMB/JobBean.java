@@ -123,8 +123,7 @@ public class JobBean implements Serializable{
 	
 	
 	 public void saveJob(ActionEvent actionEvent){
-		if (SessionCtl.getLoggedInUser() != null){
-			JobService.saveJob(this.id);
+		if (SessionCtl.getLoggedInUser() != null &&	JobService.saveJob(this.id) >= 0) {
 			saveInfo(actionEvent); 
 		}else{
 			loginInfo(actionEvent);

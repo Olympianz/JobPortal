@@ -15,14 +15,15 @@ public class CompanyDAO extends DAO {
 			Query q = getSession().createQuery("from Company where company_n like :query");
 			q.setString("query", ("%" + query + "%"));
 			companies = q.list();
+			
+			for (Company company : companies)
+				getSession().merge(company);
 		}catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
-		} 
+		}
 		
 		return companies;
 	}
@@ -31,14 +32,15 @@ public class CompanyDAO extends DAO {
 		List<Company> companies = null;
 		try {
 			companies = getSession().createQuery("from Company").list();
+			
+			for (Company company : companies)
+				getSession().merge(company);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
-		} 
+		}
 	
 		return companies;
 	}
@@ -50,13 +52,12 @@ public class CompanyDAO extends DAO {
 			Query q = getSession().createQuery("from Company where company_id = :id");
 			q.setInteger("id", id);
 			company = (Company) q.uniqueResult();
+			getSession().merge(company);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
 		}
 		
 		return company;
@@ -69,13 +70,12 @@ public class CompanyDAO extends DAO {
 			Query q = getSession().createQuery("from Company where company_n = :name");
 			q.setString("name", name);
 			company = (Company) q.uniqueResult();
+			getSession().merge(company);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
 		}
 		
 		return company;

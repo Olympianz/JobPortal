@@ -15,13 +15,13 @@ public class ContactDAO extends DAO {
 		List<Contact> contacts = null;
 		try {
 			contacts = getSession().createQuery("from Contact").list();
+			for (Contact contact : contacts)
+				getSession().merge(contact);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction() != null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
 		}
 
 		return contacts;
@@ -34,13 +34,12 @@ public class ContactDAO extends DAO {
 			Query q = getSession().createQuery("from Contact where contact_id = :id");
 			q.setInteger("id", id);
 			contact = (Contact) q.uniqueResult();
+			getSession().merge(contact);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction() != null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
 		}
 
 		return contact;
@@ -63,8 +62,6 @@ public class ContactDAO extends DAO {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
 		}
 
 		return id;
@@ -82,13 +79,12 @@ public class ContactDAO extends DAO {
 			q.setInteger("zip", zip);
 
 			location = (Location) q.uniqueResult();
+			getSession().merge(location);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction() != null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
 		}
 
 		return location;

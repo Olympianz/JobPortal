@@ -13,14 +13,14 @@ public class StateDAO extends DAO {
 		List<State> states = null;
 		try {
 			states = getSession().createQuery("from State").list();
+			for (State state : states)
+				getSession().merge(state);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
-		} 
+		}
 	
 		return states;
 	}
@@ -34,14 +34,13 @@ public class StateDAO extends DAO {
 			q.setString("name", name);
 
 			state = (State) q.uniqueResult();
+			getSession().merge(state);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
-		} 
+		}
 		
 		return state;
 	}

@@ -13,14 +13,14 @@ public class ContactTypeDAO extends DAO {
 		List<Contact_type> types = null;
 		try {
 			types = getSession().createQuery("from Contact_type").list();
+			for (Contact_type type : types)
+				getSession().merge(type);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
-		} 
+		}
 	
 		return types;
 	}
@@ -34,14 +34,13 @@ public class ContactTypeDAO extends DAO {
 			q.setString("name", name);
 
 			type = (Contact_type) q.uniqueResult();
+			getSession().merge(type);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
-		} 
+		}
 		
 		return type;
 	}

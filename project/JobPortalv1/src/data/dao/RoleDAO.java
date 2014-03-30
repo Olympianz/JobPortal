@@ -13,14 +13,14 @@ public class RoleDAO extends DAO {
 		List<Role> roles = null;
 		try {
 			roles = getSession().createQuery("from Role").list();
+			for (Role role : roles)
+				getSession().merge(role);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
-		} 
+		}
 	
 		return roles;
 	}
@@ -34,14 +34,13 @@ public class RoleDAO extends DAO {
 			q.setString("name", name);
 
 			role = (Role) q.uniqueResult();
+			getSession().merge(role);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
-		} 
+		}
 		
 		return role;
 	}

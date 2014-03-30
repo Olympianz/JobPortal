@@ -13,14 +13,14 @@ public class ExperienceDAO extends DAO {
 		List<Experience> exps = null;
 		try {
 			exps = getSession().createQuery("from Experience").list();
+			for (Experience exp : exps)
+				getSession().merge(exp);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
-		} 
+		}
 	
 		return exps;
 	}
@@ -34,14 +34,13 @@ public class ExperienceDAO extends DAO {
 			q.setString("name", name);
 
 			exp = (Experience) q.uniqueResult();
+			getSession().merge(exp);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
-		} 
+		}
 		
 		return exp;
 	}

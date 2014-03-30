@@ -14,32 +14,33 @@ public class SkillDAO extends DAO {
 		List<Skill> skills = null;
 		try {
 			skills = getSession().createQuery("from Skill").list();
+			for (Skill skill : skills)
+				getSession().merge(skill);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
-		} 
+		}
 	
 		return skills;
 	}
 	
 	public Skill getEntityById(Integer id) {
-		Skill skill = null;
+		Skill skill = (Skill) getSession().load("Skill", id);
 		
-		try{
-			Query q = getSession().createQuery("from Skill where id = :id");
-			q.setInteger("id", id);
-			skill = (Skill) q.uniqueResult();
-		} catch (HibernateException e) {
-			if (getSession().getTransaction()!=null) {
-				rollback();
+		if (skill == null) {
+			try{
+				Query q = getSession().createQuery("from Skill where id = :id");
+				q.setInteger("id", id);
+				skill = (Skill) q.uniqueResult();
+				getSession().merge(skill);
+			} catch (HibernateException e) {
+				if (getSession().getTransaction()!=null) {
+					rollback();
+				}
+				e.printStackTrace();
 			}
-			e.printStackTrace();
-		} finally {
-			close();
 		}
 		
 		return skill;
@@ -64,7 +65,7 @@ public class SkillDAO extends DAO {
 			}
 			e.printStackTrace();
 		} finally {
-			close();
+			//close();
 		}
 		
 		return id;
@@ -78,13 +79,12 @@ public class SkillDAO extends DAO {
 			q.setString("name", name);
 			
 			skill = (Skill) q.uniqueResult();
+			getSession().merge(skill);
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
 		}
 		
 		return skill;
