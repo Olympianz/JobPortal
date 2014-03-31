@@ -11,6 +11,7 @@ import javax.faces.bean.SessionScoped;
 
 import modelMB.ApplicationBean;
 import modelMB.UserBean;
+import service.ApplicationService;
 import service.UserService;
 import util.SessionCtl;
 import data.entity.Application;
@@ -25,7 +26,6 @@ public class ApplicationMB implements Serializable{
 	 */
 	private static final long serialVersionUID = -3396433360484691293L;
 	private List<ApplicationBean> applications = null;
-	private List<ApplicationBean> allApps = null;
 
 	@ManagedProperty(value="#{userBean}")
 	private UserBean userBean;
@@ -34,13 +34,21 @@ public class ApplicationMB implements Serializable{
 	public void loadUserInfo() {
 		
 		User current_user = SessionCtl.getLoggedInUser();
-		UserService.loadFromDB(userBean, current_user.getUser_id());
 		
-		allApps = userBean.getApplications();
+		Integer current_user_id = current_user.getUser_id();
+		String current_user_name = current_user.getUser_name();
+    
+		System.out.println("Current User Name: " + current_user_name);
+		UserService.loadFromDB(userBean, current_user_id);
+		
+		// Load all applications
+		List<ApplicationBean> allAppBeans = ApplicationService.allAppBeans();
 		applications = new ArrayList<ApplicationBean>();
-		for (ApplicationBean app: allApps) {
-			if (app.getJob().getAuthor().getUser_id() == current_user.getUser_id()) {
-				applications.add(app);
+		for (ApplicationBean appBean: allAppBeans) {
+            String job_creator_name = appBean.getCreation_user();
+            
+            if ( job_creator_name.equals(current_user_name) ) {
+                        applications.add(appBean);
 			}
 		}
 	}
@@ -66,11 +74,9 @@ public class ApplicationMB implements Serializable{
 	
 	/******************* logic **********************/
 	public void onEdit() {
-		userBean.setApplications(allApps);
-		for (ApplicationBean app:allApps) {
-			System.out.println(app.getStatus());
+		for (ApplicationBean app:applications) {
+            ApplicationService.saveOrUpdate(app);
 		}
-		UserService.saveOrUpdate(userBean);
 	}
 
 	public void onCancel() {

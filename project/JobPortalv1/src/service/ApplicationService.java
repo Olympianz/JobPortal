@@ -44,6 +44,7 @@ public class ApplicationService {
 		appBean.setStatus(app.getStatus().getName());
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
 		appBean.setCreate_time(sdf.format(app.getCreation_time().getTime()));
+		appBean.setCreation_user(app.getCreation_user());
 	}
 
 	public static void loadFromDB(ApplicationBean appBean, Integer id) {
@@ -118,5 +119,22 @@ public class ApplicationService {
 		}
 
 		return appBeans;
+	}
+	
+	static public List<Application> all() {
+		return applicationDao.listEntities();
+	}
+        
+	static public List<ApplicationBean> allAppBeans() {
+	    List<Application> allApplications = applicationDao.listEntities();
+	    List<ApplicationBean> allAppBeans = new ArrayList<ApplicationBean>();
+                
+        for (Application app: allApplications) {
+            ApplicationBean appBean = new ApplicationBean(); 
+            loadFromEntity(appBean, app);
+            allAppBeans.add(appBean);
+        }
+ 
+        return allAppBeans;
 	}
 }

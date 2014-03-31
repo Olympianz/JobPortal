@@ -22,9 +22,7 @@ public class UserDescBean implements Serializable{
 	 */
 	private static final long serialVersionUID = -5201915856267563991L;
 
-	@ManagedProperty(value="#{userBean}")
-	private UserBean userBean;
-	
+	private UserBean userBean;	
 	private Integer currentUserId;
 	
 	@PostConstruct
@@ -33,6 +31,7 @@ public class UserDescBean implements Serializable{
 		HttpServletRequest request = (HttpServletRequest) ec.getRequest();
 		
 		String user_id = request.getParameter("id");
+		userBean = new UserBean();
 		UserService.loadFromDB(userBean, Integer.parseInt(user_id));
 		
 		currentUserId = SessionCtl.getLoggedInUser().getUser_id();

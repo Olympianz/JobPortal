@@ -31,6 +31,7 @@ public class ApplicationBean implements Serializable {
 	private JobBean job;
 	private Calendar creation_time;
 	private String create_time;
+	private String creation_user;
 
 	private String s_id;
 	
@@ -156,6 +157,14 @@ public class ApplicationBean implements Serializable {
 		this.create_time = create_time;
 	}
 	
+	public String getCreation_user() {
+		return creation_user;
+	}
+
+	public void setCreation_user(String creation_user) {
+		this.creation_user = creation_user;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder output = new StringBuilder();

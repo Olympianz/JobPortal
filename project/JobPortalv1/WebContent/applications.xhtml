@@ -16,6 +16,7 @@
 			 	stickyHeader="true" editable="true" >
 				
 				<p:ajax event="rowEdit" listener="#{applicationMB.onEdit}" update="postings" />    
+				<p:ajax event="rowEditCancel" listener="#{applicationMB.onCancel}" update="postings" />
 				
 				<p:column style="width:5%">  
 		            <p:rowToggler />  
@@ -28,7 +29,7 @@
 				</p:column>
 				
 				<p:column style="width:10%" sortBy="job.author.user_name" headerText="Author">
-					<h:link outcome="user_description.xhtml" value="#{app.job.author.user_name}">
+					<h:link outcome="user_description.xhtml" value="#{app.creation_user}">
 						<f:param name="id" value="#{app.job.author.user_id}" />
 					</h:link>
 				</p:column>
