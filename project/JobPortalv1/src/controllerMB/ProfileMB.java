@@ -156,19 +156,17 @@ public class ProfileMB implements Serializable{
 	
 	/******************** logic **********************/
 	
-	public void save(ActionEvent actionEvent) {
-		System.out.println(userBean.getContact());
-		System.out.println(userBean.getContact().getId());
-	    
+	public void save(ActionEvent actionEvent) {	    
 		companyBean.setContact(contactBean);
 		userBean.setContact(contactBean);
 		userBean.setCompany(companyBean);
 //		CompanyService.saveOrUpdate(companyBean);
-		skillsToString();
-	    UserService.saveOrUpdate(userBean);
-	    
-	    System.out.println(userBean.getExperience());
-	    System.out.println(userBean.getRole());	    
+		
+		stringToSkills();       
+        for (SkillBean sk : userBean.getSkills()) {
+        	System.out.println(sk.getName());
+        }
+	    UserService.saveOrUpdate(userBean);  
 	}
 	
 	@PostConstruct
@@ -185,6 +183,7 @@ public class ProfileMB implements Serializable{
 			CompanyService.loadFromDB(companyBean, current_user.getCompany().getCompany_id());
 		
 		skillsToString();
+		//System.out.println(userBean);
 	}
 	
 	public void skillsToString() {
@@ -197,4 +196,16 @@ public class ProfileMB implements Serializable{
 		}
 		userBean.setSkillInput(skillString.toString());
 	}
+	
+	public void stringToSkills() {
+       String[] skills = userBean.getSkillInput().split(",");
+       userBean.getSkills().clear();
+       for (String skill: skills) {
+    	   if(!skill.equals("")){
+	           SkillBean sb = new SkillBean();
+	           sb.setName(skill);
+	           userBean.getSkills().add(sb);
+    	   }
+       }
+   }
 }

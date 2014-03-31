@@ -28,9 +28,9 @@ import data.entity.Application;
 import data.entity.Asset;
 import data.entity.Company;
 import data.entity.Contact;
-import data.entity.Contact_type;
 import data.entity.Experience;
 import data.entity.Job;
+import data.entity.Location;
 import data.entity.Notification;
 import data.entity.Role;
 import data.entity.Skill;
@@ -331,7 +331,7 @@ public class UserService implements MetaService {
 	}
 
 	public static void loadFromDB(UserBean userBean, Integer id) {
-		User user = userDao.getEntityById(id);
+		User user = userDao.getEntityById(id, false);
 		loadFromEntity(userBean, user, true);
 	}
 
@@ -342,7 +342,7 @@ public class UserService implements MetaService {
 		
 		if (id != null && id >= 0) {
 			// Get existing record
-			user = userDao.getEntityById(id);
+			user = userDao.getEntityById(id, false);
 		} else {
 			// Create new record
 			if (current_user != null)
@@ -352,25 +352,7 @@ public class UserService implements MetaService {
 		}
 
 		// Fetch all necessary object from database
-		// Copy new data from bean to entity
-		
-		AssetDAO assetDao = new AssetDAO();
-		AssetTypeDAO assetTypeDao = new AssetTypeDAO();
-		Asset asset = null;
-		List<Asset> assets = new ArrayList<Asset>();
-		List<AssetBean> assetBeans = userBean.getAssets();
-		for(AssetBean assetBean : assetBeans) {
-			asset = assetDao.getEntityById(assetBean.getId());
-			if (asset == null){
-				asset = new Asset(SessionCtl.getLoggedInUser().getUser_name());
-				asset.setLocation(assetBean.getLocation());
-				asset.setName(assetBean.getName());
-				asset.setSize(asset.getSize());
-				asset.setType(assetTypeDao.getByName(assetBean.getType()));
-				asset.setUser(user);
-			}
-			assets.add(asset);
-		}
+		// Copy new data from bean to entity	
 		
 		JobDAO jobDao = new JobDAO();
 		Job job = null;
@@ -396,9 +378,11 @@ public class UserService implements MetaService {
 			}
 			skills.add(skill);
 		}
-		
+	
 		CompanyDAO companyDao = new CompanyDAO();
 		ContactDAO contactDao = new ContactDAO();
+		ContactTypeDAO contactTypeDao = new ContactTypeDAO();
+		StateDAO stateDao = new StateDAO();
 		Company company = null;
 		
 		if (userBean.getCompany() != null) {
@@ -413,21 +397,41 @@ public class UserService implements MetaService {
 		}
 		else {
 			company.setCompany_n(userBean.getCompany().getName());
-			company.setContact(contactDao.getEntityById(userBean.getContact().getId()));
+			//company.setContact(contactDao.getEntityById(userBean.getContact().getId()));
 		}
-		
-		
-		Contact contact = null;
-		if (userBean.getContact() != null) {
-			contact = contactDao.getEntityById(userBean.getContact().getId());
 			
-			if(contact == null){
-				int contact_id = ContactService.saveOrUpdate(userBean.getContact());
-				contact = contactDao.getEntityById(contact_id);
+		Contact contact = null;
+		if (userBean.getContact() != null){
+			if (userBean.getContact().getId() != null && 
+				userBean.getContact().getId() >= 0) {
+				contact = contactDao.getEntityById(userBean.getContact().getId());
 			}
-		}
-		
 
+			if(contact == null)
+				contact = new Contact(current_user.getUser_name());
+
+			contact.setCompany_email_name(userBean.getContact().getCompany_email());
+			contact.setContact_type(contactTypeDao.getByName(userBean.getContact().getType()));
+			contact.setState(stateDao.getByName(userBean.getContact().getState()));
+			contact.setStreet_address_name(userBean.getContact().getAddress());
+			contact.setStreet_city_name(userBean.getContact().getCity());
+			
+			Location loc = null;
+			if (userBean.getContact().getZip() != 0) {
+				loc = contactDao.getLocation(
+					userBean.getContact().getLat(), 
+					userBean.getContact().getLng(), 
+					userBean.getContact().getZip());
+				if (loc == null) {
+					loc = new Location(current_user.getUser_name());
+					loc.setLatitude_n(userBean.getContact().getLat());
+					loc.setLongitude_n(userBean.getContact().getLng());
+					loc.setZip_c(userBean.getContact().getZip());
+				}
+			}
+			contact.setLocation(loc);
+		}
+	
 		RoleDAO roleDao = new RoleDAO();
 		Role role = null;
 		
@@ -446,8 +450,6 @@ public class UserService implements MetaService {
 			exp = expDao.getByName("Entry level");
 		
 		int result = -1;
-
-		user.setAssets(assets);
 		user.setCompany(company);
 		user.setEmail(userBean.getEmail());
 		user.setExperience(exp);
@@ -464,8 +466,7 @@ public class UserService implements MetaService {
 		if (current_user != null)
 			user.setUpdate_user_name(current_user.getUser_name());
 		
-		result = userDao.saveOrUpdate(user);
-		
+		result = userDao.saveOrUpdate(user);	
 
 		return result;
 	}

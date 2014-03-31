@@ -44,7 +44,7 @@ public class Mail extends HttpServlet {
 
 		if (user != null) {
 			UserDAO userDao = new UserDAO();
-			user = userDao.getEntityById(user.getUser_id());
+			user = userDao.getEntityById(user.getUser_id(), true);
 			notifs = user.getRecv_notif();
 			for (Notification notif : notifs){
 				if( notif.getRead().equals("N")) {

@@ -61,6 +61,7 @@ public class SkillDAO extends DAO {
 				id = (Integer)getSession().save(skill); 
 			}
 			commit();
+			getSession().flush();
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();

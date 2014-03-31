@@ -59,6 +59,7 @@ public class NotificationDAO extends DAO {
 				id = (Integer)getSession().save(notif); 
 			}
 			commit();
+			getSession().flush();
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();

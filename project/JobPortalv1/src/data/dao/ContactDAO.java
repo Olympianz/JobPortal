@@ -59,6 +59,7 @@ public class ContactDAO extends DAO {
 				id = (Integer) getSession().save(contact);
 			}
 			commit();
+			getSession().flush();
 		} catch (HibernateException e) {
 			if (getSession().getTransaction() != null) {
 				rollback();
@@ -105,8 +106,6 @@ public class ContactDAO extends DAO {
 				rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			close();
 		}
 
 		return id;

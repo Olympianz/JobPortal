@@ -80,6 +80,7 @@ public class ApplicationDAO extends DAO {
 				id = (Integer)getSession().save(app); 
 			}
 			commit();
+			getSession().flush();
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();

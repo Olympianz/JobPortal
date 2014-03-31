@@ -122,7 +122,7 @@ public class SessionCtl {
 		if( session != null ) {
 			user = (User) session.getAttribute("loggedin_user");
 			if (user != null)
-				user = (new UserDAO()).getEntityById(user.getUser_id());
+				user = (new UserDAO()).getEntityById(user.getUser_id(), false);
 		}
 		
 		return user;

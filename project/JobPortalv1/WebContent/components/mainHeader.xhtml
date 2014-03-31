@@ -17,7 +17,7 @@
 			<div class="container-fluid">
 
 				<div class="navbar-header">
-					<a class="navbar-brand" href="#"> Job Portal</a>
+					<h:link styleClass="navbar-brand" value="Job Portal" outcome="index.xhtml" />
 				</div>
 
 				<div class="navbar-collapse">
@@ -42,14 +42,12 @@
 									</h:form><br/>
 	
 									<h:form style="margin-bottom:20px;">
-								
 										<h:commandLink data-target="#formRegister" data-toggle="collapse"
 											id="btnNewUser" title="Fast and free sign up!"
 											actionListener="#{userController.signUp}">
 											> Sign-up
 										</h:commandLink>
 									</h:form> 
-									<br/>
 									<h:link value="Forgot password?" outcome="forgetPwd.xhtml" />
 								</div>
 							</li>

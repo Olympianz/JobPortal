@@ -99,6 +99,7 @@ public class CompanyDAO extends DAO {
 				id = (Integer)getSession().save(company); 
 			}
 			commit();
+			getSession().flush();
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();

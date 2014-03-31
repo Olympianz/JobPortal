@@ -202,7 +202,7 @@ public class JobService {
 		Experience exp = expDao.getByName(jobBean.getExperience());
 
 		UserDAO userDao = new UserDAO();
-		User author = userDao.getEntityById(jobBean.getAuthor().getUser_id());
+		User author = userDao.getEntityById(jobBean.getAuthor().getUser_id(), false);
 		
 		CompanyDAO companyDao = new CompanyDAO();
 		

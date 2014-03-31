@@ -61,6 +61,7 @@ public class JobDAO extends DAO{
 				id = (Integer)getSession().save(job); 
 			}
 			commit();
+			getSession().flush();
 		} catch (HibernateException e) {
 			if (getSession().getTransaction()!=null) {
 				rollback();

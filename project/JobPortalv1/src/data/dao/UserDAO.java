@@ -4,11 +4,16 @@ import java.util.List;
 
 import modelMB.UserBean;
 
+import org.hibernate.CacheMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
+import data.entity.Notification;
 import data.entity.User;
 import util.TableManipulation;
+import util.Util;
 
 public class UserDAO extends DAO implements TableManipulation {
 
@@ -114,15 +119,28 @@ public class UserDAO extends DAO implements TableManipulation {
 		return users;
 	}
 
-	public User getEntityById(Integer id) {
+	public User getEntityById(Integer id, boolean newSession) {
 		User user = null;
-
+		Session session = null;
+		if (newSession){
+			SessionFactory sessionFactory = Util.getSessionFactory();		
+			session = sessionFactory.openSession();
+		}
+		else 
+			session = getSession();
+		
 		try {
-			Query q = getSession().createQuery("from User where user_id = :id");
+			Query q = session.createQuery("from User where user_id = :id");
 			q.setInteger("id", id);
+
 			user = (User) q.uniqueResult();
-			if (user != null)
-				getSession().merge(user);
+			
+			if (user != null) {
+				session.merge(user);
+			}
+			if (newSession) {
+				session.close();
+			}
 		} catch (HibernateException e) {
 			if (getSession().getTransaction() != null) {
 				rollback();
@@ -228,6 +246,7 @@ public class UserDAO extends DAO implements TableManipulation {
 				id = (Integer)getSession().save(user); 
 			}
 			commit();
+			getSession().flush();
 		} catch (HibernateException e) {
 			id = -1;
 			if (getSession().getTransaction()!=null) {

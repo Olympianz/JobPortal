@@ -49,7 +49,7 @@ public class AssetService {
 		// Fetch all necessary object from database
 		// Copy new data from bean to entity
 		UserDAO userDao = new UserDAO();
-		User user = userDao.getEntityById(assetBean.getAuthor().getUser_id());
+		User user = userDao.getEntityById(assetBean.getAuthor().getUser_id(), false);
 		
 		String location = assetBean.getLocation();
 		String name = assetBean.getName();

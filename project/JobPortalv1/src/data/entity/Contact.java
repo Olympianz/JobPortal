@@ -48,7 +48,7 @@ public class Contact {
 		this.update_timestamp = Calendar.getInstance();		
 	}
 	
-	@ManyToOne(cascade={CascadeType.PERSIST})
+	@ManyToOne(cascade={CascadeType.ALL})
 	@JoinColumn(name="location_id")
 	public Location getLocation() {
 		return location;

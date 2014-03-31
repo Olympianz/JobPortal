@@ -21,7 +21,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
 	    <h:outputScript library="scripts" name="tag-it.js" />
 	    
-		<h:form id="form">
+		<h:form prependId="false" >
 			<p:panel header="Profile">
 				<p:messages id="messages" showDetail="true" autoUpdate="true"/>
 				
@@ -81,7 +81,7 @@
 					<!--  Skills -->
 			    	<h:panelGrid columns="2" >
 			    		<h:outputLabel for="skillInput">Skills:</h:outputLabel>
-						<h:inputHidden id="skillInput" value="#{jobBean.skillInput}" />
+						<h:inputHidden id="skillInput" value="#{profileMB.userBean.skillInput}" />
 						<ul id="skills"></ul>
 					</h:panelGrid>
 				</p:panel>
@@ -139,7 +139,7 @@
 				
 				<p:spacer height="10"/>
 				
-				<p:commandButton value="Preview" update="summary" icon="ui-icon ui-icon-refresh"
+				<p:commandButton value="Preview" update="user_summary" icon="ui-icon ui-icon-refresh"
 				style="margin-top: 15px; margin-bottom: 15px; float: left;" />
 				
 				<p:commandButton value="Save" action="mainMenu.xhtml" icon="ui-icon ui-icon-disk"
@@ -148,7 +148,7 @@
 				
 				<p:spacer height="10"/>
 				
-				<p:panel id="summary" header="Summary">
+				<p:panel id="user_summary" header="Summary">
 					<h:panelGrid columns="2" cellpadding="10">
 						<h:outputText value="User Name: " />
 						<h:outputText styleClass="outputLabel" style="margin-left: 10px;"
@@ -172,72 +172,72 @@
 		
 						<h:outputText value="Contact type: " />
 						<h:outputText styleClass="outputLabel" style="margin-left: 10px;"
-							value="#{profileMB.userBean.contact.type}" />
+							value="#{profileMB.contactBean.type}" />
 		
 						<h:outputText value="Street: " />
 						<h:outputText styleClass="outputLabel" style="margin-left: 10px;"
-							value="#{profileMB.userBean.contact.address}" />
+							value="#{profileMB.contactBean.address}" />
 		
 						<h:outputText value="City: " />
 						<h:outputText styleClass="outputLabel" style="margin-left: 10px;"
-							value="#{profileMB.userBean.contact.city}" />
+							value="#{profileMB.contactBean.city}" />
 		
 						<h:outputText value="State: " />
 						<h:outputText styleClass="outputLabel" style="margin-left: 10px;"
-							value="#{profileMB.userBean.contact.state}" />
+							value="#{profileMB.contactBean.state}" />
 		
 						<h:outputText value="Zip: " />
 						<h:outputText styleClass="outputLabel" style="margin-left: 10px;"
-							value="#{profileMB.userBean.contact.zip}" />
+							value="#{profileMB.contactBean.zip}" />
 		
 						<h:outputText value="Company: " />
 						<h:outputText styleClass="outputLabel" style="margin-left: 10px;"
-							value="#{profileMB.userBean.company.name}" />
+							value="#{profileMB.companyBean.name}" />
 							
 					</h:panelGrid>
 				</p:panel>
 			</p:panel>
-			<p:panel header="Assets">
-				<!-- Table -->
-				<div id="assetTable" class="row panel panel-default">
-					<h:form enctype="multipart/form-data">
-					<h:dataTable id="assetList" value="#{assetController.search()}" var="assetBean" paginator="true" rows="10"
-						styleClass="table" headerClass="ordersHeader" rowClasses="oddRow,evenRow">
-						
-						<h:column headerClass="columnHeader" footerClass="columnFooter"> 
-							<f:facet name="header">Title</f:facet>
-							#{assetBean.name}
-							<f:facet name="footer"></f:facet> 
-						</h:column>
-						
-						<h:column headerClass="columnHeader" footerClass="columnFooter"> 
-							<f:facet name="header">Type</f:facet>
-							#{assetBean.type}
-							<f:facet name="footer"></f:facet> 
-						</h:column>
-						
-						<h:column headerClass="columnHeader" footerClass="columnFooter"> 
-							<f:facet name="header">Size</f:facet>
-							#{assetBean.size}
-							<f:facet name="footer"></f:facet> 
-						</h:column>
-						
-						<h:column headerClass="columnHeader" footerClass="columnFooter"> 
-							<f:facet name="header">Link</f:facet>
-								<h:outputLink value="#{request.contextPath}#{assetBean.location}">Download</h:outputLink>
-							<f:facet name="footer"></f:facet> 
-						</h:column>
-					</h:dataTable>
-					<br />
-						<p:fileUpload fileUploadListener="#{profileMB.submit}" mode="advanced" dragDropSupport="false"  
-                     		 update="messages assetList" sizeLimit="1000000" fileLimit="3" allowTypes="/(\.|\/)(pdf|docx|txt)$/" />  
-        				<p:messages id="messages" showDetail="true"/>  
-					</h:form>
-				</div>
-			
-			</p:panel>
 		</h:form>
+	
+		<p:panel header="Assets">
+			<!-- Table -->
+			<div id="assetTable" class="row panel panel-default">
+				<h:form enctype="multipart/form-data">
+				<h:dataTable id="assetList" value="#{assetController.search()}" var="assetBean" paginator="true" rows="10"
+					styleClass="table" headerClass="ordersHeader" rowClasses="oddRow,evenRow">
+					
+					<h:column headerClass="columnHeader" footerClass="columnFooter"> 
+						<f:facet name="header">Title</f:facet>
+						#{assetBean.name}
+						<f:facet name="footer"></f:facet> 
+					</h:column>
+					
+					<h:column headerClass="columnHeader" footerClass="columnFooter"> 
+						<f:facet name="header">Type</f:facet>
+						#{assetBean.type}
+						<f:facet name="footer"></f:facet> 
+					</h:column>
+					
+					<h:column headerClass="columnHeader" footerClass="columnFooter"> 
+						<f:facet name="header">Size</f:facet>
+						#{assetBean.size}
+						<f:facet name="footer"></f:facet> 
+					</h:column>
+					
+					<h:column headerClass="columnHeader" footerClass="columnFooter"> 
+						<f:facet name="header">Link</f:facet>
+							<h:outputLink value="#{request.contextPath}#{assetBean.location}">Download</h:outputLink>
+						<f:facet name="footer"></f:facet> 
+					</h:column>
+				</h:dataTable>
+				<br />
+					<p:fileUpload fileUploadListener="#{profileMB.submit}" mode="advanced" dragDropSupport="false"  
+                    		 update="messages assetList" sizeLimit="1000000" fileLimit="3" allowTypes="/(\.|\/)(pdf|docx|txt)$/" />  
+       				<p:messages id="messages" showDetail="true"/>  
+				</h:form>
+			</div>
 		
+		</p:panel>
 		<h:outputScript library="scripts" name="mytagit.js" />
 		
 	</ui:define>

@@ -79,7 +79,7 @@ public class ApplicationService {
 		// Fetch all necessary object from database
 		// Copy new data from bean to entity
 		UserDAO userDao = new UserDAO();
-		User user = userDao.getEntityById(appBean.getApplicant().getUser_id());
+		User user = userDao.getEntityById(appBean.getApplicant().getUser_id(), false);
 
 		AssetDAO assetDao = new AssetDAO();
 		Asset asset = assetDao.getEntityById(appBean.getAsset().getId());

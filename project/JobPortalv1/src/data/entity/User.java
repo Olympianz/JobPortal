@@ -70,7 +70,7 @@ public class User {
 		this.sent_notif = sent_notif;
 	}
 
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="to", cascade={CascadeType.MERGE})
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="to", cascade={CascadeType.MERGE, CascadeType.REFRESH})
 	public List<Notification> getRecv_notif() {
 		return recv_notif;
 	}

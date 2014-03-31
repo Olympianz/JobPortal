@@ -22,9 +22,9 @@ public class ContactBean implements Serializable {
 	private String type;
 	private String state;
 	private String company_email;
-	private Integer zip;
-	private Double lng;
-	private Double lat;
+	private Integer zip = 0;
+	private Double lng = 0.0;
+	private Double lat = 0.0;
 
 	public void loadFromDB(Integer id) {
 		ContactService.loadFromDB(this, id);

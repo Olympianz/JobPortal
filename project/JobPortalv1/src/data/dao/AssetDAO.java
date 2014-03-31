@@ -58,6 +58,7 @@ public class AssetDAO extends DAO {
 				id = (Integer)getSession().save(asset); 
 			}
 			commit();
+			getSession().flush();
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			if (getSession().getTransaction()!=null) {
