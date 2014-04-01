@@ -23,7 +23,6 @@
 	    
 		<h:form prependId="false" >
 			<p:panel header="Profile">
-				<p:messages id="messages" showDetail="true" autoUpdate="true"/>
 				
 				<p:panel header="Basics">
 					<h:panelGrid columns="2" cellpadding="5">
@@ -58,11 +57,7 @@
 						<p:spacer height="2" />
 	
 						<h:outputText value="Role: " />
-						<p:selectOneMenu value="#{profileMB.userBean.role}">
-							<f:selectItem itemLabel="Job Seeker" itemValue="jobseeker" />
-							<f:selectItem itemLabel="Employer" itemValue="employer" />
-							<f:selectItem itemLabel="Administrator" itemValue="administrator" />
-						</p:selectOneMenu>
+						<h:outputText value="#{profileMB.userBean.role}" />
 	
 						<p:spacer height="2" />
 						<p:spacer height="2" />

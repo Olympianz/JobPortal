@@ -32,13 +32,14 @@ public class SkillService {
 	public static int saveOrUpdate(SkillBean skillBean) {
 		Skill skill = null;
 		Integer id = skillBean.getId();
+		User loggedInUser = SessionCtl.getLoggedInUser();
 
 		if (id != null && id >= 0) {
 			// Get existing record
 			skill = skillDao.getEntityById(id);
 		} else {
 			// Create new record
-			skill = new Skill(SessionCtl.getLoggedInUser().getUser_name());
+			skill = new Skill(loggedInUser.getUser_name());
 		}
 
 		// Fetch all necessary object from database
@@ -47,7 +48,7 @@ public class SkillService {
 		skill = skillDao.getEntityByName(skillBean.getName());
 		
 		if (skill == null) {
-			skill = new Skill(SessionCtl.getLoggedInUser().getUser_name());
+			skill = new Skill(loggedInUser.getUser_name());
 			skill.setName(skillBean.getName());
 			result = skillDao.saveOrUpdate(skill);
 		}

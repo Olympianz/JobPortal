@@ -67,6 +67,7 @@ public class ProfileMB implements Serializable{
 		File destFile = new File(directory, fileName);
 		try {
 		    FileUtils.copyInputStreamToFile(inputStr, destFile);
+		    System.out.println(directory + " " + fileName);
 		} catch (IOException e) {
 		    //log error
 			FacesMessage msg = new FacesMessage("Fail to upload file " + event.getFile().getFileName() + ".");

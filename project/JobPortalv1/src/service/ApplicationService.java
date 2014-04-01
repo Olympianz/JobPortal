@@ -69,7 +69,7 @@ public class ApplicationService {
 			app = applicationDao.getEntityById(id);
 		} else {
 			// Create new record
-			User user = SessionCtl.getLoggedInUser();
+			User user = loggedInUser;
 			if (user == null) {
 				app = new Application();
 			} else {

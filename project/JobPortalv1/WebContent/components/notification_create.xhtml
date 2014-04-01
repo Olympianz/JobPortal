@@ -12,6 +12,7 @@
 	<ui:composition>
 		
 		<f:phaseListener type="util.LoggedInCheck" />
+		<f:event type="preRenderView" listener="#{notificationBean.reset}" />
 		
 		<div class="container">
 			<div class="content col-sm-9" style="margin-top: 50px;">

@@ -81,7 +81,8 @@ public class NotificationService {
 		// Fetch all necessary object from database
 		// Copy new data from bean to entity
 		UserDAO userDao = new UserDAO();
-		User fromUser = SessionCtl.getLoggedInUser();
+		User current_user =  SessionCtl.getLoggedInUser();
+		User fromUser = current_user;
 		User toUser = userDao.getEntityByEmail(notifBean.getToUser().getEmail());
 		
 		NotificationTypeDAO notifTypeDao = new NotificationTypeDAO();
@@ -92,13 +93,12 @@ public class NotificationService {
 			notif.setContent(notifBean.getContent());
 			notif.setFrom(fromUser);
 			notif.setTo(toUser);
-			notif.setRead(notifBean.getRead()? "Y" : "N");
+			notif.setRead((notifBean.getRead())? "Y" : "N");
 			notif.setTitle(notifBean.getTitle());
 			notif.setType(notifType);
-			
-			notif.setUpdate_user(SessionCtl.getLoggedInUser()
-					.getUser_name());
+			notif.setUpdate_user(current_user.getUser_name());
 			notif.setUpdate_time(Calendar.getInstance());
+			
 			result = notifDao.saveOrUpdate(notif);
 		}
 

@@ -187,13 +187,14 @@ public class JobService {
 	public static int saveOrUpdate(JobBean jobBean) {
 		Job job = null;
 		Integer id = jobBean.getId();
+		User loggedInUser = SessionCtl.getLoggedInUser();
 
 		if (id != null && id >= 0) {
 			// Get existing record
 			job = jobDao.getEntityById(id);
 		} else {
 			// Create new record
-			job = new Job(SessionCtl.getLoggedInUser().getUser_name());
+			job = new Job(loggedInUser.getUser_name());
 		}
 		
 		// Fetch all necessary object from database

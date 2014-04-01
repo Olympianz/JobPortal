@@ -27,8 +27,10 @@ public class CompanyService {
 			return;
 
 		ContactBean contactBean = new ContactBean();
-		ContactService.loadFromEntity(contactBean, company.getContact());
-		companyBean.setContact(contactBean);
+		if (company.getContact() != null) {
+			ContactService.loadFromEntity(contactBean, company.getContact());
+			companyBean.setContact(contactBean);
+		}
 
 		companyBean.setId(company.getCompany_id());
 		companyBean.setName(company.getCompany_n());
@@ -47,13 +49,14 @@ public class CompanyService {
 	public static int saveOrUpdate(CompanyBean companyBean) {
 		Company company = null;
 		Integer id = companyBean.getId();
+		User loggedInUser = SessionCtl.getLoggedInUser();
 
 		if (id != null && id >= 0) {
 			// Get existing record
 			company = companyDao.getEntityById(id);
 		} else {
 			// Create new record
-			company = new Company(SessionCtl.getLoggedInUser().getUser_name());
+			company = new Company(loggedInUser.getUser_name());
 		}
 
 		// Fetch all necessary object from database
@@ -73,8 +76,7 @@ public class CompanyService {
 		if (contact != null && name != null) {
 			company.setCompany_n(name);
 			company.setContact(contact);
-			company.setUpdate_user_name(SessionCtl.getLoggedInUser()
-					.getUser_name());
+			company.setUpdate_user_name(loggedInUser.getUser_name());
 			company.setUpdate_timestamp(Calendar.getInstance());
 			result = companyDao.saveOrUpdate(company);
 		}

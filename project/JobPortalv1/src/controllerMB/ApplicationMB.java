@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 import modelMB.ApplicationBean;
 import modelMB.UserBean;
@@ -18,7 +19,7 @@ import data.entity.Application;
 import data.entity.User;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class ApplicationMB implements Serializable{
 	
 	/**
@@ -45,7 +46,7 @@ public class ApplicationMB implements Serializable{
 		List<ApplicationBean> allAppBeans = ApplicationService.allAppBeans();
 		applications = new ArrayList<ApplicationBean>();
 		for (ApplicationBean appBean: allAppBeans) {
-            String job_creator_name = appBean.getCreation_user();
+            String job_creator_name = appBean.getJob().getAuthor().getUser_name();
             
             if ( job_creator_name.equals(current_user_name) ) {
                         applications.add(appBean);

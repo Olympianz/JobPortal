@@ -13,6 +13,7 @@ import data.entity.Contact;
 import data.entity.Contact_type;
 import data.entity.Location;
 import data.entity.State;
+import data.entity.User;
 
 public class ContactService {
 	static final ContactDAO contactDao = new ContactDAO();
@@ -43,13 +44,14 @@ public class ContactService {
 	public static int saveOrUpdate(ContactBean contactBean) {
 		Contact contact = null;
 		Integer id = contactBean.getId();
+		User loggedInUser = SessionCtl.getLoggedInUser();
 
 		if (id != null && id >= 0) {
 			// Get existing record
 			contact = contactDao.getEntityById(id);
 		} else {
 			// Create new record
-			contact = new Contact(SessionCtl.getLoggedInUser().getUser_name());
+			contact = new Contact(loggedInUser.getUser_name());
 		}
 
 		// Fetch all necessary object from database
@@ -68,7 +70,7 @@ public class ContactService {
 				contactBean.getZip());
 		
 		if (location == null) {
-			location = new Location(SessionCtl.getLoggedInUser().getUser_name());
+			location = new Location(loggedInUser.getUser_name());
 			location.setLatitude_n(contactBean.getLat());
 			location.setLongitude_n(contactBean.getLng());
 			location.setZip_c(contactBean.getZip());
@@ -88,8 +90,7 @@ public class ContactService {
 			contact.setContact_type(contact_type);
 			contact.setLocation(location);
 			
-			contact.setUpdate_user_name(SessionCtl.getLoggedInUser()
-					.getUser_name());
+			contact.setUpdate_user_name(loggedInUser.getUser_name());
 			contact.setUpdate_timestamp(Calendar.getInstance());
 			result = contactDao.saveOrUpdate(contact);
 		}

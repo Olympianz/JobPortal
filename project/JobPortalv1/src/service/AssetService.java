@@ -37,13 +37,14 @@ public class AssetService {
 	public static int saveOrUpdate(AssetBean assetBean) {
 		Asset asset = null;
 		Integer id = assetBean.getId();
+		User loggedInUser = SessionCtl.getLoggedInUser();
 
 		if (id != null && id >= 0) {
 			// Get existing record
 			asset = assetDao.getEntityById(id);
 		} else {
 			// Create new record
-			asset = new Asset(SessionCtl.getLoggedInUser().getUser_name());
+			asset = new Asset(loggedInUser.getUser_name());
 		}
 
 		// Fetch all necessary object from database
@@ -59,17 +60,16 @@ public class AssetService {
 		AssetType type = assetTypeDao.getByName(assetBean.getType());
 		
 		int result = -1;
-System.out.println(user);
-System.out.println(type);
+
 		if ( user != null && type != null) {
 			asset.setUser(user);
 			asset.setLocation(location);
 			asset.setName(name);
 			asset.setSize(size);
 			asset.setType(type);
-			asset.setUpdate_user(SessionCtl.getLoggedInUser().getUser_name());
+			asset.setUpdate_user(loggedInUser.getUser_name());
 			asset.setUpdate_time(Calendar.getInstance());
-System.out.println("reached");
+
 			result = assetDao.saveOrUpdate(asset);
 		}
 		

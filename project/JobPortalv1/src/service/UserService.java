@@ -13,8 +13,6 @@ import modelMB.JobBean;
 import modelMB.NotificationBean;
 import modelMB.SkillBean;
 import modelMB.UserBean;
-import data.dao.AssetDAO;
-import data.dao.AssetTypeDAO;
 import data.dao.CompanyDAO;
 import data.dao.ContactDAO;
 import data.dao.ContactTypeDAO;
@@ -183,7 +181,7 @@ public class UserService implements MetaService {
 	public static List<AssetBean> searchAssets(Integer id) {
 		UserBean userBean = new UserBean();
 		loadFromDB(userBean, id);
-	
+
 		return userBean.getAssets();
 	}
 	
@@ -241,12 +239,17 @@ public class UserService implements MetaService {
 		userBean.setFull_record(false);
 		
 		CompanyBean companyBean = new CompanyBean();
-		CompanyService.loadFromEntity(companyBean, user.getCompany());
-		userBean.setCompany(companyBean);
+		if (user.getCompany() != null) {
+			CompanyService.loadFromEntity(companyBean, user.getCompany());
+			userBean.setCompany(companyBean);
+		}
 		
 		ContactBean contactBean = new ContactBean();
-		ContactService.loadFromEntity(contactBean, user.getContact());
-		userBean.setContact(contactBean);
+		if (user.getContact() != null){
+			ContactService.loadFromEntity(contactBean, user.getContact());
+			userBean.setContact(contactBean);
+		}
+		
 		userBean.setCreation_timestamp(user.getCreation_timestamp());
 		userBean.setEmail(user.getEmail());
 		userBean.setExperience(user.getExperience().getName());
@@ -373,7 +376,7 @@ public class UserService implements MetaService {
 		for (SkillBean skillBean : skillBeans) {
 			skill = skillDao.getEntityByName(skillBean.getName());
 			if (skill == null){
-				skill = new Skill(SessionCtl.getLoggedInUser().getUser_name());
+				skill = new Skill(current_user.getUser_name());
 				skill.setName(skillBean.getName());
 			}
 			skills.add(skill);

@@ -33,9 +33,9 @@
 				
 				
 		    	<h:outputLabel for="asset">Attachment:</h:outputLabel>
-		    	<h:link id="asset" value="#{applicationBean.asset.name}(#{applicationBean.asset.type})" 
-		    		outcome="#{applicationBean.asset.location}">
-				</h:link>
+		    	<h:outputLink id="asset" value="#{request.contextPath}/#{applicationBean.asset.location}">
+		    		<h:outputText value="#{applicationBean.asset.name}(#{applicationBean.asset.type})" />
+				</h:outputLink>
 		    	<br />
 				
 			</div>

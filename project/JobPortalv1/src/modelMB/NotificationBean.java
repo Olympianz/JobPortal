@@ -34,6 +34,15 @@ public class NotificationBean implements Serializable {
 	private UserBean toUser = new UserBean();
 	private String type;
 
+	public void reset() {
+		id = -1;
+		title = "";
+		content = "";
+		read = false;
+		fromUser = new UserBean();
+		toUser = new UserBean();
+	}
+	
 	public void init() {
 		if (FacesContext.getCurrentInstance().getPartialViewContext()
 				.isAjaxRequest()) {
@@ -54,6 +63,8 @@ public class NotificationBean implements Serializable {
 			if (user != null) {
 				if (user.getUser_id().equals(this.getToUser().getUser_id()) && !this.read) {
 					this.read = true;
+System.out.println("Read:" + this.id + "(" + this.read + ")");
+
 					NotificationService.saveOrUpdate(this);
 				}	
 			}

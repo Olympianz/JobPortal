@@ -126,18 +126,20 @@ public class UserDAO extends DAO implements TableManipulation {
 			SessionFactory sessionFactory = Util.getSessionFactory();		
 			session = sessionFactory.openSession();
 		}
-		else 
+		else {
 			session = getSession();
+		}
 		
 		try {
 			Query q = session.createQuery("from User where user_id = :id");
 			q.setInteger("id", id);
-
+			q.setCacheMode(CacheMode.IGNORE);
 			user = (User) q.uniqueResult();
-			
 			if (user != null) {
 				session.merge(user);
+				session.refresh(user);
 			}
+			
 			if (newSession) {
 				session.close();
 			}
